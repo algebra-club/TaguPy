@@ -53,6 +53,8 @@ class MatrixGenerator():
         assert mode in ('cont', 'cat', ''), \
             f'Mode should be "cont" or "cat", got {mode}'
 
+        assert n_level != 1, 'Are you Sure???? one level???'
+
     @classmethod
     def load_dict(cls, content: Dict[str, Tuple[int, str]]):
         """
@@ -64,9 +66,6 @@ class MatrixGenerator():
             complex experiment target
             ex. one categorical factor and 2 continual factors
         """
-        msg = 'Mode should be "cont" or "cat" or '', got '
-        for key, val in content.items():
-            assert val[2] in ('cont', 'cat', ''), msg + f'{val[2]}'
 
         return cls(0, 0)
 
@@ -82,22 +81,22 @@ class MatrixGenerator():
     #     """
     #     pass
     #
-    # def get_alias_matrix(self, max_dim: int) -> np.ndarray:
-    #     """
-    #     Return Alias Matrix
-    #
-    #     Parameters
-    #     ----------
-    #     max_dim: int
-    #         maximum dimension treated in alias matrix
-    #
-    #     Returns
-    #     -------
-    #     alias matrix: numpy.ndarray
-    #         Alias Matrix
-    #
-    #     Notes
-    #     -----
-    #     https://community.jmp.com/t5/JMP-Blog/What-is-an-Alias-Matrix/ba-p/30448
-    #     """
-    #     return np.array([])
+    def get_alias_matrix(self, max_dim: int) -> np.ndarray:
+        """
+        Return Alias Matrix
+
+        Parameters
+        ----------
+        max_dim: int
+            maximum dimension treated in alias matrix
+
+        Returns
+        -------
+        alias matrix: numpy.ndarray
+            Alias Matrix
+
+        Notes
+        -----
+        https://community.jmp.com/t5/JMP-Blog/What-is-an-Alias-Matrix/ba-p/30448
+        """
+        return np.array([])

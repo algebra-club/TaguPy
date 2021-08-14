@@ -111,8 +111,8 @@ Tips
 
 To run a subset of tests::
 
+$ pytest tests.test_tagupy
 
-    $ python -m unittest tests.test_tagupy
 
 Deploying
 ---------

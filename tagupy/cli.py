@@ -6,9 +6,9 @@ import click
 @click.command()
 def main(args=None):
     """Console script for tagupy."""
-    click.echo("Replace this message by putting your code into "
-               "tagupy.cli.main")
-    click.echo("See click documentation at https://click.palletsprojects.com/")
+    click.echo("TODO: Manage your experiment workflow"
+               "message sent from tagupy.cli.main")
+    click.echo("See Also: docs at https://click.palletsprojects.com/")
     return 0
 
 

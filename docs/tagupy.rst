@@ -1,6 +1,15 @@
 tagupy package
 ==============
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   tagupy.analysis
+   tagupy.experiment
+
 Submodules
 ----------
 

@@ -6,7 +6,7 @@
 import unittest
 from click.testing import CliRunner
 
-from tagupy import tagupy
+# from tagupy import tagupy
 from tagupy import cli
 
 

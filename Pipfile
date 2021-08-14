@@ -15,6 +15,7 @@ twine = "*"
 watchdog = "*"
 pyyaml = "*"
 argh = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.9"

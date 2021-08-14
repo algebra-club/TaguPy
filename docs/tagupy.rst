@@ -1,6 +1,14 @@
 tagupy package
 ==============
 
+Subpackages
+-----------
+
+.. toctree::
+
+    tagupy.analysis
+    tagupy.experiment
+
 Submodules
 ----------
 
@@ -8,22 +16,23 @@ tagupy.cli module
 -----------------
 
 .. automodule:: tagupy.cli
-   :members:
-   :undoc-members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 tagupy.tagupy module
 --------------------
 
 .. automodule:: tagupy.tagupy
-   :members:
-   :undoc-members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
 
 .. automodule:: tagupy
-   :members:
-   :undoc-members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

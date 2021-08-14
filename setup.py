@@ -10,9 +10,14 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', ]
+requirements = [
+    'Click>=7.0',
+    'openpyxl',
+    'numpy',
+    'pandas'
+]
 
-test_requirements = [ ]
+test_requirements = []
 
 setup(
     author="Sei Takeda",

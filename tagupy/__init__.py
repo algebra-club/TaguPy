@@ -4,8 +4,8 @@ from .analysis import StatsAnalysis
 from .experiment import MatrixGenerator
 
 __all__ = [
-    StatsAnalysis,
-    MatrixGenerator,
+    "StatsAnalysis",
+    "MatrixGenerator",
 ]
 
 __author__ = """Sei Takeda"""

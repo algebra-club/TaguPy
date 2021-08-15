@@ -20,14 +20,6 @@ tagupy.cli module
     :undoc-members:
     :show-inheritance:
 
-tagupy.tagupy module
---------------------
-
-.. automodule:: tagupy.tagupy
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

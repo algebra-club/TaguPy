@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "tagupy"
+version = "0.1.0"
+description = "DoE supporting tools"
+license = "MIT"
+authors = [
+  "takesei <sei06k14@gmail.com>"
+]
+readme = "README.rst"
+homepage = "https://github.com/algebra-club/tagupy"
+keywords = ["tagupy", "doe", "experiment"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.0",
+]
+include = [
+  "AUTHORS.rst",
+  "CONTRIBUTING.rst",
+  "HISTORY.rst",
+  "tests/",
+  "docs/",
+]
+exclude = [
+  "**/__pycache__",
+  "**/*.py[co]"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7.1"
+click = "^7.0"
+openpyxl = "^3.0.7"
+numpy = "^1.21.1"
+pandas = "^1.3.1"
+
+[tool.poetry.dev-dependencies]
+pip = "19.2.3"
+bump2version = "0.5.11"
+wheel = "0.33.6"
+watchdog = "0.9.0"
+flake8 = "3.7.8"
+tox = "3.14.0"
+coverage = "4.5.4"
+Sphinx = "4.1.2"
+sphinx-material = "0.0.34"
+pytest = "6.2.4"
+
+[tool.poetry.scripts]
+tagupy = "tagupy.cli:main"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/algebra-club/tagupy/issues"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

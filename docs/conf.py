@@ -47,8 +47,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'TaguPy'
-copyright = "2021, Sei Takeda"
-author = "Sei Takeda"
+copyright = "2021, mogani"
+author = "mogani"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -83,7 +83,8 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_material'
+
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.  For a list of options available for each theme, see the

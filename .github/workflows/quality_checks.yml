@@ -43,8 +43,10 @@ jobs:
         run: poetry install --no-interaction
       - name: Run coverage
         run: make coverage
+      - name: Save coverage
+        run: echo "COVERAGE_REPORT=$(poetry run coverage report -m)" >> $GITHUB_ENV
       - name: Report coverage
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body: Test coverage report.
+          body: ${{ env.COVERAGE_REPORT }}

@@ -43,7 +43,8 @@ jobs:
         run: poetry install --no-interaction
       - name: Run coverage
         run: make coverage
-      uses: peter-evans/create-or-update-comment@v1
-      with:
-        issue-number: ${{github.event.pull_request.number}}
-        body: ${{ poetry run coverage report -m }}
+      - name: Report coverage
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{github.event.pull_request.number}}
+          body: ${{ poetry run coverage report -m }}

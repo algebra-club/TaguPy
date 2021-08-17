@@ -41,5 +41,5 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install Dependencies
         run: poetry install --no-interaction
-      - name: Run test
-        run: make coverage
+      - name: Report coverage
+        run: echo $(poetry run coverage report -m)

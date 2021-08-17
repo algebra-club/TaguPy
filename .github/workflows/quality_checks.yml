@@ -41,12 +41,9 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install Dependencies
         run: poetry install --no-interaction
-      - name: Run coverage
-        run: make coverage
-      - name: Save coverage
-        run: echo "COVERAGE_REPORT=$(poetry run coverage report -m)" >> $GITHUB_ENV
+      - name: Run and savecoverage
+        run: |
+          make coverage
+          poetry run coverage report -m > pytest-coverage.txt
       - name: Report coverage
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: ${{ env.COVERAGE_REPORT }}
+        uses: coroo/pytest-coverage-commentator@v1.0.2

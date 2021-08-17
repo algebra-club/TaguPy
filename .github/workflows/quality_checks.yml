@@ -46,5 +46,5 @@ jobs:
       - name: Report coverage
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{github.event.pull_request.number}}
-          body: ${{ poetry run coverage report -m }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: Test coverage report.

@@ -1,8 +1,8 @@
-"""Test of StatsAnalysis, super class of every statistic analysis module"""
+"""Test of _Analyzer, super class of every statistic analysis module"""
 import numpy as np
 import pytest
 
-from tagupy import StatsAnalysis
+from tagupy.core import _Analyzer
 
 
 def test_constructor():
@@ -10,7 +10,7 @@ def test_constructor():
         "exmatrix": np.zeros((5, 5)),
         "result": np.ones((5, 5))
     }
-    temp = StatsAnalysis(**arg)
+    temp = _Analyzer(**arg)
     assert hasattr(temp, 'exmatrix'), 'exmatrix is not defined'
     assert hasattr(temp, 'result'), 'result is not defined'
 
@@ -22,4 +22,4 @@ def test_constructor_assertion():
     }
 
     with pytest.raises(AssertionError):
-        StatsAnalysis(**arg)
+        _Analyzer(**arg)

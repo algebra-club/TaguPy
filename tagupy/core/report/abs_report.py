@@ -19,6 +19,7 @@ class _Report(ABC):
     -------
     get_report(analyze_result: AnalyzeResult) -> Any
     """
+
     @abstractmethod
     def __init__(self, **kwargs: Dict[str, Any]):
         """

@@ -22,8 +22,6 @@ class _Generator(ABC):
     get_alias_matrix(max_dim: int) -> np.ndarray
     """
 
-    exmatrix: np.ndarray = None
-
     @abstractmethod
     def __init__(self, **kwargs: Dict[str, Any]):
         """

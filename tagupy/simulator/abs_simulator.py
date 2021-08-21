@@ -35,7 +35,7 @@ class _Simulator(ABC):
     @abstractmethod
     def simulate(self, exmatrix: np.ndarray) -> np.ndarray:
         """
-        Generate mock data by exmatrix
+        Generate mock data by experiment matrix
 
         Parameters
         ----------

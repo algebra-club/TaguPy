@@ -20,6 +20,13 @@ jobs:
         run: poetry install --no-interaction
       - name: Run lint
         run: make lint
+      - name: Lint with reviewdog
+        uses: reviewdog/action-flake8@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            workdir: tagupy
+            reporter: [github-pr-check, github-pr-review]
+          
 
   test:
     strategy:

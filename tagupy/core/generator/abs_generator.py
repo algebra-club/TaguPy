@@ -18,7 +18,7 @@ class _Generator(ABC):
 
     Method
     ------
-    get_exmatrix(n_factor: int, n_level: int, mode)
+    get_exmatrix(**info: Dict[str, Any])
     get_alias_matrix(max_dim: int) -> np.ndarray
     """
 
@@ -33,13 +33,13 @@ class _Generator(ABC):
         pass
 
     @abstractmethod
-    def get_exmatrix(self, **kwargs: Dict[str, Any]) -> np.ndarray:
+    def get_exmatrix(self, **info: Dict[str, Any]) -> np.ndarray:
         """
         Generate Experiment Matrix
 
         Parameters
         ----------
-        kwargs: Dict[str, Any]
+        info: Dict[str, Any]
             it is expected to contain following info
 
             1. n_factor: int

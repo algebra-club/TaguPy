@@ -1,8 +1,6 @@
 """Top-level package for TaguPy."""
 
-from . import core
-from . import manager
-from . import simulator
+from . import core, manager, simulator
 
 __all__ = [
     "core",

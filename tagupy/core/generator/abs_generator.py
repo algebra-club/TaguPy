@@ -6,10 +6,12 @@ from typing import Dict, Tuple
 
 import numpy as np
 
-# from tagupy.analysis import StatsAnalysis
+__all__ = [
+    "_Generator"
+]
 
 
-class MatrixGenerator():
+class _Generator():
     """
     Super Class of Experiment Matrix Generator
 
@@ -69,18 +71,6 @@ class MatrixGenerator():
 
         return cls(0, 0)
 
-    # @classmethod
-    # def from_stats_analysis(cls, analysis: StatsAnalysis):
-    #     """
-    #     Recieve the workflow data from analysis part
-    #
-    #     Parameters
-    #     ----------
-    #     analysis: StatsAnalysis
-    #         Analysis buffer data
-    #     """
-    #     pass
-    #
     def get_alias_matrix(self, max_dim: int) -> np.ndarray:
         """
         Return Alias Matrix

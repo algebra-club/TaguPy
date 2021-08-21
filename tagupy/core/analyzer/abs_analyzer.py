@@ -2,12 +2,14 @@
 Super Class of any Statistical Analysis Module
 """
 
+__all__ = [
+    '_Analyzer',
+]
+
 import numpy as np
 
-# from tagupy.experiment import MatrixGenerator
 
-
-class StatsAnalysis():
+class _Analyzer():
     """
     Super Class of any Statistical Analysis codes
 
@@ -36,21 +38,3 @@ class StatsAnalysis():
         assert exmatrix.shape == result.shape, \
             msg + f'{exmatrix.shape}, {result.shape}'
         pass
-
-    # @classmethod
-    # def from_matrix_generator(
-    #     matrix_generator: MatrixGenerator,
-    #     result: np.ndarray
-    # ):
-    #     """
-    #     Recieve the workflow data from experiment planning part
-    #
-    #     Parameters
-    #     ----------
-    #     matrix_generator: MatrixGenerator
-    #         Planning buffer data
-    #
-    #     result: np.ndarray
-    #         Result data bound for experiment matrix in `matrix_generator`
-    #     """
-    #     pass

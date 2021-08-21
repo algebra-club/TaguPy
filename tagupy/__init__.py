@@ -1,11 +1,11 @@
 """Top-level package for TaguPy."""
 
-from .analysis import StatsAnalysis
-from .experiment import MatrixGenerator
+from . import core, manager, simulator
 
 __all__ = [
-    "StatsAnalysis",
-    "MatrixGenerator",
+    "core",
+    "manager",
+    "simulator",
 ]
 
 __author__ = """Sei Takeda"""

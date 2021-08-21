@@ -65,5 +65,6 @@ jobs:
         run: poetry run coverage xml
       - uses: codecov/codecov-action@v2
         with:
+          token: ${{ env.CODECOV_TOKEN }}
           files: coverage.xml
           fail_ci_if_error: true

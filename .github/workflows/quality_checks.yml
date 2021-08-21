@@ -6,16 +6,18 @@ on:
   pull_request:
     branches:
       - main
-
+env:
+  PYTHON_MULTIPLE_VERSIONS: [3.7, 3.8, 3.9]
+  PYTHON_VERSION: 3.9
 jobs:
   lint:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.9
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Poetry
         run: |
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
@@ -35,7 +37,7 @@ jobs:
   test:
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: ${{ env.PYTHON_MULTIPLE_VERSIONS }}
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
@@ -56,10 +58,10 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.9
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Poetry
         run: |
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -

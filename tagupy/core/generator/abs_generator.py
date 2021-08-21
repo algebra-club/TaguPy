@@ -3,7 +3,7 @@ ABC Class of any Experiment Matrix Generating Module
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Any, Dict
 
 import numpy as np
 
@@ -28,7 +28,7 @@ class _Generator(ABC):
         Parameters
         ----------
         kwargs: Dict[str, Any]
-            generate method option of each Generator
+            generate method options of each Generator
         """
         pass
 
@@ -45,9 +45,9 @@ class _Generator(ABC):
             1. n_factor: int
                 number of factors you use in this experiment
             2. n_level: int
-                number of level, requires every factor has same level.
+                number of levels, requires every factor has the same level.
             3. mode: str default = "mode"
-                mode of factor, 'cont' or 'cat.' or ''
+                mode of factor, 'cont' or 'cat' or ''
                 requires every factor is under the same mode.
 
         Return

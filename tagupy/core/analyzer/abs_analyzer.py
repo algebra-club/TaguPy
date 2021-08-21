@@ -1,5 +1,5 @@
 """
-Super Class of any Statistical Analysis Module
+ABC Class of any Statistical Analysis Module
 """
 from abc import ABC, abstractmethod
 from typing import Dict, Any
@@ -16,6 +16,10 @@ __all__ = [
 class _Analyzer(ABC):
     """
     ABC Class of any Statistical Analysis codes
+
+    Methods
+    -------
+    analyze(exmatrix: np.ndarray, result: np.ndarray) -> AnalyzeResult
     """
 
     @abstractmethod
@@ -35,6 +39,8 @@ class _Analyzer(ABC):
         result: np.ndarray
     ) -> AnalyzeResult:
         """
+        Analyze data from experiment matrix and result matrix
+
         Parameters
         ----------
         exmatrix: numpy.ndarray

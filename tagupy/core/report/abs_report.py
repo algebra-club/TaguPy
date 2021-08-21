@@ -14,6 +14,10 @@ __all__ = [
 class _Report(ABC):
     """
     ABC Class of Analysis Report
+
+    Methods
+    -------
+    get_report(analyze_result: AnalyzeResult) -> Any
     """
     @abstractmethod
     def __init__(self, **kwargs: Dict[str, Any]):
@@ -28,6 +32,8 @@ class _Report(ABC):
     @abstractmethod
     def get_report(self, analyze_result: AnalyzeResult) -> Any:
         """
+        Generate Report in some format
+
         Parameters
         ----------
         analyze_result:

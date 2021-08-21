@@ -16,6 +16,10 @@ __all__ = [
 class _Simulator(ABC):
     """
     ABC Class of DoE Simulator
+
+    Methods
+    -------
+    simulate(exmatrix: np.ndarray) -> np.ndarray
     """
 
     @abstractmethod
@@ -31,6 +35,8 @@ class _Simulator(ABC):
     @abstractmethod
     def simulate(self, exmatrix: np.ndarray) -> np.ndarray:
         """
+        Generate mock data by exmatrix
+
         Parameters
         ----------
         exmatrix: np.ndarray
@@ -38,7 +44,7 @@ class _Simulator(ABC):
 
         Returns
         -------
-        result_matrix: np.ndarray
+        result matrix: np.ndarray
             Simulation result (n_experiment x 1)
         """
         pass

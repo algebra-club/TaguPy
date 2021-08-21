@@ -18,7 +18,7 @@ class _Generator(ABC):
 
     Method
     ------
-    get_exmatrix(**info: Dict[str, Any])
+    get_exmatrix(**info: Dict[str, Any]) -> np.ndarray
     get_alias_matrix(max_dim: int) -> np.ndarray
     """
 

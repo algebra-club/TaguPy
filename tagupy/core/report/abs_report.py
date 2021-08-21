@@ -4,7 +4,7 @@ ABC Class of Analysis Report
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-from ..analyzer.analyze_result import AnalyzeResult
+from ..analyzer.analysis_result import AnalysisResult
 
 __all__ = [
     '_Report'
@@ -31,7 +31,7 @@ class _Report(ABC):
         pass
 
     @abstractmethod
-    def get_report(self, analyze_result: AnalyzeResult) -> Any:
+    def get_report(self, analyze_result: AnalysisResult) -> Any:
         """
         Generate Report in some format
 

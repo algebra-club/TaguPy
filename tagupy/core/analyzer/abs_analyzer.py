@@ -6,7 +6,7 @@ from typing import Dict, Any
 
 import numpy as np
 
-from .analyze_result import AnalyzeResult
+from .analysis_result import AnalysisResult
 
 __all__ = [
     '_Analyzer',

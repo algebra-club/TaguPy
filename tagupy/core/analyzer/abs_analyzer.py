@@ -19,7 +19,7 @@ class _Analyzer(ABC):
 
     Methods
     -------
-    analyze(exmatrix: np.ndarray, result: np.ndarray) -> AnalyzeResult
+    analyze(exmatrix: np.ndarray, result: np.ndarray) -> AnalysisResult
     """
 
     @abstractmethod
@@ -37,7 +37,7 @@ class _Analyzer(ABC):
         self,
         exmatrix: np.ndarray,
         result: np.ndarray
-    ) -> AnalyzeResult:
+    ) -> AnalysisResult:
         """
         Analyze data from experiment matrix and result matrix
 

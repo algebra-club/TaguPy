@@ -1,8 +1,9 @@
 """
-Super Class of any Experiment Matrix Generating Module
+ABC Class of any Experiment Matrix Generating Module
 """
 
-from typing import Dict, Tuple
+from abc import ABC, abstractmethod
+from typing import Dict, Any
 
 import numpy as np
 
@@ -11,66 +12,54 @@ __all__ = [
 ]
 
 
-class _Generator():
+class _Generator(ABC):
     """
-    Super Class of Experiment Matrix Generator
-
-    Attributes
-    ----------
-    exmatrix: np.ndarray
-        Experiment Matrix (n_experiment x n_factor)
-
-    ClassMethod
-    -----------
-    load_dict(content: Dict[str, Tuple[int, str]])
-    from_stats_analysis(cls, analysis: StatsAnalysis):
+    ABC Class of Experiment Matrix Generator
 
     Method
     ------
+    get_exmatrix(n_factor: int, n_level: int, mode)
     get_alias_matrix(max_dim: int) -> np.ndarray
     """
 
     exmatrix: np.ndarray = None
 
-    def __init__(self, n_factor: int, n_level: int, mode: str = ""):
+    @abstractmethod
+    def __init__(self, **kwargs: Dict[str, Any]):
         """
         Parameters
         ----------
-        n_factor: int
-            number of factors you use in this experiment
-
-        n_level: int
-            number of level, requires every factor has same level.
-
-        mode: str default = "mode"
-            mode of factor, 'cont' or 'cat.' or ''
-            requires every factor is under the same mode.
-
-
-        Notes
-        -----
-        If you use odd mode or level experiments, use load_dict() instead.
+        kwargs: Dict[str, Any]
+            generate method option of each Generator
         """
+        pass
 
-        assert mode in ('cont', 'cat', ''), \
-            f'Mode should be "cont" or "cat", got {mode}'
-
-        assert n_level != 1, 'Are you Sure???? one level???'
-
-    @classmethod
-    def load_dict(cls, content: Dict[str, Tuple[int, str]]):
+    @abstractmethod
+    def get_exmatrix(self, **kwargs: Dict[str, Any]) -> np.ndarray:
         """
-        Construct MatrixGenerator with custom complex dictionary object.
+        Generate Experiment Matrix
 
         Parameters
         ----------
-        content: Dict[str, Tuple[int, str]]
-            complex experiment target
-            ex. one categorical factor and 2 continual factors
+        kwargs: Dict[str, Any]
+            it is expected to contain following info
+
+            1. n_factor: int
+                number of factors you use in this experiment
+            2. n_level: int
+                number of level, requires every factor has same level.
+            3. mode: str default = "mode"
+                mode of factor, 'cont' or 'cat.' or ''
+                requires every factor is under the same mode.
+
+        Return
+        ------
+        exmatrix: np.ndarray
+            Experiment Matrix (n_experiment x n_factor)
         """
+        pass
 
-        return cls(0, 0)
-
+    @abstractmethod
     def get_alias_matrix(self, max_dim: int) -> np.ndarray:
         """
         Return Alias Matrix
@@ -83,10 +72,10 @@ class _Generator():
         Returns
         -------
         alias matrix: numpy.ndarray
-            Alias Matrix
+            Alias Matrix (n_factor x n_factor)
 
         Notes
         -----
         https://community.jmp.com/t5/JMP-Blog/What-is-an-Alias-Matrix/ba-p/30448
         """
-        return np.array([])
+        pass

@@ -58,10 +58,10 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install Dependencies
         run: poetry install --no-interaction
-      - name: Run and savecoverage
-        run: |
-          make coverage
-          poetry run coverage xml
+      - name: Run coverage
+        run: make coverage
+      - name: Generate coverage report
+        run: poetry run coverage xml
       - uses: codecov/codecov-action@v2
         with:
           files: ./htmlcov/index.html

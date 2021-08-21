@@ -2,7 +2,7 @@
 ABC Class of any Statistical Analysis Module
 """
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Any, Dict
 
 import numpy as np
 
@@ -52,6 +52,6 @@ class _Analyzer(ABC):
         Returns
         -------
         analysis_result: AnalysisResult
-            Resulf of analysis method
+            Result of analysis method
         """
         pass

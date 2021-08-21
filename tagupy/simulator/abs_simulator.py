@@ -1,6 +1,5 @@
 """
-ABC Class of Simulator
-This package enable the users to check the charactors of each DoE methods.
+ABC Class of Simulator which generates dummy data.
 """
 
 from abc import ABC, abstractmethod

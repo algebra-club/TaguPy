@@ -64,5 +64,5 @@ jobs:
         run: poetry run coverage xml
       - uses: codecov/codecov-action@v2
         with:
-          files: ./htmlcov/index.html
+          files: coverage.xml
           fail_ci_if_error: true

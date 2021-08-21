@@ -1,40 +1,57 @@
 """
-Super Class of any Statistical Analysis Module
+ABC Class of any Statistical Analysis Module
 """
+from abc import ABC, abstractmethod
+from typing import Any, Dict
+
+import numpy as np
+
+from .analysis_result import AnalysisResult
 
 __all__ = [
     '_Analyzer',
 ]
 
-import numpy as np
 
-
-class _Analyzer():
+class _Analyzer(ABC):
     """
-    Super Class of any Statistical Analysis codes
+    ABC Class of any Statistical Analysis codes
 
-    Attributes
-    ----------
-    exmatrix: numpy.ndarray
-        Target experiment Matrix
-    result: numpy.ndarray
-        Result Matrix related to experiment matrix
+    Methods
+    -------
+    analyze(exmatrix: np.ndarray, result: np.ndarray) -> AnalysisResult
     """
 
-    exmatrix: np.ndarray = None
-    result: np.ndarray = None
-
-    def __init__(self, exmatrix: np.ndarray, result: np.ndarray):
+    @abstractmethod
+    def __init__(self, **kwargs: Dict[str, Any]):
         """
         Parameters
         ----------
+        kwargs: Dict[str, Any]
+            Analysis params for each methods
+        """
+        pass
+
+    @abstractmethod
+    def analyze(
+        self,
+        exmatrix: np.ndarray,
+        result: np.ndarray
+    ) -> AnalysisResult:
+        """
+        Analyze data from experiment matrix and result matrix
+
+        Parameters
+        ----------
         exmatrix: numpy.ndarray
-            Target experiment Matrix
+            Target experiment Matrix (n_experiment x n_factor)
 
         result: numpy.ndarray
-            Target Result Matrix
+            Target Result Matrix (n_experiment x 1)
+
+        Returns
+        -------
+        analysis_result: AnalysisResult
+            Result of analysis method
         """
-        msg = "Argument matrix must be the same size, got "
-        assert exmatrix.shape == result.shape, \
-            msg + f'{exmatrix.shape}, {result.shape}'
         pass

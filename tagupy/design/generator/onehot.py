@@ -4,7 +4,6 @@ _Generator Class of One Hot Design Generator Module
 
 import numpy as np
 
-from typing import Any, Dict
 from .abs_generator import _Generator
 
 
@@ -17,43 +16,34 @@ class OneHot(_Generator):
     get_exmatrix(**info: Dict[str, Any]) -> np.ndarray
     get_alias_matrix(max_dim: int) -> np.ndarray
     """
-    n_rep: int = 1
-    n_factor: int = 1
-    exmatrix: np.ndarray = np.array([])
 
-    def __init__(self, **kwargs: Dict[str, Any]):
+    def __init__(self, n_rep: int = 1):
         """
         Parameters
         ----------
-        kwargs: Dict[str, Any]
-            it is expected to contain the following info
-
-            1. n_rep: int
-                number of replications; that value is applied
-                when the whole set of experiment is replicated
-                for the sake of quality assurement of the experiment data.
-                default value is 1
+        n_rep: int
+            number of replications; that value is applied
+            when the whole set of experiment is replicated
+            for the sake of quality assurement of the experiment data.
+            default value is 1
         """
-        assert list(kwargs.keys()) == ["n_rep"], \
-            f"Erorr: unexpected keys {kwargs.keys()}, expected ['n_rep']"
-        assert type(kwargs["n_rep"]) == int, \
-            "Error: n_rep expected int"
-        assert kwargs["n_rep"] >= 1, \
-            f"Error: n_rep expected non-negative int, got {kwargs['n_rep']}"
-        self.n_rep = kwargs["n_rep"]
+        self.n_rep = n_rep
+        self.n_factor = None
+        self.exmatrix = None
+        assert type(self.n_rep) == int, \
+            f"Error: n_rep expected int, got {type(self.n_rep)}"
+        assert self.n_rep >= 1, \
+            f"Error: n_rep expected integer >= 1"
         return None
 
-    def get_exmatrix(self, **info: Dict[str, Any]) -> np.ndarray:
+    def get_exmatrix(self, n_factor: int) -> np.ndarray:
         """
         Generate One Hot Design Matrix
 
         Parameters
         ----------
-        info: Dict[str, Any]
-            it is expected to have the following info
-
-            1. n_factor: int
-                number of factors you use in this experiment
+        n_factor: int
+            number of factors you use in this experiment
 
         Return
         ------
@@ -84,13 +74,11 @@ class OneHot(_Generator):
         non-negative integer as you like.
 
         """
-        assert list(info.keys()) == ["n_factor"], \
-            f"Erorr: unexpected keys {info.keys()}, expected ['n_factor']"
-        assert type(info["n_factor"]) == int, \
-            "Error: n_factor expected int"
-        assert info["n_factor"] >= 1, \
-            f"Error: n_factor expected non-negative int"
-        self.n_factor = info["n_factor"]
+        self.n_factor = n_factor
+        assert type(self.n_factor) == int, \
+            f"Error: n_factor expected int, got {type(self.n_factor)}"
+        assert self.n_factor >= 1, \
+            f"Error: n_factor expected integer >= 1"
         _res = np.concatenate(
             [
                 np.identity(
@@ -101,7 +89,7 @@ class OneHot(_Generator):
         self.exmatrix = _res
         return self.exmatrix
 
-    def get_alias_matrix(self, max_dim: int) -> np.ndarray:
+    def get_alias_matrix(self, max_dim: int = 1) -> np.ndarray:
         """
         Return Alias Matrix
 
@@ -118,4 +106,16 @@ class OneHot(_Generator):
         Notes
         -----
         https://community.jmp.com/t5/JMP-Blog/What-is-an-Alias-Matrix/ba-p/30448
+
+        Warning
+        -------
+        in One Hot Design, you can't calculate higher dimensional interactions,
+        therefore max_dim expected to be 1
         """
+        assert type(max_dim) == int, \
+            f"Error: max_dim expected int, got {type(max_dim)}"
+        assert max_dim == 1, \
+            "Error: by the definition of One Hot Design, factor"
+        assert max_dim <= self.n_factor, \
+            f"Error: value of max_dim should be lower than n_factor"
+        return np.ones((self.n_factor, self.n_factor))

@@ -33,7 +33,7 @@ class OneHot(_Generator):
         assert type(self.n_rep) == int, \
             f"Error: n_rep expected int, got {type(self.n_rep)}"
         assert self.n_rep >= 1, \
-            f"Error: n_rep expected integer >= 1"
+            "Error: n_rep expected integer >= 1"
         return None
 
     def get_exmatrix(self, n_factor: int) -> np.ndarray:
@@ -78,7 +78,7 @@ class OneHot(_Generator):
         assert type(self.n_factor) == int, \
             f"Error: n_factor expected int, got {type(self.n_factor)}"
         assert self.n_factor >= 1, \
-            f"Error: n_factor expected integer >= 1"
+            "Error: n_factor expected integer >= 1"
         _res = np.concatenate(
             [
                 np.identity(
@@ -117,5 +117,5 @@ class OneHot(_Generator):
         assert max_dim == 1, \
             "Error: by the definition of One Hot Design, factor"
         assert max_dim <= self.n_factor, \
-            f"Error: value of max_dim should be lower than n_factor"
+            "Error: value of max_dim should be lower than n_factor"
         return np.ones((self.n_factor, self.n_factor))

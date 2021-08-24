@@ -28,7 +28,7 @@ class OneHot(_Generator):
     removed from the conditions.
 
     Here we defined this way of experiment design as
-    One Hot Design Matrix, as each row of the it
+    One Hot Design Matrix, as each column of the it
     would be an one hot vector.
 
     To assure the reliability of experiment, we
@@ -52,10 +52,11 @@ class OneHot(_Generator):
             (when n_rep = 1, it implies that a single run
             for each condition will be planed)
         """
-        self.n_rep = n_rep \
-            if isinstance(n_rep, int) else int(n_rep)
+        self.n_rep = n_rep
+        assert isinstance(n_rep, int), \
+            f"Error: n_rep expected int, got {type(n_rep)}"
         assert self.n_rep >= 1, \
-            "Error: n_rep expected integer >= 1"
+            f"Error: n_rep expected integer >= 1, got{n_rep}"
 
     def get_exmatrix(self, n_factor: int) -> np.ndarray:
         """
@@ -66,22 +67,21 @@ class OneHot(_Generator):
         n_factor: int
             number of factors you use in this experiment
             As this method is limited for multifactorial experiment,
-            n_factor expects integer >= 2
+            n_factor expects integer >= 1
 
         Return
         ------
         exmatrix: np.ndarray
             Experiment Matrix (n_experiment x n_factor)
         """
-        f = n_factor \
-            if isinstance(n_factor, int) else int(n_factor)
-        assert f >= 2, \
-            "Error: n_factor expected integer >= 2"
+        f = n_factor 
+        assert isinstance(f, int), \
+            f"Error: n_factor expected int, got {type(f)}"
+        assert f >= 1, \
+            f"Error: n_factor expected integer >= 1, got {f}"
         _res = np.concatenate(
-            [np.identity(
-                f,
-                dtype=int
-                ) for i in range(self.n_rep)]
+            [np.array(list(np.identity(f, int)) + [np.zeros(f)]).astype(int) \
+                for i in range(self.n_rep)]
         )
         self.exmatrix = _res
         return _res
@@ -104,5 +104,5 @@ class OneHot(_Generator):
         in One Hot Design, you can't calculate higher dimensional interactions,
         therefore max_dim expected to be 1
         """
-        return self.exmatrix \
+        return self.exmatrix
             # alias matrixの実装について相談したいので、一旦保留にします

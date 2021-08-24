@@ -8,133 +8,86 @@ import pytest
 from tagupy.core.generator import OneHot
 
 
-def test_init_input_dtype():
-    arg = ["moge", None, np.ones((2, 3))]
-    with pytest.raises(ValueError):
-        [OneHot(i) for i in arg]
+@pytest.fixture
+def correct_inputs():
+    return [1, 2, 3, 4, 5, 6, 7]
 
 
-def test_init_input_value():
-    arg = [0, -1, -3.5]
+def test_init_invalid_input():
+    arg = ["moge", None, np.ones((2, 3)), 3.4, 0, -22]
     with pytest.raises(AssertionError):
-        [OneHot(i) for i in arg]
+        for el in arg:
+            OneHot(el)
 
 
-def test_init_correct_input():
-    arg = [1, 2, 3, 4, 5, 6, 7.8]
+def test_init_correct_input(correct_inputs):
     exp = [1, 2, 3, 4, 5, 6, 7]
-    _model = [OneHot(i) for i in arg]
-    l_rep = [i.n_rep for i in _model]
-    assert l_rep == exp, \
-        "Error: something is wrong with n_rep"
+    for i, v in enumerate(correct_inputs):
+        assert OneHot(v).n_rep == exp[i], \
+            f"Error: self.n_rep expected {exp[i]}, \ngot {OneHot(v).n_rep}"
+
+# 何を確認するべきか
+# - get_exmatrix()
+#     - 1以上のintのみ受け取る [r]
+#     - 戻り値がnp.ndarray [g]
+#     - n_factor = kかつn_ep=lの時、 戻り値のshapeが(k * l + l, l) [g]
+#     - 全ての成分が0 or 1 [g]
+#     - 行方向の和が1 or 0
+#     - 行方向の和が0になるのはn_rep回
+#     - 列方向の和がn_rep
 
 
-def test_exmatrix_input_dtype():
-    arg = ["moge", None, np.ones((2, 3))]
-    _model = OneHot(1)
-    with pytest.raises(ValueError):
-        [_model.get_exmatrix(i) for i in arg]
-
-
-def test_exmatrix_input_value():
-    arg = [1, 0, -1, -3.5]
+def test_get_exmatrix_invalid_input_dtype():
+    arg = ["moge", None, np.ones((2, 3)), 0, -1, 3.5]
     _model = OneHot(1)
     with pytest.raises(AssertionError):
-        [_model.get_exmatrix(i) for i in arg]
+        for el in arg:
+            _model.get_exmatrix(el)
 
 
-def test_exmatrix_dtype__n_f():
-    arg = [2, 3, 4, 5, 6]
+def test_get_exmatrix_output_dtype(correct_inputs):
     _model = OneHot(1)
-    _res = [isinstance(
-        _model.get_exmatrix(i),
-        np.ndarray) for i in arg]
-    assert all(_res), \
-        "Error: dtype of exmatrix is not np.ndarray"
+    for i in correct_inputs:
+        assert isinstance(
+            _model.get_exmatrix(i),
+            np.ndarray
+            ), \
+                f"Error: dtype of exmatrix expected np.ndarray \ngot {type(_model.get_exmatrix(i))}"
 
 
-def test_exmatrix_dtype__n_r():
-    arg = [OneHot(i) for i in (1, 2, 3, 4, 5)]
-    _res = [isinstance(
-        i.get_exmatrix(2),
-        np.ndarray) for i in arg]
-    assert all(_res), \
-        "Error: dtype of exmatrix is not np.ndarray"
-
-
-def test_exmatrix_shape__n_f():
-    arg = [2, 3, 4, 5, 6]
+def test_get_exmatrix_output_shape(correct_inputs):
     _model = OneHot(11)
-    _temp = [_model.get_exmatrix(i) for i in arg]
-    _res = [v.shape == (
-        arg[i] * 11,
-        arg[i]
-        ) for i, v in enumerate(_temp)]
-    assert all(_res), \
-        "Error: something is wrong with exmatrix shape"
+    for v in correct_inputs:
+        assert _model.get_exmatrix(v).shape == (
+            (v + 1) * 11,
+            v
+            ), \
+                f"Error: shape of exmatrix expected \n((n_factor + 1) * n_rep, n_facttor), got {_model.get_exmatrix(v).shape}"
 
 
-def test_exmatrix_shape__n_r():
-    l_rep = [1, 2, 3, 4, 5]
-    arg = [OneHot(i) for i in l_rep]
-    _temp = [i.get_exmatrix(11) for i in arg]
-    _res = [v.shape == (
-        11 * l_rep[i],
-        11
-        ) for i, v in enumerate(_temp)]
-    assert all(_res), \
-        "Error: something is wrong with exmatrix shape"
+
+def test_get_exmatrix_output_element(correct_inputs):
+    _model = OneHot(11)
+    for v in correct_inputs:
+        assert np.logical_or(
+            _model.get_exmatrix(v) == 1,
+            _model.get_exmatrix(v) == 0
+            ).all(), \
+                f"Error: all the elements in exmatrix should \nbe either 0 or 1, got {_model.get_exmatrix(v)}"
 
 
-def test_exmatrix_sum_row():
-    arg = [2, 3, 4, 5, 6]
-    _model = OneHot(1)
-    _temp = [_model.get_exmatrix(i) for i in arg]
-    _res = [(
-        np.sum(v, axis=1) == np.ones(arg[i])
-        ).all() for i, v in enumerate(_temp)]
-    assert all(_res), \
-        "Error: sum of values in a row shoud be 1"
-
-
-def test_exmatrix_sum_col():
-    l_rep = [1, 2, 3, 4, 5]
-    arg = [OneHot(i) for i in l_rep]
-    _temp = [i.get_exmatrix(11) for i in arg]
-    _res = [(
-        np.sum(v, axis=0) == l_rep[i] * np.ones(11)
-        ).all() for i, v in enumerate(_temp)]
-    assert all(_res), \
-        "Error: sum of values in a col should be n_rep"
-
-
-def test_alias_dtype__n_f():
-    arg = [2, 3, 4, 5, 6]
-    _model = [OneHot(1) for i in arg]
-    [v.get_exmatrix(arg[i]) for i, v in enumerate(_model)]
-    _res = [isinstance(
-        i.get_alias_matrix(),
-        np.ndarray) for i in _model]
-    assert all(_res), \
-        "Error: dtype of alias matrix is not np.ndarray"
-
-
-def test_alias_dtype__n_r():
-    arg = [OneHot(i) for i in (1, 2, 3, 4, 5)]
-    [i.get_exmatrix(11) for i in arg]
-    _res = [isinstance(
-        i.get_alias_matrix(),
-        np.ndarray) for i in arg]
-    assert all(_res), \
-        "Error: dtype of alias matrix is not np.ndarray"
-
-# alias matrixの実装について相談したいので、一旦保留にします
-# def test_alias_matrix():
-#     n_rep = 1
-#     n_factor = 3
-#     _model = OneHot(n_rep)
-#     _model.get_exmatrix(n_factor)
-#     exp = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
-#     _res = _model.get_alias_matrix()
-#     assert (exp == _res).all(), \
-#         "Error: something is wrong with alias_matrix"
+def test_get_exmatrix_sum(correct_inputs):
+    _model = OneHot(11)
+    for v in correct_inputs:
+        assert np.logical_or(
+            np.sum(_model.get_exmatrix(v), axis=1) == 1,
+            np.sum(_model.get_exmatrix(v), axis=1) == 0
+        ).all(), \
+            f"Error: sum of values in a row should be \neither 0 or 1, got {_model.get_exmatrix(v)}"
+        assert np.sum(_model.get_exmatrix(v)) == v * 11, \
+            f"Error: raws for negative control should be given as many as n_rep, \ngot {_model.get_exmatrix(v)}"
+        np.testing.assert_array_equal(
+            np.sum(_model.get_exmatrix(v), axis=0),
+            np.full((v), 11),
+            f"Error: sum of values in a col should be n_rep, got {_model.get_exmatrix(v)}"
+        )

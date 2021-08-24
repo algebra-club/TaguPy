@@ -6,7 +6,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from ._analysis_result import AnalysisResult
+from tagupy.typing import AnalysisResult
 
 
 class _Analyzer(ABC):

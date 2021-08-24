@@ -4,7 +4,7 @@ ABC Class of Analysis Report
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-from ..analyzer._analysis_result import AnalysisResult
+from tagupy.typing import AnalysisResult
 
 
 class _Report(ABC):

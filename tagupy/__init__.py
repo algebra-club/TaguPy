@@ -1,11 +1,17 @@
 """Top-level package for TaguPy."""
 
-from . import core, manager, simulator
+from . import manager
+from . import simulator
+from . import utils
+from .core import analyzer, generator, report
 
 __all__ = [
-    "core",
-    "manager",
-    "simulator",
+    'analyzer',
+    'generator',
+    'report',
+    'manager',
+    'simulator',
+    'utils'
 ]
 
 __author__ = """Sei Takeda"""

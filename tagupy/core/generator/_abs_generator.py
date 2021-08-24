@@ -7,10 +7,6 @@ from typing import Any, Dict
 
 import numpy as np
 
-__all__ = [
-    "_Generator"
-]
-
 
 class _Generator(ABC):
     """
@@ -54,26 +50,5 @@ class _Generator(ABC):
         ------
         exmatrix: np.ndarray
             Experiment Matrix (n_experiment x n_factor)
-        """
-        pass
-
-    @abstractmethod
-    def get_alias_matrix(self, max_dim: int) -> np.ndarray:
-        """
-        Return Alias Matrix
-
-        Parameters
-        ----------
-        max_dim: int
-            maximum dimension treated in alias matrix
-
-        Returns
-        -------
-        alias matrix: numpy.ndarray
-            Alias Matrix (n_factor x n_factor)
-
-        Notes
-        -----
-        https://community.jmp.com/t5/JMP-Blog/What-is-an-Alias-Matrix/ba-p/30448
         """
         pass

@@ -6,11 +6,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from .analysis_result import AnalysisResult
-
-__all__ = [
-    '_Analyzer',
-]
+from ._analysis_result import AnalysisResult
 
 
 class _Analyzer(ABC):

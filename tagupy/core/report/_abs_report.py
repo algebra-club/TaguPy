@@ -4,11 +4,7 @@ ABC Class of Analysis Report
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-from ..analyzer.analysis_result import AnalysisResult
-
-__all__ = [
-    '_Report'
-]
+from ..analyzer._analysis_result import AnalysisResult
 
 
 class _Report(ABC):

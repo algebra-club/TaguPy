@@ -1,4 +1,4 @@
-from .abs_simulator import _Simulator
+from ._abs_simulator import _Simulator
 
 __all__ = [
     "_Simulator",

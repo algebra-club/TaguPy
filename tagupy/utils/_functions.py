@@ -15,7 +15,7 @@ def get_corr_matrix(exmatrix: np.ndarray, max_dim: int) -> np.ndarray:
     Parameters
     ----------
     max_dim: int
-        maximum dimension treated in alias matrix
+        maximum dimension in Correlation Matrix
 
     Returns
     -------

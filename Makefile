@@ -47,13 +47,13 @@ lint: ## check style with flake8
 	poetry run flake8 tagupy tests
 
 test: ## run tests quickly with the default Python
-	poetry run pytest
+	poetry run pytest --doctest-modules
 
 test-all: ## run tests on every Python version with tox
 	poetry run tox -q
 
 coverage: ## check code coverage quickly with the default Python
-	poetry run coverage run --source tagupy -m pytest
+	poetry run coverage run --source tagupy -m pytest --doctest-modules
 	poetry run coverage report -m
 	poetry run coverage html
 	$(BROWSER) htmlcov/index.html

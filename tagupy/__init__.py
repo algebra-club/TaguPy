@@ -3,12 +3,12 @@
 from . import manager
 from . import simulator
 from . import utils
-from .core import analyzer, generator, report
+from .core import analyzer, generator, reporter
 
 __all__ = [
     'analyzer',
     'generator',
-    'report',
+    'reporter',
     'manager',
     'simulator',
     'utils'

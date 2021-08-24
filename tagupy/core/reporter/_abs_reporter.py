@@ -1,5 +1,5 @@
 """
-ABC Class of Analysis Report
+ABC Class of Analysis Reporter
 """
 from abc import ABC, abstractmethod
 from typing import Any, Dict
@@ -7,9 +7,9 @@ from typing import Any, Dict
 from tagupy.type import AnalysisResult
 
 
-class _Report(ABC):
+class _Reporter(ABC):
     """
-    ABC Class of Analysis Report
+    ABC Class of Analysis Reporter
 
     Methods
     -------
@@ -22,7 +22,7 @@ class _Report(ABC):
         Parameters
         ----------
         kwargs: Dict[str, Any]
-            params for each Report
+            params for each Reporter
         """
         pass
 

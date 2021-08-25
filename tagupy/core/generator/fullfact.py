@@ -5,6 +5,7 @@ _Generator Class of FullFactorial Design Generator Module
 import itertools
 from typing import Iterable
 import numpy as np
+import numpy.matlib 
 
 
 from tagupy.type import _Generator as Generator
@@ -69,6 +70,36 @@ class FullFact(Generator):
         -------
         emat : numpy array(2d)
             the desing matrix with coded levels 0 to k-1 for a k-level factor
+
+        Example
+        -------
+        >>> import tagupy
+        >>> _model = tagupy.generator.FullFact(2)
+        >>> _model.get_exmatrix([2,3,2])
+        array([[0, 0, 0],
+               [0, 0, 1],
+               [0, 1, 0],
+               [0, 1, 1],
+               [0, 2, 0],
+               [0, 2, 1],
+               [1, 0, 0],
+               [1, 0, 1],
+               [1, 1, 0],
+               [1, 1, 1],
+               [1, 2, 0],
+               [1, 2, 1],
+               [0, 0, 0],
+               [0, 0, 1],
+               [0, 1, 0],
+               [0, 1, 1],
+               [0, 2, 0],
+               [0, 2, 1],
+               [1, 0, 0],
+               [1, 0, 1],
+               [1, 1, 0],
+               [1, 1, 1],
+               [1, 2, 0],
+               [1, 2, 1]])
         '''
         assert isinstance(levels, list)
         for i in levels:
@@ -81,7 +112,7 @@ class FullFact(Generator):
         emat = np.array(list((itertools.product(*levels_list))))
         emat = np.matlib.repmat(emat, self.n_rep, 1)
 
-        return emat
+        return emat  
 
 
 

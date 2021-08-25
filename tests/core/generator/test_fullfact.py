@@ -61,7 +61,7 @@ def test_get_exmatrix(correct_input):
                     [1, 2, 0],
                     [1, 2, 1]])
     _model = FullFact(2)
-    assert _model.get_exmatrix(correct_input) == exp, \
+    np.testing.assert_array_equal(_model.get_exmatrix(correct_input), exp), \
         'Error: The method "get_exmatrix" did not output the expected matrix'
 
 
@@ -90,6 +90,6 @@ def test_getexmatrix_invalid_output(correct_input):
     _model = FullFact(3)
     assert isinstance(
         _model.get_exmatrix(correct_input),
-        np.adarray
+        np.ndarray
     ), \
         f'Error: dtype of ematrix expected np.adarray \ngot {type(_model.get_exmatrix(correct_input))}'

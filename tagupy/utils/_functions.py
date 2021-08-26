@@ -41,8 +41,7 @@ def get_corr_matrix(exmatrix: np.ndarray, max_dim: int) -> np.ndarray:
     array([[ 1.        , -0.33333333, -0.33333333],
            [-0.33333333,  1.        , -0.33333333],
            [-0.33333333, -0.33333333,  1.        ]])
-
-    You can only set max_dim = 1
+    >>> # You can only set max_dim = 1
     >>> get_corr_matrix(exmatrix, max_dim=2)
     Traceback (most recent call last):
       ...

@@ -55,7 +55,7 @@ class FullFact(Generator):
         assert isinstance(n_rep, int), \
             f"Error: n_rep expected int, got {type(n_rep)}"
         assert n_rep >= 1, \
-            f"Error: e_rep expected integer >=, got {n_rep}"
+            f"Error: e_rep expected integer >=1, got {n_rep}"
     
     def get_exmatrix(self, levels: Iterable[int]) -> np.array:
         '''
@@ -101,10 +101,13 @@ class FullFact(Generator):
                [1, 2, 0],
                [1, 2, 1]])
         '''
-        assert isinstance(levels, list)
+        assert isinstance(levels, list), \
+            f'Error: dtype of levels expected List \ngot{type(levels)}'
         for i in levels:
-            assert isinstance(i, int)
-            assert i >= 1
+            assert isinstance(i, int), \
+                f'Error: dtype of elements in the levels expected int \ngot {type(i)}'
+            assert i >= 1, \
+                f'Error: elements in the levels expected integer >=1 got {i}'
 
         levels_list = []
         for i in levels:

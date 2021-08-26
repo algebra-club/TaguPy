@@ -2,12 +2,12 @@ import numpy as np
 import pytest
 
 
-from tagupy.core.generator import FullFact
+from tagupy.design.generator import FullFact
 
 '''
 確認すべき項目
 1. 上手く走る
-    1. instanceが作成できて__init__で作った変数を呼び出せるか   
+    1. instanceが作成できて__init__で作った変数を呼び出せるか
     2. 計画行列を出力できるか
 2. エラーが出る
     1. __init__の作動
@@ -32,7 +32,7 @@ def test_init():
     exp = [1, 2, 10]
     for i, v in enumerate(arg):
         assert FullFact(v).n_rep == exp[i], \
-            f'Error: self.n_rep expected {exp[i]}, \ngot {FullFact(v).n_rep}'
+            f'Error: self.n_rep expected {exp[i]}, got {FullFact(v).n_rep}'
 
 
 def test_get_exmatrix(correct_input):
@@ -66,7 +66,7 @@ def test_get_exmatrix(correct_input):
 
 
 def test_init_invalid_input():
-    arg = ['a', 3.2, -1, None, [2], np.zeros((2,3))]
+    arg = ['a', 3.2, -1, None, [2], np.zeros((2, 3))]
     with pytest.raises(AssertionError):
         for i in arg:
             FullFact(i)
@@ -75,11 +75,12 @@ def test_init_invalid_input():
 def test_init_invalid_output(correct_input):
     for i in correct_input:
         assert isinstance(FullFact(i).n_rep, int), \
-            f'Error: dtype of self.n_rep expected int \ngot{type(FullFact(i).n_rep)}'
-        
+            f'Error: dtype of self.n_rep expected int,\
+                 got {type(FullFact(i).n_rep)}'
+
 
 def test_getexmatrix_invalid_input():
-    arg = ['a', 3.2, -1, None, [2], np.zeros((2,3)), [0, 2, 3], [-1, 2, 3]]
+    arg = ['a', 3.2, -1, None, [2], np.zeros((2, 3)), [0, 2, 3], [-1, 2, 3]]
     _model = FullFact(3)
     with pytest.raises(AssertionError):
         for i in arg:
@@ -92,4 +93,5 @@ def test_getexmatrix_invalid_output(correct_input):
         _model.get_exmatrix(correct_input),
         np.ndarray
     ), \
-        f'Error: dtype of ematrix expected np.adarray \ngot {type(_model.get_exmatrix(correct_input))}'
+        f'Error: dtype of ematrix expected np.adarray,\
+             got {type(_model.get_exmatrix(correct_input))}'

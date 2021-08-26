@@ -1,11 +1,11 @@
+# flake8: E501
 """
 _Generator Class of FullFactorial Design Generator Module
 """
 
-import itertools
+from itertools import product
 from typing import Iterable
 import numpy as np
-import numpy.matlib 
 
 
 from tagupy.type import _Generator as Generator
@@ -22,25 +22,18 @@ class FullFact(Generator):
 
     Notes
     -----
-    Full factorial design creates experimental points using all the possible combinations of the levels of the factors in each complete trial or replication of the experiments.  
-    These experimental points are also called factorial points. 
-    For three factors having four levels of each factor, considering full factorial design, total 4^3 (64) numbers of experiments have to be carried out. 
-    If there are n replicates of complete experiments, then there will be n times of the single replication experiments to be conducted. 
-    In the experimentation, it must have at least two replicates to determine a sum of squares due to error if all possible interactions are included in the model.
-    
+    Full factorial design creates all the possible combinations of the levels by each factor.
+    This design takes n_factors^m_levels experiments if levels are the same numbers.
+    When there are n replicates of complete experiments, there will be n times of the single replication experiments.
+    It is recommended to have at least 2 replicates to determine a sum of squares due to error.
     Prasanta Sahoo, Tapan Kr. Barman, Woodhead Publishing Reviews, 2012,Pages 159-226,
     https://doi.org/10.1533/9780857095893.159.
 
-    To assure the reliability of experiment, we
-    reccomend you to replicate the same conditions
-    and acquire multiple sets of the data.
-
     You can have the replicated FullFactorial Design Matrix
-    at one time by setting n_rep as large
-    non-zero natural number as you like.
+    at one time by setting n_rep as non-zero natural number.
     '''
 
-    def __init__(self, n_rep: int) ->None:
+    def __init__(self, n_rep: int):
         '''
         Parameters
         ----------
@@ -56,8 +49,8 @@ class FullFact(Generator):
             f"Error: n_rep expected int, got {type(n_rep)}"
         assert n_rep >= 1, \
             f"Error: e_rep expected integer >=1, got {n_rep}"
-    
-    def get_exmatrix(self, levels: Iterable[int]) -> np.array:
+
+    def get_exmatrix(self, levels: Iterable[int]) -> np.ndarray:
         '''
         create a full-factorial design
 
@@ -65,7 +58,7 @@ class FullFact(Generator):
         ----------
         levels : List
             a list of integers which shows the number of level of each input factor
-        
+
         Returns
         -------
         emat : numpy array(2d)
@@ -73,8 +66,8 @@ class FullFact(Generator):
 
         Example
         -------
-        >>> import tagupy
-        >>> _model = tagupy.generator.FullFact(2)
+        >>> from tagupy.design.generator import FullFact
+        >>> _model = FullFact(2)
         >>> _model.get_exmatrix([2,3,2])
         array([[0, 0, 0],
                [0, 0, 1],
@@ -102,21 +95,16 @@ class FullFact(Generator):
                [1, 2, 1]])
         '''
         assert isinstance(levels, list), \
-            f'Error: dtype of levels expected List \ngot{type(levels)}'
+            f'Error: dtype of levels expected List, got {type(levels)}'
         for i in levels:
             assert isinstance(i, int), \
-                f'Error: dtype of elements in the levels expected int \ngot {type(i)}'
+                f'Error: dtype of elements in the levels expected int,\
+                     got {type(i)}'
             assert i >= 1, \
-                f'Error: elements in the levels expected integer >=1 got {i}'
+                f'Error: elements in the levels expected integer >=1, got {i}'
 
-        levels_list = []
-        for i in levels:
-            levels_list.append([k for k in range(i)])
-        emat = np.array(list((itertools.product(*levels_list))))
-        emat = np.matlib.repmat(emat, self.n_rep, 1)
+        levels_list = [range(i) for i in levels]
+        emat = np.array(list((product(*levels_list))))
+        emat = np.vstack([emat] * self.n_rep)
 
-        return emat  
-
-
-
-
+        return emat

@@ -53,7 +53,10 @@ test-all: ## run tests on every Python version with tox
 	poetry run tox -q
 
 coverage: ## check code coverage quickly with the default Python
-	poetry run coverage run --source tagupy -m pytest --doctest-modules
+	poetry run coverage run \
+		--omit="*/type/*" \
+		--source tagupy \
+		-m pytest --doctest-modules
 	poetry run coverage report -m
 	poetry run coverage html
 	$(BROWSER) htmlcov/index.html

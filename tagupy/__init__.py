@@ -3,10 +3,10 @@
 from . import manager
 from . import simulator
 from . import utils
-from . import core
+from . import design
 
 __all__ = [
-    'core',
+    'design',
     'manager',
     'simulator',
     'utils'

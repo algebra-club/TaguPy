@@ -31,7 +31,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workdir: ./tagupy
           reporter: github-pr-check
-          
+          flake8_args: "--config=tox.ini"
 
   test:
     strategy:

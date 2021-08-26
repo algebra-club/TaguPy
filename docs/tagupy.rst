@@ -7,8 +7,11 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   tagupy.analysis
-   tagupy.experiment
+   tagupy.design
+   tagupy.manager
+   tagupy.simulator
+   tagupy.type
+   tagupy.utils
 
 Submodules
 ----------

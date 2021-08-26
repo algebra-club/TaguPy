@@ -44,7 +44,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	poetry run flake8 tagupy tests
+	poetry run flake8 --config=tox.ini tagupy tests
 
 test: ## run tests quickly with the default Python
 	poetry run pytest --doctest-modules

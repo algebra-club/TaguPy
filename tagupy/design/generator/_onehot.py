@@ -28,7 +28,7 @@ class OneHot(Generator):
     removed from the conditions.
 
     Here we defined this way of experiment design as
-    One Hot Design Matrix, as each column of the it
+    One Hot Design Matrix, as each column of it
     would be an one hot vector.
 
     To assure the reliability of experiment, we
@@ -54,9 +54,9 @@ class OneHot(Generator):
         """
         self.n_rep = n_rep
         assert isinstance(n_rep, int), \
-            f"Error: n_rep expected int, got {type(n_rep)}"
+            f"n_rep expected int, got {type(n_rep)}"
         assert self.n_rep >= 1, \
-            f"Error: n_rep expected integer >= 1, got{n_rep}"
+            f"n_rep expected integer >=1, got{n_rep}"
 
     def get_exmatrix(self, n_factor: int) -> np.ndarray:
         """
@@ -73,15 +73,40 @@ class OneHot(Generator):
         ------
         exmatrix: np.ndarray
             Experiment Matrix (n_experiment x n_factor)
+
+        Example
+        -------
+        >>> from tagupy.design import OneHot
+        >>> model = OneHot(n_rep=2)
+        >>> model.get_exmatrix(n_factor=2)
+        array([[1, 0],
+               [0, 1],
+               [0, 0],
+               [1, 0],
+               [0, 1],
+               [0, 0]])
+        >>> # n_factor expects integer >=1
+        >>> model.get_exmatrix(n_factor="asdf")
+        Traceback (most recent call last):
+          ...
+        AssertionError: n_factor expected int, got <class 'str'>
+        >>> model.get_exmatrix(n_factor=0)
+        Traceback (most recent call last):
+          ...
+        AssertionError: n_factor expected integer >= 1, got 0
         """
-        f = n_factor 
+        f = n_factor
         assert isinstance(f, int), \
-            f"Error: n_factor expected int, got {type(f)}"
+            f"n_factor expected int, got {type(f)}"
         assert f >= 1, \
-            f"Error: n_factor expected integer >= 1, got {f}"
+            f"n_factor expected integer >= 1, got {f}"
         _res = np.concatenate(
-            [np.array(list(np.identity(f, int)) + [np.zeros(f)]).astype(int) \
-                for i in range(self.n_rep)]
+            [np.array(
+                list(
+                    np.identity(f, int)) + [
+                        np.zeros(f)
+                        ]
+                        ).astype(int) for i in range(self.n_rep)]
         )
         self.exmatrix = _res
         return _res

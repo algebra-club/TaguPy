@@ -12,19 +12,19 @@ class MainEffectTable(Analyzer):
 
     def analyze(
         self,
-        exmatrix: tuple[list[str], np.ndarray],
-        result: tuple[list[str], np.ndarray],
+        exmatrix: np.ndarray,
+        result: np.ndarray,
     ):
         '''
         Parameters
         ----------
-        exmatrix: tuple[list[str], np.ndarray]
+        exmatrix: np.ndarray
 
-        result: tuple[list[str], np.ndarray]
+        result: np.ndarray
 
         Returns
         ----------
-        report: tuple[list[str], np.ndarray]
+        report: np.ndarray
         '''
 
         pre_result = result - result.mean(axis=0)

@@ -2,9 +2,10 @@
 ABC Class of Analysis Reporter
 """
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any, Dict, NamedTuple, Type
 
-from tagupy.type import AnalysisResult
+
+AnalysisResult = Type[NamedTuple]
 
 
 class _Reporter(ABC):

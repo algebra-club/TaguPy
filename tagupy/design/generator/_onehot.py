@@ -77,6 +77,7 @@ class OneHot(Generator):
         -------
         >>> from tagupy.design import OneHot
         >>> model = OneHot(n_rep=2)
+        >>> # n_factor expects integer >=1
         >>> model.get_exmatrix(n_factor=2)
         array([[1, 0],
                [0, 1],
@@ -84,15 +85,6 @@ class OneHot(Generator):
                [1, 0],
                [0, 1],
                [0, 0]])
-        >>> # n_factor expects integer >=1
-        >>> model.get_exmatrix(n_factor="asdf")
-        Traceback (most recent call last):
-          ...
-        AssertionError: n_factor expected int, got <class 'str'>
-        >>> model.get_exmatrix(n_factor=0)
-        Traceback (most recent call last):
-          ...
-        AssertionError: n_factor expected integer >= 1, got 0
         """
         assert isinstance(n_factor, int), \
             f"n_factor expected int, got {type(n_factor)}"

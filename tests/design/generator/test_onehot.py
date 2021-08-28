@@ -92,7 +92,7 @@ def test_get_exmatrix_sum(correct_inputs):
             f"sum of values in a row should be \
                 either 0 or 1, got {sum[1]}"
         assert np.bincount(sum[1])[0] == n_rep, \
-            f"raws for negative control should be given as many as n_rep, \
+            f"rows for negative control should be given as many as n_rep, \
                 got {np.bincount(sum[1])[0]}"
         assert np.array_equal(sum[0], np.full((n_factor), n_rep)), \
             f"sum of values in a col should be n_rep, got {sum[0]}"

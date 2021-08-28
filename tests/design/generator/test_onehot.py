@@ -5,7 +5,7 @@ Test for One Hot Design Generator Module
 import numpy as np
 import pytest
 
-from tagupy.core.generator import OneHot
+from tagupy.design.generator import OneHot
 
 
 @pytest.fixture
@@ -25,16 +25,6 @@ def test_init_correct_input(correct_inputs):
     for i, v in enumerate(correct_inputs):
         assert OneHot(v).n_rep == exp[i], \
             f"Error: self.n_rep expected {exp[i]}, \ngot {OneHot(v).n_rep}"
-
-# 何を確認するべきか
-# - get_exmatrix()
-#     - 1以上のintのみ受け取る [r]
-#     - 戻り値がnp.ndarray [g]
-#     - n_factor = kかつn_ep=lの時、 戻り値のshapeが(k * l + l, l) [g]
-#     - 全ての成分が0 or 1 [g]
-#     - 行方向の和が1 or 0
-#     - 行方向の和が0になるのはn_rep回
-#     - 列方向の和がn_rep
 
 
 def test_get_exmatrix_invalid_input_dtype():

@@ -4,10 +4,10 @@ _Generator Class of One Hot Design Generator Module
 
 import numpy as np
 
-from .abs_generator import _Generator
+from tagupy.type import _Generator as Generator
 
 
-class OneHot(_Generator):
+class OneHot(Generator):
     """
     Generator Class of One Hot Design Generator Module
 
@@ -85,24 +85,3 @@ class OneHot(_Generator):
         )
         self.exmatrix = _res
         return _res
-
-    def get_alias_matrix(self) -> np.ndarray:
-        """
-        Return Alias Matrix
-
-        Return
-        ------
-        alias matrix: numpy.ndarray
-            Alias Matrix (n_factor x n_factor)
-
-        Notes
-        -----
-        https://community.jmp.com/t5/JMP-Blog/What-is-an-Alias-Matrix/ba-p/30448
-
-        Warning
-        -------
-        in One Hot Design, you can't calculate higher dimensional interactions,
-        therefore max_dim expected to be 1
-        """
-        return self.exmatrix
-            # alias matrixの実装について相談したいので、一旦保留にします

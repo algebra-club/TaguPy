@@ -4,29 +4,6 @@ import pytest
 
 from tagupy.design.generator import FullFact
 
-'''
-確認すべき項目
-1. 上手く走るgreen
-    1. instanceが作成できて__init__で作った変数を呼び出せるか
-    2. 計画行列を出力できるか
-        1. 実験計画表の形が正しい
-            1. idx: 実験数: inputの要素の積＊n_rep
-            2. col: len(levels)
-        2. duplicationが存在しない
-        3. 列毎に出ている値が合っている(uniqueで確認)
-2. エラーが出るred
-    1. __init__の作動
-        1. 入力の型がおかしい
-        2. 出力の型がおかしい
-    2. 計画行列作成
-        1. 入力の型がおかしい
-            1. list形式で入力されない
-            2. listが空である
-            3. listの中身がintではない
-            4. 水準が１以下の物がある
-        2. 出力の型がおかしい
-'''
-
 
 @pytest.fixture
 def correct_input():
@@ -52,9 +29,10 @@ def test_init_invalid_input():
 def test_init_invalid_output():
     arg = [1, 2, 3, 10]
     for i in arg:
-        assert isinstance(FullFact(i).n_rep, int), \
+        rep = FullFact(i).n_rep
+        assert isinstance(rep, int), \
             f'Error: dtype of self.n_rep expected int,\
-                 got {type(FullFact(i).n_rep)}'
+                 got {type(rep)}'
 
 
 def test_get_exmatrix_valid_output(correct_input):
@@ -65,7 +43,7 @@ def test_get_exmatrix_valid_output(correct_input):
         ret_shape = model.get_exmatrix(i).shape
         assert cor_shape == ret_shape,\
             f'Error: shape not matched,\
-        expected: got: {model.get_exmatrix(i).shape}'
+        expected: {cor_shape}got: {ret_shape}'
         cor_len = len(model.get_exmatrix(i))
         ret_len = len(np.unique(model.get_exmatrix(i), axis=0)) * model.n_rep
         assert cor_len == ret_len,\
@@ -76,7 +54,7 @@ def test_get_exmatrix_valid_output(correct_input):
             ret_ele = np.unique(model.get_exmatrix(i)[:, idx])
             assert np.array_equal(cor_ele, ret_ele),\
                 f'Error: column has unexpected elements,\
-                column{idx} expected: {cor_ele}, got: {ret_ele}'
+                column{idx}, expected: {cor_ele}, got: {ret_ele}'
 
 
 def test_getexmatrix_invalid_input():
@@ -95,4 +73,4 @@ def test_getexmatrix_invalid_output(correct_input):
             np.ndarray
         ), \
             f'Error: dtype of ematrix expected np.adarray,\
-                got {type(model.get_exmatrix(correct_input))}'
+                got {type(model.get_exmatrix(i))}'

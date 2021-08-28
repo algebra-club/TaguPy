@@ -3,7 +3,6 @@
 _Generator Class of FullFactorial Design Generator Module
 """
 
-from itertools import product
 from typing import Iterable
 import numpy as np
 
@@ -101,8 +100,8 @@ class FullFact(Generator):
             assert i >= 1, \
                 f'Error: elements in the levels expected integer >=1, got {i}'
 
-        levels_list = [range(i) for i in levels]
-        emat = np.array(list((product(*levels_list))))
-        emat = np.vstack([emat] * self.n_rep)
+        ary = [np.arange(i, dtype=np.int8) for i in levels]
+        idx = np.indices(levels).reshape(len(ary), -1).T
+        idx = np.vstack([idx] * self.n_rep)
 
-        return emat
+        return idx

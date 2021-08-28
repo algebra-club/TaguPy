@@ -28,6 +28,6 @@ class MainEffectTable(Analyzer):
         '''
 
         pre_result = result - result.mean(axis=0)
-        pre_exmatrix = exmatrix/exmatrix.sum(axis=0)
+        pre_exmatrix = exmatrix / exmatrix.sum(axis=0)
 
-        return pre_exmatrix.T@pre_result
+        return pre_exmatrix.T @ pre_result

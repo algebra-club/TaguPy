@@ -1,4 +1,4 @@
-from .fullfact import FullFact
+from ._fullfact import FullFact
 
 __all__ = [
     "FullFact",

@@ -2,10 +2,9 @@
 """
 _Generator Class of FullFactorial Design Generator Module
 """
-
-from typing import Iterable
 import numpy as np
 
+from typing import Iterable
 
 from tagupy.type import _Generator as Generator
 
@@ -16,8 +15,7 @@ class FullFact(Generator):
 
     Method
     ------
-    get_exmatrix(**info: Dict[str, Any]) -> np.ndarray
-    get_alias_matrix(max_dim: int) -> np.ndarray
+    get_exmatrix(self, levels: Iterable[int]) -> np.ndarray
 
     Notes
     -----
@@ -53,13 +51,13 @@ class FullFact(Generator):
 
         Parameters
         ----------
-        levels : List
+        levels : Iterable[int]
             a list of integers which shows the number of level of each input factor
 
         Returns
         -------
-        emat : numpy array(2d)
-            the desing matrix with coded levels 0 to k-1 for a k-level factor
+        exmatrix(: np.ndarray(n_experiments * n_factor)
+            the experiment matrix with coded levels 0 to k-1 for a k-level factor
 
         Example
         -------
@@ -101,7 +99,7 @@ class FullFact(Generator):
                 f'Error: elements in the levels expected integer >=1, got {i}'
 
         ary = [np.arange(i, dtype=np.int8) for i in levels]
-        idx = np.indices(levels).reshape(len(ary), -1).T
-        idx = np.vstack([idx] * self.n_rep)
+        exmatrix = np.indices(levels).reshape(len(ary), -1).T
+        exmatrix = np.vstack([exmatrix] * self.n_rep)
 
-        return idx
+        return exmatrix

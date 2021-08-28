@@ -14,26 +14,44 @@ def correct_inputs():
 
 
 def test_init_invalid_input():
-    arg = ["moge", None, np.ones((2, 3)), 3.4, 0, -22]
-    with pytest.raises(AssertionError):
-        for el in arg:
+    arg = [
+        ["moge", None, np.ones((2, 3)), 3.4],
+        [0, -22]
+    ]
+    for el in arg[0]:
+        with pytest.raises(AssertionError) as e:
             OneHot(el)
+        assert f"{type(el)}" in f"{e.value}", \
+            f"n_rep expected int, got {type(el)}"
+    for el in arg[1]:
+        with pytest.raises(AssertionError) as e:
+            OneHot(el)
+        assert f"n_rep expected >= 1, got {el}"
 
 
 def test_init_correct_input(correct_inputs):
     exp = [1, 2, 3, 4, 5, 6, 7]
     for i, v in enumerate(correct_inputs):
         assert OneHot(v).n_rep == exp[i], \
-            f"Error: self.n_rep expected {exp[i]}, \
+            f"self.n_rep expected {exp[i]}, \
                 got {OneHot(v).n_rep}"
 
 
 def test_get_exmatrix_invalid_input_dtype():
-    arg = ["moge", None, np.ones((2, 3)), 0, -1, 3.5]
+    arg = [
+        ["moge", None, np.ones((2, 3)), 3.4],
+        [0, -1]
+    ]
     _model = OneHot(1)
-    with pytest.raises(AssertionError):
-        for el in arg:
+    for el in arg[0]:
+        with pytest.raises(AssertionError) as e:
             _model.get_exmatrix(el)
+        assert f"{type(el)}" in f"{e.value}", \
+            f"n_rep expected int, got {type(el)}"
+    for el in arg[1]:
+        with pytest.raises(AssertionError) as e:
+            _model.get_exmatrix(el)
+        assert f"n_rep expected >= 1, got {el}"
 
 
 def test_get_exmatrix_output_dtype(correct_inputs):
@@ -43,7 +61,7 @@ def test_get_exmatrix_output_dtype(correct_inputs):
             _model.get_exmatrix(i),
             np.ndarray
             ), \
-                f"Error: dtype of exmatrix expected np.ndarray \
+                f"dtype of exmatrix expected np.ndarray \
                     got {type(_model.get_exmatrix(i))}"
 
 
@@ -77,7 +95,7 @@ def test_get_exmatrix_sum(correct_inputs):
             np.sum(_model.get_exmatrix(v), axis=1) == 1,
             np.sum(_model.get_exmatrix(v), axis=1) == 0
         ).all(), \
-            f"Error: sum of values in a row should be \
+            f"sum of values in a row should be \
                 either 0 or 1, got {_model.get_exmatrix(v)}"
         assert np.sum(_model.get_exmatrix(v)) == v * 11, \
             f"raws for negative control should be given as many as n_rep, \

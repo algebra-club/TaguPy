@@ -94,18 +94,9 @@ class OneHot(Generator):
           ...
         AssertionError: n_factor expected integer >= 1, got 0
         """
-        f = n_factor
-        assert isinstance(f, int), \
-            f"n_factor expected int, got {type(f)}"
-        assert f >= 1, \
-            f"n_factor expected integer >= 1, got {f}"
-        _res = np.concatenate(
-            [np.array(
-                list(
-                    np.identity(f, int)) + [
-                        np.zeros(f)
-                        ]
-                        ).astype(int) for i in range(self.n_rep)]
-        )
-        self.exmatrix = _res
-        return _res
+        assert isinstance(n_factor, int), \
+            f"n_factor expected int, got {type(n_factor)}"
+        assert n_factor >= 1, \
+            f"n_factor expected integer >= 1, got {n_factor}"
+        res = np.vstack([np.identity(n_factor, int), np.zeros(n_factor, int)] * self.n_rep)
+        return res

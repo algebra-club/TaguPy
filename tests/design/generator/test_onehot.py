@@ -55,53 +55,43 @@ def test_get_exmatrix_invalid_input_dtype():
 
 
 def test_get_exmatrix_output_dtype(correct_inputs):
-    _model = OneHot(1)
-    for i in correct_inputs:
-        assert isinstance(
-            _model.get_exmatrix(i),
-            np.ndarray
-            ), \
-                f"dtype of exmatrix expected np.ndarray \
-                    got {type(_model.get_exmatrix(i))}"
+    model = OneHot(1)
+    for v in correct_inputs:
+        ret = model.get_exmatrix(v)
+        assert isinstance(ret, np.ndarray), \
+            f"dtype of exmatrix expected np.ndarray got {type(ret)}"
 
 
 def test_get_exmatrix_output_shape(correct_inputs):
-    _model = OneHot(11)
+    model = OneHot(11)
     for v in correct_inputs:
-        assert _model.get_exmatrix(v).shape == (
-            (v + 1) * 11,
-            v
-            ), \
-                f"shape of exmatrix expected \
-                    ((n_factor + 1) * n_rep, n_facttor), \
-                    got {_model.get_exmatrix(v).shape}"
+        exp = ((v + 1) * 11, v)
+        ret = model.get_exmatrix(v)
+        assert ret.shape == exp, \
+            f"shape of exmatrix expected {exp}, got {ret.shape}"
 
 
 def test_get_exmatrix_output_element(correct_inputs):
-    _model = OneHot(11)
+    model = OneHot(11)
     for v in correct_inputs:
-        assert np.logical_or(
-            _model.get_exmatrix(v) == 1,
-            _model.get_exmatrix(v) == 0
-            ).all(), \
-                f"all the elements in exmatrix should \
-                    be either 0 or 1, got {_model.get_exmatrix(v)}"
+        ret = model.get_exmatrix(v)
+        assert ((ret == 1) | (ret == 0)).all(), \
+            f"all the elements in exmatrix should be either 0 or 1, got {ret}"
 
 
 def test_get_exmatrix_sum(correct_inputs):
-    _model = OneHot(11)
-    for v in correct_inputs:
-        assert np.logical_or(
-            np.sum(_model.get_exmatrix(v), axis=1) == 1,
-            np.sum(_model.get_exmatrix(v), axis=1) == 0
-        ).all(), \
+    n_rep = 11
+    model = OneHot(n_rep)
+
+    for n_factor in correct_inputs:
+        ret = model.get_exmatrix(n_factor)
+        sum = (np.sum(ret, axis=0), np.sum(ret, axis=1), np.sum(ret))
+
+        assert ((sum[1] == 1) | (sum[1] == 0)).all(), \
             f"sum of values in a row should be \
-                either 0 or 1, got {_model.get_exmatrix(v)}"
-        assert np.sum(_model.get_exmatrix(v)) == v * 11, \
+                either 0 or 1, got {sum[1]}"
+        assert sum[2] == n_factor * n_rep, \
             f"raws for negative control should be given as many as n_rep, \
-                got {_model.get_exmatrix(v)}"
-        np.testing.assert_array_equal(
-            np.sum(_model.get_exmatrix(v), axis=0),
-            np.full((v), 11),
-            f"sum of values in a col should be n_rep, got {_model.get_exmatrix(v)}"
-        )
+                got {ret}"
+        assert np.array_equal(sum[0], np.full((n_factor), n_rep)), \
+            f"sum of values in a col should be n_rep, got {sum[0]}"

@@ -21,22 +21,13 @@ def test_init_vaild_input():
 
 
 def test_init_invalid_input():
-    arg = [
-        ['a', 3.2, None, [2], np.zeros((2, 3)), np.inf, -np.inf],
-        [0, -1]
-    ]
+    arg = ['a', 3.2, None, [2], np.zeros((2, 3)), np.inf, -np.inf, 0, -1]
 
-    for i in arg[0]:
-        with pytest.raises(AssertionError) as e:
-            FullFact(i)
-        assert f'{type(i)}' in f"{e.value}", \
-            f'ERROR: Assertion msg should contain reasons, got "{e.value}"'
-
-    for i in arg[1]:
+    for i in arg:
         with pytest.raises(AssertionError) as e:
             FullFact(i)
         assert f'{i}' in f"{e.value}", \
-            'ERROR: Assertion msg should contain reasons, got "{e.value}"'
+            f"NoReasons: Inform the AssertionError reasons, got {e.value}"
 
 
 def test_init_valid_output():
@@ -77,22 +68,11 @@ def test_getexmatrix_invalid_input():
     model = FullFact(3)
 
     with pytest.raises(AssertionError) as e:
-        for i in arg[0]:
-            model.get_exmatrix(i)
-            assert f'{i}' in f"{e.value}",\
-                f'Error: Assertion msg should contain reasons, got {e.value}'
-
-        for i in arg[1]:
-            for j in i:
-                model.get_exmatrix(j)
-                assert f'{j}' in f"{e.value}",\
-                    f'Error: Assertion msg should contain reasons, got {e.value}'
-
-        for i in arg[2]:
-            for j in i:
-                model.get_exmatrix(j)
-                assert f'{j}' in f"{e.value}",\
-                    f'Error: Assertion msg should contain reasons, got {e.value}'
+        for idx in range(len(arg)):
+            for i in arg[idx]:
+                model.get_exmatrix(i)
+                assert f'{i}' in f"{e.value}",\
+                    f"NoReasons: Inform the AssertionError reasons, got {e.value}"
 
 
 def test_getexmatrix_invalid_output(correct_input):

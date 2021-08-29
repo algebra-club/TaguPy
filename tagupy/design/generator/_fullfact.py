@@ -6,6 +6,7 @@ import numpy as np
 from typing import Iterable
 
 from tagupy.type import _Generator as Generator
+from tagupy.utils import is_positive_int, is_positive_int_list
 
 
 class FullFact(Generator):
@@ -40,11 +41,9 @@ class FullFact(Generator):
             (when n_rep = 1, it implies that a single run
             for each condition will be planed)
         '''
+        assert is_positive_int(n_rep), \
+            f"Invalid input: n_rep expected positive (>0) integer, got {type(n_rep)}::{n_rep}"
         self.n_rep = n_rep
-        assert isinstance(n_rep, int), \
-            f"Error: n_rep expected int, got: {type(n_rep)}"
-        assert n_rep >= 1, \
-            f"Error: n_rep expected integer >=1, got: {n_rep}"
 
     def get_exmatrix(self, levels: Iterable[int]) -> np.ndarray:
         '''
@@ -94,16 +93,10 @@ class FullFact(Generator):
                [1, 2, 0],
                [1, 2, 1]])
         '''
-        assert isinstance(levels, list), \
-            f'Error: dtype of levels expected List, got {type(levels)}'
-        for i in levels:
-            assert isinstance(i, int), \
-                f'Error: dtype of elements in the levels expected int,\
-                     got {type(i)}'
-            assert i >= 1, \
-                f'Error: elements in the levels expected integer >=1, got {i}'
+        assert is_positive_int_list(levels), \
+            f'Invalid input: levels is List of positive (>0) integer, got {type(levels)}::{levels}'
 
         ary = [np.arange(i, dtype=np.int8) for i in levels]
-        exmatrix = np.indices(levels).reshape(len(ary), -1).T
+        exmatrix = np.indices(list(levels)).reshape(len(ary), -1).T
 
         return np.vstack([exmatrix] * self.n_rep)

@@ -5,6 +5,7 @@ _Generator Class of One Hot Design Generator Module
 import numpy as np
 
 from tagupy.type import _Generator as Generator
+from tagupy.utils import is_positive_int
 
 
 class OneHot(Generator):
@@ -51,11 +52,9 @@ class OneHot(Generator):
             (when n_rep = 1, it implies that a single run
             for each condition will be planed)
         """
+        assert is_positive_int(n_rep), \
+            f"Invalid input: n_rep expected positive (>0) integer, got {type(n_rep)}::{n_rep}"
         self.n_rep = n_rep
-        assert isinstance(n_rep, int), \
-            f"n_rep expected int, got {type(n_rep)}"
-        assert self.n_rep >= 1, \
-            f"n_rep expected integer >=1, got{n_rep}"
 
     def get_exmatrix(self, n_factor: int) -> np.ndarray:
         """
@@ -84,19 +83,9 @@ class OneHot(Generator):
                [1, 0],
                [0, 1],
                [0, 0]])
-        >>> # n_factor expects integer >=1
-        >>> model.get_exmatrix(n_factor="asdf")
-        Traceback (most recent call last):
-          ...
-        AssertionError: n_factor expected int, got <class 'str'>
-        >>> model.get_exmatrix(n_factor=0)
-        Traceback (most recent call last):
-          ...
-        AssertionError: n_factor expected integer >= 1, got 0
         """
-        assert isinstance(n_factor, int), \
-            f"n_factor expected int, got {type(n_factor)}"
-        assert n_factor >= 1, \
-            f"n_factor expected integer >= 1, got {n_factor}"
+        assert is_positive_int(n_factor), \
+            f"Invalid input: n_factor expected positive (>0) int, got {type(n_factor)}::{n_factor}"
+
         res = np.vstack([np.identity(n_factor, int), np.zeros(n_factor, int)] * self.n_rep)
         return res

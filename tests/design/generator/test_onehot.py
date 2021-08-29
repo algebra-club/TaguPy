@@ -15,43 +15,32 @@ def correct_inputs():
 
 def test_init_invalid_input():
     arg = [
-        ["moge", None, np.ones((2, 3)), 3.4],
-        [0, -22]
+        ["moge", None, np.ones((2, 3)), 3.4, 0, -22]
     ]
-    for el in arg[0]:
+    for el in arg:
         with pytest.raises(AssertionError) as e:
             OneHot(el)
-        assert f"{type(el)}" in f"{e.value}", \
-            f"n_rep expected int, got {type(el)}"
-    for el in arg[1]:
-        with pytest.raises(AssertionError) as e:
-            OneHot(el)
-        assert f"n_rep expected >= 1, got {el}"
+        assert f"{el}" in f"{e.value}", \
+            f"NoReasons: Inform the AssertionError reasons, got {e.value}"
 
 
 def test_init_correct_input(correct_inputs):
     exp = [1, 2, 3, 4, 5, 6, 7]
     for i, el in enumerate(correct_inputs):
         assert OneHot(el).n_rep == exp[i], \
-            f"self.n_rep expected {exp[i]}, \
-                got {OneHot(el).n_rep}"
+            f"self.n_rep expected {exp[i]}, got {OneHot(el).n_rep}"
 
 
 def test_get_exmatrix_invalid_input_dtype():
     arg = [
-        ["moge", None, np.ones((2, 3)), 3.4],
-        [0, -1]
+        ["moge", None, np.ones((2, 3)), 3.4, 0, -1]
     ]
     model = OneHot(1)
-    for n_factor in arg[0]:
+    for n_factor in arg:
         with pytest.raises(AssertionError) as e:
             model.get_exmatrix(n_factor)
-        assert f"{type(n_factor)}" in f"{e.value}", \
-            f"n_rep expected int, got {type(n_factor)}"
-    for n_factor in arg[1]:
-        with pytest.raises(AssertionError) as e:
-            model.get_exmatrix(n_factor)
-        assert f"n_rep expected >= 1, got {n_factor}"
+        assert f"{n_factor}" in f"{e.value}", \
+            f"NoReasons: Inform the AssertionError reasons, got {e.value}"
 
 
 def test_get_exmatrix_output_dtype(correct_inputs):

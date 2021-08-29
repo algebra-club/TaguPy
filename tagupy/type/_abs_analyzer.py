@@ -2,12 +2,11 @@
 ABC Class of any Statistical Analysis Module
 """
 from abc import ABC, abstractmethod
-from typing import Any, Dict, NamedTuple, Type
+from typing import Any, Dict
 
 import numpy as np
 
-
-AnalysisResult = Type[NamedTuple]
+from ._analysis_result import AnalysisResult
 
 
 class _Analyzer(ABC):

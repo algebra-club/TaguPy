@@ -1,12 +1,33 @@
 """
 NamedTuple based Data Structure
 """
+from abc import ABC, abstractmethod
+from typing import Any, Dict, Type
 
-from typing import NamedTuple
+import numpy as np
 
 
-class AnalysisResult(NamedTuple):
+class _AnalysisResult(ABC):
     """
-    Result of Statistical Analysis
+    ABC Class of Statistical Analysis Result
     """
-    pass
+    @abstractmethod
+    def __init__(self, **kwargs: Dict[str, Any]):
+        pass
+
+    @property
+    @abstractmethod
+    def get_exmatrix(self) -> np.ndarray:
+        pass
+
+    @property
+    @abstractmethod
+    def get_resmatrix(self) -> np.ndarray:
+        pass
+
+    @property
+    @abstractmethod
+    def get_analysis_result(self) -> Dict[str, np.ndarray]:
+        pass
+
+AnalysisResult = Type[_AnalysisResult]

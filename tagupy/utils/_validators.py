@@ -1,7 +1,7 @@
 """
 Utility validators
 """
-from typing import Any, Iterable, Iterable
+from typing import Any, Iterable
 
 
 __all__ = [
@@ -71,7 +71,7 @@ def is_positive_int_list(arg: Any) -> bool:
     False
     """
     map(is_positive_int, arg)
-    is_list = isinstance(arg, Iterable) 
+    is_list = isinstance(arg, Iterable)
     length = sum(1 for _ in arg)
     is_empty = length > 0
     is_pos_int = sum(map(is_positive_int, arg)) == length

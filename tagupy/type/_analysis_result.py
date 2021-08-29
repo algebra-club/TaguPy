@@ -30,4 +30,5 @@ class _AnalysisResult(ABC):
     def get_analysis_result(self) -> Dict[str, np.ndarray]:
         pass
 
+
 AnalysisResult = Type[_AnalysisResult]

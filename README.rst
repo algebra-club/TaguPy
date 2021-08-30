@@ -2,6 +2,8 @@
 TaguPy
 ======
 
+Note: It is beta version!!
+
 
 .. image:: https://img.shields.io/pypi/v/tagupy.svg
         :target: https://pypi.python.org/pypi/tagupy

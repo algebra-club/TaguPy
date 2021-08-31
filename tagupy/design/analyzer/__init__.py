@@ -1,1 +1,5 @@
-__all__ = []
+from ._lra import LinReg
+
+__all__ = [
+    "LinReg",
+]

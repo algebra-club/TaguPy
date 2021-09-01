@@ -1,12 +1,14 @@
 """
 Utility validators
 """
+import os
 from typing import Any, Iterable
 
 
 __all__ = [
     "is_positive_int",
     "is_positive_int_list",
+    "is_project_dir",
 ]
 
 
@@ -77,3 +79,19 @@ def is_positive_int_list(arg: Any) -> bool:
     is_pos_int = sum(map(is_positive_int, arg)) == length
 
     return is_list and is_empty and is_pos_int
+
+
+def is_project_dir(path: str) -> bool:
+    """
+    Check if the path points a Tagupy project.
+
+    Parameters
+    ----------
+    path: str
+
+    Return
+    ------
+    result: bool
+
+    """
+    return os.path.isfile(f'{path}/config.toml')

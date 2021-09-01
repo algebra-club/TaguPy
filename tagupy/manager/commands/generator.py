@@ -1,42 +1,18 @@
 """Console script for tagupy."""
 import os
-import sys
-from datetime import datetime
 
 import click
-from cookiecutter.main import cookiecutter
 
 import tagupy
+from tagupy.utils import is_project_dir
 
 
-@click.group()
-def main():
-    return 0
+__all__ = [
+    'generate',
+]
 
 
-def is_project(path: str) -> bool:
-    return os.path.isfile(f'{path}/config.toml')
-
-
-@main.command(help='Create New Project')
-@click.option(
-    '--name', '-n',
-    help='New Project Name',
-    prompt='project name?',
-    required=True,
-)
-def new(name):
-    cookiecutter(
-        f'{list(tagupy.__path__)[0]}/template',
-        no_input=True,
-        extra_context={
-            "prj_name": name,
-            "current_time": datetime.now().strftime('%b-%d-%Y'),
-        }
-    )
-
-
-@main.command(help='Generate Experience Matrix')
+@click.command(help='Generate Experience Matrix')
 @click.option(
     '--name', '-n',
     help='New Experience Name',
@@ -50,7 +26,7 @@ def new(name):
     type=click.Choice(tagupy.design.generator.__all__, case_sensitive=False),
 )
 def generate(name, method):
-    if not is_project(os.getcwd()):
+    if not is_project_dir(os.getcwd()):
         click.echo('You need to locate on project root. Terminated')
         return
     from tagupy.manager import generator
@@ -63,7 +39,3 @@ def generate(name, method):
     exmatrix = method.generate(**res)
     click.echo(name)
     click.echo(exmatrix)
-
-
-if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover

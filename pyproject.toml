@@ -55,7 +55,7 @@ pytest = "6.2.4"
 mypy = "^0.910"
 
 [tool.poetry.scripts]
-tagupy = "tagupy.cli:main"
+tagupy = "tagupy.manager.cli:main"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/algebra-club/tagupy/issues"

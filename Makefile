@@ -42,6 +42,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+	rm -fr .mypy_cache
+	rm -fr mypy_report
 
 lint: ## check style with flake8
 	poetry run flake8 --config=./tox.ini tagupy tests
@@ -60,6 +62,10 @@ coverage: ## check code coverage quickly with the default Python
 	poetry run coverage report -m
 	poetry run coverage html
 	$(BROWSER) htmlcov/index.html
+
+typing: ## check typing is working correctly
+	-poetry run mypy --config-file ./pyproject.toml ./tagupy/
+	$(BROWSER) mypy_report/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/tagupy.rst

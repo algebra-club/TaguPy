@@ -1,6 +1,9 @@
-from typing import List
+from abc import ABC, abstractclassmethod
+from typing import Any, Dict, List, Tuple, Type
 
+import click
 import numpy as np
+from numpy.typing import ArrayLike
 
 from tagupy.design.generator import (
     OneHot as _OneHot,
@@ -16,6 +19,21 @@ __all__ = [
 ]
 
 
+class WrapperGenerator(ABC):
+    def __init__(self):
+        raise TypeError(f"Can't instantiate wrapper class {type(self).__name__}")
+
+    @classmethod
+    @abstractclassmethod
+    def generate(cls, **kwargs: Dict[str, Any]) -> ArrayLike:
+        pass
+
+    @classmethod
+    @abstractclassmethod
+    def required_params(cls, ) -> Dict[str, Tuple[str, click.ParamType]]:
+        pass
+
+
 class OneHot():
     """
     Wrapper object for cli
@@ -26,7 +44,7 @@ class OneHot():
         return _OneHot(n_rep).get_exmatrix(n_factor)
 
     @classmethod
-    def required_params(cls):
+    def required_params(cls) -> Dict[str, Tuple[str, click.ParamType]]:
         return {
             "number of replication (ex. 2)": ("n_rep", PositiveInt),
             "number of factor (ex. 3)": ("n_factor", PositiveInt),
@@ -42,7 +60,7 @@ class FullFact():
         return _FullFact(n_rep).get_exmatrix(levels)
 
     @classmethod
-    def required_params(cls):
+    def required_params(cls) -> Dict[str, Tuple[str, click.ParamType]]:
         return {
             "number of replication (ex. 2)": ("n_rep", PositiveInt),
             "number of levels (ex. 1 2 3)": ("levels", PositiveIntList),

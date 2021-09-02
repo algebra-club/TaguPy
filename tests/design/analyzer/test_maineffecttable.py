@@ -46,7 +46,7 @@ def test_analyze_valid_ressult_effectmatrix_shape():
     )
 
     assert (4, 3) == resmatrix['effectmatrix'].shape, \
-        f'got unexpected shape matrix from resmatrix.effectmatrix'
+        'got unexpected shape matrix from resmatrix.effectmatrix'
 
 
 def test_analyze_invalid_shape():

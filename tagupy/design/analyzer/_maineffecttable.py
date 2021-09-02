@@ -3,28 +3,37 @@ from tagupy.type import _Analyzer as Analyzer
 
 
 class MainEffectTable(Analyzer):
+    '''
+    Analyzer Class of MainEffectTable
+    '''
+
     def __init__(self):
         '''
         Method
         ----------
-            analyze(exmatrix: np.ndarray) -> AnalysisResult
+        analyze(self, exmatrix: np.ndarray) -> AnalysisResult
         '''
+        pass
 
     def analyze(
         self,
         exmatrix: np.ndarray,
-        result: np.ndarray,
+        resmatrix: np.ndarray,
     ):
         '''
         Parameters
         ----------
         exmatrix: np.ndarray
 
-        result: np.ndarray
+        resmatrix: np.ndarray
+
 
         Return
         ----------
-        report: np.ndarray
+        AnalysisResult: {
+            effectmatrix: np.ndarray
+        }
+
 
         Example
         ----------
@@ -41,13 +50,26 @@ class MainEffectTable(Analyzer):
         ...               [5, 8, 3],
         ...               [8, 3, 6]]),
         ... )
-        array([[ 0. ,  0. ,  0. ],
+        {'effectmatrix': array([[ 0. ,  0. ,  0. ],
                [-1.5,  0.5,  1.5],
                [-0.5,  2.5, -0.5],
-               [-1. ,  0. , -1. ]])
+               [-1. ,  0. , -1. ]])}
         '''
 
-        pre_result = result - result.mean(axis=0)
-        pre_exmatrix = exmatrix / exmatrix.sum(axis=0)
+        assert isinstance(exmatrix, np.ndarray), \
+            f'exmatrix expected a np.ndarray, got: {type(exmatrix)}'
 
-        return pre_exmatrix.T @ pre_result
+        assert isinstance(resmatrix, np.ndarray), \
+            f'resmatrix expected a np.ndarray, got: {type(resmatrix)}'
+
+        assert np.logical_or(exmatrix == 0, exmatrix == 1).all(), \
+            f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {exmatrix}'
+
+        pre_exmatrix = exmatrix / exmatrix.sum(axis=0)
+        pre_resmatrix = resmatrix - resmatrix.mean(axis=0)
+
+        effectmatrix = pre_exmatrix.T @ pre_resmatrix
+
+        return {
+            'effectmatrix': effectmatrix,
+        }

@@ -3,37 +3,57 @@ import numpy as np
 from tagupy.design.analyzer import MainEffectTable
 
 
-@pytest.fixture
-def valid_input():
-    return {
-        'exmatrix': np.array(
-            [[1, 1, 0, 1],
-             [1, 1, 1, 0],
-             [1, 0, 1, 1],
-             [1, 0, 0, 0]]
-        ),
-        'result': np.array(
-            [[3, 4, 7],
-             [4, 9, 8],
-             [5, 8, 3],
-             [8, 3, 6]],
-        )
-    }
-
-
 def test_init():
     MainEffectTable()
 
 
-def test_analyze_valid_input(valid_input):
+def test_analyze_invalid_input_exmatrix():
     analysis = MainEffectTable()
-    result = analysis.analyze(**valid_input)
+    arg = {
+        'exmatrix': np.full((4, 4), -1),
+        'resmatrix': np.ones((4, 3)),
+    }
 
-    exp = np.array([
-        [0, 0, 0],
-        [-1.5, 0.5, 1.5],
-        [-0.5, 2.5, -0.5],
-        [-1, 0, -1]
-    ])
+    with pytest.raises(AssertionError) as e:
+        analysis.analyze(**arg)
 
-    np.testing.assert_array_equal(exp, result)
+    assert f'{arg["exmatrix"]}' in f'{e.value}', \
+        'Assertion message should contain reasons, got "{e.value}'
+
+
+def test_analyze_invalid_input():
+    analysis = MainEffectTable()
+
+    args = [
+        {'exmatrix': 1, 'resmatrix': np.ones((3, 3))},
+        {'exmatrix': np.ones((3, 3)), 'resmatrix': 1},
+        {'exmatrix': [[1, 2], [3, 4]], 'resmatrix': [[5, 6], [7, 8]]},
+    ]
+
+    for arg in args:
+        with pytest.raises(AssertionError) as e:
+            analysis.analyze(**arg)
+
+    assert 'matrix expected a np.ndarray' in f'{e.value}', \
+        'Assertion message should contain reasons, got "{e.value}'
+
+
+def test_analyze_valid_ressult_effectmatrix_shape():
+    analysis = MainEffectTable()
+    resmatrix = analysis.analyze(
+        np.ones((4, 4)),
+        np.ones((4, 3))
+    )
+
+    assert (4, 3) == resmatrix['effectmatrix'].shape, \
+        f'got unexpected shape matrix from resmatrix.effectmatrix'
+
+
+def test_analyze_invalid_shape():
+    analysis = MainEffectTable()
+
+    with pytest.raises(ValueError):
+        analysis.analyze(
+            np.ones((1, 2)),
+            np.ones((3, 4)),
+        )

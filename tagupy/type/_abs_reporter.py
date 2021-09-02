@@ -4,7 +4,7 @@ ABC Class of Analysis Reporter
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-from ._analysis_result import _AnalysisResult as AnalysisResult
+from ._abs_analysis_result import _AnalysisResult as AnalysisResult
 
 
 class _Reporter(ABC):

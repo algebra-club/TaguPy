@@ -6,7 +6,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from ._analysis_result import AnalysisResult
+from ._analysis_result import _AnalysisResult as AnalysisResult
 
 
 class _Analyzer(ABC):

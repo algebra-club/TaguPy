@@ -1,8 +1,8 @@
 """
-Data Structure for Analysis Results
+Abstract Data Structure for Analysis Results
 """
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Type
+from typing import Any, Dict, NamedTuple
 
 import numpy as np
 
@@ -17,18 +17,15 @@ class _AnalysisResult(ABC):
 
     @property
     @abstractmethod
-    def get_exmatrix(self) -> np.ndarray:
+    def exmatrix(self) -> np.ndarray:
         pass
 
     @property
     @abstractmethod
-    def get_resmatrix(self) -> np.ndarray:
+    def resmatrix(self) -> np.ndarray:
         pass
 
     @property
     @abstractmethod
-    def get_analysis_result(self) -> Dict[str, np.ndarray]:
+    def analysis_result(self) -> NamedTuple:
         pass
-
-
-AnalysisResult = Type[_AnalysisResult]

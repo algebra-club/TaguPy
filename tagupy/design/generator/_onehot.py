@@ -14,7 +14,7 @@ class OneHot(Generator):
 
     Method
     ------
-    get_exmatrix(**info: Dict[str, Any]) -> np.ndarray
+    get_exmatrix(self, n_factor: int) -> np.ndarray:
 
     Notes
     -----

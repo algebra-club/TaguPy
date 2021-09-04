@@ -14,7 +14,7 @@ class MET(Analyzer):
     Analyzer Class of main effect table (MET)
 
     Notes
-    ----------
+    -----
     This analyzer provides analyzing main effect table.
     You need two matrices: `exmatrix` and `resmatrix`.
     The `exmatrix` represents which factors to include or not.
@@ -59,12 +59,12 @@ class MET(Analyzer):
 
 
         Return
-        ----------
+        ------
         AnalysisResult
 
 
         Example
-        ----------
+        -------
         >>> import numpy as np
         >>> from tagupy.design.analyzer import MET
         >>> analyzer = MET(1)

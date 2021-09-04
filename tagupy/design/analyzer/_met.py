@@ -53,9 +53,9 @@ class MET(Analyzer):
         '''
         Parameters
         ----------
-        exmatrix: np.ndarray
+        exmatrix: numpy.ndarray
 
-        resmatrix: np.ndarray
+        resmatrix: numpy.ndarray
 
 
         Return

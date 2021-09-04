@@ -60,13 +60,20 @@ class PlackettBurman(Generator):
         exmatrix: np.ndarray
             Experiment Matrix (n_experiment x n_factor)
 
-        # Example
-        # -------
-        # >>> from tagupy.design import PlackettBurman
-        # >>> model = PlackettBurman(n_rep=2)
-        # >>> model.get_exmatrix(n_factor=2)
-        # #(add description later)
-        # """
+        Example
+        -------
+        >>> from tagupy.design import PlackettBurman
+        >>> model = PlackettBurman(n_rep=2)
+        >>> model.get_exmatrix(n_factor=3)
+        array([[ 1,  1, -1],
+               [-1,  1,  1],
+               [ 1, -1,  1],
+               [-1, -1, -1],
+               [ 1,  1, -1],
+               [-1,  1,  1],
+               [ 1, -1,  1],
+               [-1, -1, -1]])
+        """
         assert is_positive_int(n_factor), \
             f"Invalid input: n_factor expected positive (>0) int, got {type(n_factor)}::{n_factor}"
         assert n_factor < 100, \

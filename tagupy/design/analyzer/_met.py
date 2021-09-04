@@ -1,5 +1,6 @@
 import numpy as np
 from tagupy.type import _Analyzer as Analyzer
+from tagupy.utils import is_positive_int
 from typing import NamedTuple
 
 
@@ -36,7 +37,7 @@ class MET(Analyzer):
             MET provides the results of only single interaction effect.
             n_dim recieves only `1`.
         '''
-        assert n_dim >= 1, \
+        assert is_positive_int(n_dim), \
             f'n_dim: number of dimension expected positive integer, got {n_dim}'
 
         assert n_dim == 1, \

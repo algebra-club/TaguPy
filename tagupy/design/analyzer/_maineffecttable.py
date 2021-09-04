@@ -25,8 +25,17 @@ class MET(Analyzer):
 
     '''
 
-    def __init__(self):
-        pass
+    def __init__(self, n_dim: int):
+        '''
+        Parameters
+        ----------
+        n_dim: int
+            number of dimensions for interaction; MET provides the results of only single interaction effect.
+            n_dim recieves only `1`.
+        '''
+        assert n_dim == 1, f'n_dim expected only `1`, got {n_dim}'
+
+        self.n_dim = n_dim
 
     def analyze(
         self,

@@ -2,6 +2,8 @@ import numpy as np
 from collections import namedtuple
 from tagupy.type import _Analyzer as Analyzer
 
+from tagupy.type import _AnalysisResult as AnalysisResult
+
 
 class MainEffectTable(Analyzer):
     '''
@@ -13,7 +15,7 @@ class MainEffectTable(Analyzer):
     You need two matrices: exmatrix and resmatrix.
     The exmatrix represents which factors to include or not.
     The resmatrix contains the results obtained by the experiment.
-    
+
     When you execute this analyzer, it return the analysis result instance.
     See also: /tagupy/type/_analysis_result.py
 
@@ -81,10 +83,28 @@ class MainEffectTable(Analyzer):
 
         effectmatrix = pre_exmatrix.T @ pre_resmatrix
 
-        analysis_result = namedtuple('AnalysisResult', ['exmatrix', 'effectmatrix', 'resmatrix'])
-
-        return analysis_result(
-            exmatrix,
-            effectmatrix,
-            resmatrix,
+        return MainEffectTableAnalysisResult(
+            exmatrix=exmatrix,
+            resmatrix=resmatrix,
+            effectmatrix=effectmatrix,
         )
+
+
+class MainEffectTableAnalysisResult(AnalysisResult):
+    def __init__(self, exmatrix, resmatrix, effectmatrix):
+        self.exmatrix = exmatrix
+        self.resmatrix = resmatrix
+        self.effectmatrix = effectmatrix
+
+    @property
+    def exmatrix(self):
+        return self.exmatrix
+
+    @property
+    def resmatrix(self):
+        return self.resmatrix
+
+    @property
+    def analysis_result(self):
+        result = namedtuple('AnalysisResult', ['effectmatrix'])
+        return result(self.analysis_result)

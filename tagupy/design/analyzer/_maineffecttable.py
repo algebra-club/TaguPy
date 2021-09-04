@@ -16,12 +16,14 @@ class MET(Analyzer):
     Notes
     ----------
     This analyzer provides analyzing main effect table.
-    You need two matrices: exmatrix and resmatrix.
-    The exmatrix represents which factors to include or not.
-    The resmatrix contains the results obtained by the experiment.
+    You need two matrices: `exmatrix` and `resmatrix`.
+    The `exmatrix` represents which factors to include or not.
+    The `resmatrix` contains the results obtained by the experiment.
 
-    When you execute this analyzer, it return the analysis result instance.
-    See also: /tagupy/type/_analysis_result.py
+    When you execute this analyzer, it return the analysis result created by `NamedTuple`.
+    This result includes three contents: `exmatrix`, `resmatris`, and `effectmatrix`.
+    `exmatrix` and `resmatrix` are same as each own input when execute analyze method.
+    `effectmatrix` is the result of analyzing the main effects for two inputs.
 
     '''
 

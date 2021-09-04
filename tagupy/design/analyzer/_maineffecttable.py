@@ -2,7 +2,11 @@ import numpy as np
 from tagupy.type import _Analyzer as Analyzer
 from typing import NamedTuple
 
-from tagupy.type import _AnalysisResult as AnalysisResult
+
+class METNamedTuple(NamedTuple):
+    exmatrix: np.ndarray
+    resmatrix: np.ndarray
+    effectmatrix: np.ndarray
 
 
 class MainEffectTable(Analyzer):
@@ -47,7 +51,7 @@ class MainEffectTable(Analyzer):
         >>> import numpy as np
         >>> from tagupy.design.analyzer import MainEffectTable
         >>> analyzer = MainEffectTable()
-        >>> analyzer.analyze(
+        >>> result = analyzer.analyze(
         ...     np.array([[1, 1, 0, 1],
         ...               [1, 1, 1, 0],
         ...               [1, 0, 1, 1],
@@ -57,16 +61,24 @@ class MainEffectTable(Analyzer):
         ...               [5, 8, 3],
         ...               [8, 3, 6]]),
         ... )
-        AnalysisResult(exmatrix=array([[1, 1, 0, 1],
+
+        >>> result.exmatrix
+        array([[1, 1, 0, 1],
                [1, 1, 1, 0],
                [1, 0, 1, 1],
-               [1, 0, 0, 0]]), effectmatrix=array([[ 0. ,  0. ,  0. ],
-               [-1.5,  0.5,  1.5],
-               [-0.5,  2.5, -0.5],
-               [-1. ,  0. , -1. ]]), resmatrix=array([[3, 4, 7],
+               [1, 0, 0, 0]])
+
+        >>> result.resmatrix
+        array([[3, 4, 7],
                [4, 9, 8],
                [5, 8, 3],
-               [8, 3, 6]]))
+               [8, 3, 6]])
+
+        >>> result.effectmatrix
+        array([[ 0. ,  0. ,  0. ],
+               [-1.5,  0.5,  1.5],
+               [-0.5,  2.5, -0.5],
+               [-1. ,  0. , -1. ]])
         '''
 
         assert isinstance(exmatrix, np.ndarray), \
@@ -83,31 +95,8 @@ class MainEffectTable(Analyzer):
 
         effectmatrix = pre_exmatrix.T @ pre_resmatrix
 
-        return METAnalysisResult(
+        return METNamedTuple(
             exmatrix=exmatrix,
             resmatrix=resmatrix,
             effectmatrix=effectmatrix,
         )
-
-
-class METNamedTuple(NamedTuple):
-    effectmatrix: np.ndarray
-
-
-class METAnalysisResult(AnalysisResult):
-    def __init__(self, exmatrix, resmatrix, effectmatrix):
-        self._exmatrix = exmatrix
-        self._resmatrix = resmatrix
-        self._effectmatrix = effectmatrix
-
-    @property
-    def exmatrix(self):
-        return self._exmatrix
-
-    @property
-    def resmatrix(self):
-        return self._resmatrix
-
-    @property
-    def analysis_result(self):
-        return METNamedTuple(effectmatrix=self._effectmatrix)

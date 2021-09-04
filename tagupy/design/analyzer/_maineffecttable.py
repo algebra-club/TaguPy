@@ -1,6 +1,6 @@
 import numpy as np
-from collections import namedtuple
 from tagupy.type import _Analyzer as Analyzer
+from typing import NamedTuple
 
 from tagupy.type import _AnalysisResult as AnalysisResult
 
@@ -83,28 +83,31 @@ class MainEffectTable(Analyzer):
 
         effectmatrix = pre_exmatrix.T @ pre_resmatrix
 
-        return MainEffectTableAnalysisResult(
+        return METAnalysisResult(
             exmatrix=exmatrix,
             resmatrix=resmatrix,
             effectmatrix=effectmatrix,
         )
 
 
-class MainEffectTableAnalysisResult(AnalysisResult):
+class METNamedTuple(NamedTuple):
+    effectmatrix: np.ndarray
+
+
+class METAnalysisResult(AnalysisResult):
     def __init__(self, exmatrix, resmatrix, effectmatrix):
-        self.exmatrix = exmatrix
-        self.resmatrix = resmatrix
-        self.effectmatrix = effectmatrix
+        self._exmatrix = exmatrix
+        self._resmatrix = resmatrix
+        self._effectmatrix = effectmatrix
 
     @property
     def exmatrix(self):
-        return self.exmatrix
+        return self._exmatrix
 
     @property
     def resmatrix(self):
-        return self.resmatrix
+        return self._resmatrix
 
     @property
     def analysis_result(self):
-        result = namedtuple('AnalysisResult', ['effectmatrix'])
-        return result(self.analysis_result)
+        return METNamedTuple(effectmatrix=self._effectmatrix)

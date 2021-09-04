@@ -15,7 +15,7 @@ class PlackettBurman(Generator):
 
     Method
     ------
-    get_exmatrix(**info: Dict[str, Any]) -> np.ndarray
+    get_exmatrix(**info: Dict[str, Any]) -> numpy.ndarray
 
     Notes
     -----
@@ -57,7 +57,7 @@ class PlackettBurman(Generator):
 
         Return
         ------
-        exmatrix: np.ndarray
+        exmatrix: numpy.ndarray
             Experiment Matrix (n_experiment x n_factor)
 
         Example
@@ -85,6 +85,6 @@ class PlackettBurman(Generator):
             ref._pb44, ref._pb48, ref._pb52, ref._pb56, ref._pb60,
             ref._pb64, ref._pb68, ref._pb72, ref._pb76, ref._pb80,
             ref._pb84, ref._pb88, ref._pb92, ref._pb96, ref._pb100
-        ][i//4] for i in range(100)]
+        ][i // 4] for i in range(100)]
         res = np.vstack([l_func[n_factor]()[:, :n_factor]] * self.n_rep)
         return res

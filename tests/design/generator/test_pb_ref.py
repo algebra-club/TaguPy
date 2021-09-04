@@ -30,7 +30,7 @@ def test_pbX_dtype(supported_num):
         num = num_fn[0]
         matrix = num_fn[1]()
         assert isinstance(matrix, np.ndarray), \
-            f"dtype of retrun var expected np.ndarray, got {type(matrix)} in _pb{num}"
+            f"dtype of retrun var expected numpy.ndarray, got {type(matrix)} in _pb{num}"
 
 
 def test_pbX_shape(supported_num):

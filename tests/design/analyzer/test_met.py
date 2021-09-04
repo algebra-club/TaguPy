@@ -27,6 +27,13 @@ def invalid_exmatrix_shape_input():
     }
 
 
+def test_init_default_input():
+    analysis = MET()
+
+    assert analysis.n_dim == 1, \
+        'n_dim expected only integer value `1`'
+
+
 def test_init_valid_input():
     analysis = MET(1)
 
@@ -34,27 +41,19 @@ def test_init_valid_input():
         'n_dim expected only integer value `1`'
 
 
-def test_init_invalid_negative_input():
-    with pytest.raises(AssertionError) as e:
-        MET(-1)
-
-    assert 'expected positive integer' in f'{e.value}', \
-        f'Assertion message should contain reasons, got "{e.value}'
-
-
-def test_init_invalid_positive_input():
-    args = [2, 1.5]
+def test_init_invalid_inputs():
+    args = [2, 1.5, -1]
 
     for arg in args:
         with pytest.raises(AssertionError) as e:
             MET(arg)
 
-        assert 'expected only integer value `1`' in f'{e.value}', \
-            f'Assertion message should contain reasons, got "{e.value}'
+    assert 'expected positive integer' in f'{e.value}', \
+        f'Assertion message should contain reasons, got "{e.value}'
 
 
 def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
-    analysis = MET(1)
+    analysis = MET()
 
     with pytest.raises(AssertionError) as e:
         analysis.analyze(**invalid_exmatrix_value_input)
@@ -64,7 +63,7 @@ def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
 
 
 def test_analyze_invalid_input():
-    analysis = MET(1)
+    analysis = MET()
 
     args = [
         {'exmatrix': 1, 'resmatrix': np.ones((3, 3))},
@@ -81,7 +80,7 @@ def test_analyze_invalid_input():
 
 
 def test_analyze_valid_result_type(valid_mock_input):
-    analysis = MET(1)
+    analysis = MET()
     result = analysis.analyze(**valid_mock_input)
 
     assert isinstance(result, METResult), \
@@ -89,7 +88,7 @@ def test_analyze_valid_result_type(valid_mock_input):
 
 
 def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
-    analysis = MET(1)
+    analysis = MET()
     result = analysis.analyze(**valid_mock_input)
 
     assert (4, 3) == result.effectmatrix.shape, \
@@ -103,7 +102,7 @@ def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
 
 
 def test_analyze_invalid_shape():
-    analysis = MET(1)
+    analysis = MET()
 
     with pytest.raises(ValueError):
         analysis.analyze(

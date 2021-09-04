@@ -28,14 +28,14 @@ class MET(Analyzer):
 
     '''
 
-    def __init__(self, n_dim: int):
+    def __init__(self, n_dim: int = 1):
         '''
         Parameters
         ----------
         n_dim: int
             number of dimensions for interaction;
             MET provides the results of only single interaction effect.
-            n_dim recieves only `1`.
+            n_dim recieves only integer value `1`.
         '''
         assert is_positive_int(n_dim), \
             f'n_dim: number of dimension expected positive integer, got {n_dim}'

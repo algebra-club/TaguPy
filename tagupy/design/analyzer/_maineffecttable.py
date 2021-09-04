@@ -97,7 +97,7 @@ class MET(Analyzer):
             f'resmatrix expected a np.ndarray, got: {type(resmatrix)}'
 
         assert np.logical_or(exmatrix == 0, exmatrix == 1).all(), \
-            f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {exmatrix}'
+            f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {np.full(exmatrix)}'
 
         pre_exmatrix = exmatrix / exmatrix.sum(axis=0)
         pre_resmatrix = resmatrix - resmatrix.mean(axis=0)

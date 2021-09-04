@@ -1,23 +1,41 @@
+from typing import NamedTuple
 import pytest
 import numpy as np
-from tagupy.design.analyzer import MainEffectTable
+from tagupy.design.analyzer import MainEffectTable, METNamedTuple
 
+
+@pytest.fixture
+def valid_mock_input():
+    return {
+        'exmatrix': np.ones((4, 4)),
+        'resmatrix': np.ones((4, 3)),
+    }
+
+@pytest.fixture
+def invalid_exmatrix_value_input():
+    return {
+        'exmatrix': np.full((4, 4), -1),
+        'resmatrix': np.ones((4, 3)),
+    }
+
+@pytest.fixture
+def invalid_exmatrix_shape_input():
+    return {
+        'exmatrix': np.ones((1, 2)),
+        'resmatrix': np.ones((3, 4)),
+    }
 
 def test_init():
     MainEffectTable()
 
 
-def test_analyze_invalid_input_exmatrix():
+def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
     analysis = MainEffectTable()
-    arg = {
-        'exmatrix': np.full((4, 4), -1),
-        'resmatrix': np.ones((4, 3)),
-    }
 
     with pytest.raises(AssertionError) as e:
-        analysis.analyze(**arg)
+        analysis.analyze(**invalid_exmatrix_value_input)
 
-    assert f'{arg["exmatrix"]}' in f'{e.value}', \
+    assert f'{invalid_exmatrix_value_input["exmatrix"]}' in f'{e.value}', \
         'Assertion message should contain reasons, got "{e.value}'
 
 
@@ -38,15 +56,26 @@ def test_analyze_invalid_input():
         'Assertion message should contain reasons, got "{e.value}'
 
 
-def test_analyze_valid_ressult_effectmatrix_shape():
+def test_analyze_valid_result_type(valid_mock_input):
     analysis = MainEffectTable()
-    analysis_result = analysis.analyze(
-        np.ones((4, 4)),
-        np.ones((4, 3))
-    )
+    result = analysis.analyze(**valid_mock_input)
 
-    assert (4, 3) == analysis_result.effectmatrix.shape, \
-        'got unexpected shape matrix from analysis_result.effectmatrix'
+    assert isinstance(result, METNamedTuple), \
+        f'expected METNamedTuple, got {result}'
+
+
+def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
+    analysis = MainEffectTable()
+    result = analysis.analyze(**valid_mock_input)
+
+    assert (4, 3) == result.effectmatrix.shape, \
+        'got unexpected shape matrix from result.effectmatrix'
+
+    assert (4, 4) == result.exmatrix.shape, \
+        'got unexpected shape matrix from result.exmatrix'
+
+    assert (4, 3) == result.resmatrix.shape, \
+        'got unexpected shape matrix from result.resmatrix'
 
 
 def test_analyze_invalid_shape():

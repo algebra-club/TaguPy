@@ -1,5 +1,6 @@
-from ._maineffecttable import MainEffectTable
+from ._maineffecttable import MainEffectTable, METNamedTuple
 
 __all__ = [
-    "MainEffectTable"
+    "MainEffectTable",
+    "METNamedTuple",
 ]

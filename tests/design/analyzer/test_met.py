@@ -31,14 +31,14 @@ def test_init_valid_input():
     analysis = MET(1)
 
     assert analysis.n_dim == 1, \
-        f'n_dim expected only integer value `1`'
+        'n_dim expected only integer value `1`'
 
 
 def test_init_invalid_negative_input():
     with pytest.raises(AssertionError) as e:
         MET(-1)
 
-    assert f'expected positive integer' in f'{e.value}', \
+    assert 'expected positive integer' in f'{e.value}', \
         f'Assertion message should contain reasons, got "{e.value}'
 
 
@@ -49,7 +49,7 @@ def test_init_invalid_positive_input():
         with pytest.raises(AssertionError) as e:
             MET(arg)
 
-        assert f'expected only integer value `1`' in f'{e.value}', \
+        assert 'expected only integer value `1`' in f'{e.value}', \
             f'Assertion message should contain reasons, got "{e.value}'
 
 

@@ -16,10 +16,10 @@ class MET(Analyzer):
 
     Notes
     -----
-    This analyzer provides analyzing main effect table.
+    This model provides analyzing main effect table.
     You need two matrices: `exmatrix` and `resmatrix`.
     `exmatrix` represents experiment matrix that describes experimental conditions for each run.
-    `resmatrix` represents result matrix thatdescribes experimental data obtained through
+    `resmatrix` represents result matrix that describes experimental data that obtained through
     the experiments.
 
     When you execute this analyzer, it return the analysis result created by `NamedTuple`.
@@ -35,7 +35,8 @@ class MET(Analyzer):
         ----------
         max_dim_inter: int
             number of dimensions for interaction;
-            MET provides the results of only single interaction effect.
+            MET provides the results of only single interaction effect
+            (equivalent to main effects of factors).
             max_dim_inter recieves only integer value `1`.
         '''
         assert is_positive_int(max_dim_inter), \
@@ -43,7 +44,8 @@ class MET(Analyzer):
 
         assert max_dim_inter == 1, \
             f'max_dim_inter expected only integer value `1` \
-                because MET can analyze only single interaction effect table. Got {max_dim_inter}'
+                , for MET deals with main effect (max_dim_inter = 1) and \
+                    ignores higher dimensional interactions. Got {max_dim_inter}'
 
         self.max_dim_inter = max_dim_inter
 

@@ -2,11 +2,9 @@
 ABC Class of any Statistical Analysis Module
 """
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any, Dict, NamedTuple
 
 import numpy as np
-
-from ._abs_analysis_result import _AnalysisResult as AnalysisResult
 
 
 class _Analyzer(ABC):
@@ -15,7 +13,7 @@ class _Analyzer(ABC):
 
     Methods
     -------
-    analyze(exmatrix: np.ndarray, result: np.ndarray) -> AnalysisResult
+    analyze(exmatrix: np.ndarray, result: np.ndarray) -> NamedTuple
     """
 
     @abstractmethod
@@ -33,7 +31,7 @@ class _Analyzer(ABC):
         self,
         exmatrix: np.ndarray,
         result: np.ndarray
-    ) -> AnalysisResult:
+    ) -> NamedTuple:
         """
         Analyze data from experiment matrix and result matrix
 
@@ -47,7 +45,7 @@ class _Analyzer(ABC):
 
         Returns
         -------
-        analysis_result: AnalysisResult
+        analysis_result: NamedTuple
             Result of analysis method
         """
         pass

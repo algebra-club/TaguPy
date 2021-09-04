@@ -18,12 +18,12 @@ class MET(Analyzer):
     -----
     This analyzer provides analyzing main effect table.
     You need two matrices: `exmatrix` and `resmatrix`.
-    The `exmatrix` represents which factors to include or not.
-    The `resmatrix` contains the results obtained by the experiment.
+    `exmatrix` represents experiment matrix that describes experimental conditions for each run.
+    `resmatrix` represents result matrix that describes experimental data obtained through the experiments.
 
     When you execute this analyzer, it return the analysis result created by `NamedTuple`.
     This result includes three contents: `exmatrix`, `resmatris`, and `effectmatrix`.
-    `exmatrix` and `resmatrix` are same as each own input when execute analyze method.
+    `exmatrix` and `resmatrix` are the same as each own input when execute analyze method.
     `effectmatrix` is the result of analyzing the main effects for two inputs.
 
     '''

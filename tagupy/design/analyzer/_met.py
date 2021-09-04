@@ -11,7 +11,7 @@ class METResult(NamedTuple):
 
 class MET(Analyzer):
     '''
-    Analyzer Class of main effect table
+    Analyzer Class of main effect table (MET)
 
     Notes
     ----------

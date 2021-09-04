@@ -1,4 +1,4 @@
-from ._maineffecttable import MET, METResult
+from ._met import MET, METResult
 
 __all__ = [
     "MET",

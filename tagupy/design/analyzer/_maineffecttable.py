@@ -9,7 +9,14 @@ class MainEffectTable(Analyzer):
 
     Notes
     ----------
-    Main effect table analyzer 
+    This analyzer provides analyzing main effect table.
+    You need two matrices: exmatrix and resmatrix.
+    The exmatrix represents which factors to include or not.
+    The resmatrix contains the results obtained by the experiment.
+    
+    When you execute this analyzer, it return the analysis result instance.
+    See also: /tagupy/type/_analysis_result.py
+
     '''
 
     def __init__(self):
@@ -30,9 +37,7 @@ class MainEffectTable(Analyzer):
 
         Return
         ----------
-        AnalysisResult: {
-            effectmatrix: np.ndarray
-        }
+        AnalysisResult
 
 
         Example

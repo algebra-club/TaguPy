@@ -30,15 +30,15 @@ def invalid_exmatrix_shape_input():
 def test_init_default_input():
     analysis = MET()
 
-    assert analysis.n_dim == 1, \
-        'n_dim expected only integer value `1`'
+    assert analysis.max_dim_inter == 1, \
+        'max_dim_inter expected only integer value `1`'
 
 
 def test_init_valid_input():
     analysis = MET(1)
 
-    assert analysis.n_dim == 1, \
-        'n_dim expected only integer value `1`'
+    assert analysis.max_dim_inter == 1, \
+        'max_dim_inter expected only integer value `1`'
 
 
 def test_init_invalid_inputs():

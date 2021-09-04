@@ -19,7 +19,8 @@ class MET(Analyzer):
     This analyzer provides analyzing main effect table.
     You need two matrices: `exmatrix` and `resmatrix`.
     `exmatrix` represents experiment matrix that describes experimental conditions for each run.
-    `resmatrix` represents result matrix that describes experimental data obtained through the experiments.
+    `resmatrix` represents result matrix thatdescribes experimental data obtained through
+    the experiments.
 
     When you execute this analyzer, it return the analysis result created by `NamedTuple`.
     This result includes three contents: `exmatrix`, `resmatris`, and `effectmatrix`.
@@ -28,23 +29,23 @@ class MET(Analyzer):
 
     '''
 
-    def __init__(self, n_dim: int = 1):
+    def __init__(self, max_dim_inter: int = 1):
         '''
         Parameters
         ----------
-        n_dim: int
+        max_dim_inter: int
             number of dimensions for interaction;
             MET provides the results of only single interaction effect.
-            n_dim recieves only integer value `1`.
+            max_dim_inter recieves only integer value `1`.
         '''
-        assert is_positive_int(n_dim), \
-            f'n_dim: number of dimension expected positive integer, got {n_dim}'
+        assert is_positive_int(max_dim_inter), \
+            f'max_dim_inter: number of dimension expected positive integer, got {max_dim_inter}'
 
-        assert n_dim == 1, \
-            f'n_dim expected only integer value `1` \
-                because MET can analyze only single interaction effect table. Got {n_dim}'
+        assert max_dim_inter == 1, \
+            f'max_dim_inter expected only integer value `1` \
+                because MET can analyze only single interaction effect table. Got {max_dim_inter}'
 
-        self.n_dim = n_dim
+        self.max_dim_inter = max_dim_inter
 
     def analyze(
         self,

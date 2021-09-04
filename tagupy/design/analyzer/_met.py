@@ -35,7 +35,7 @@ class MET(Analyzer):
             number of dimensions for interaction; MET provides the results of only single interaction effect.
             n_dim recieves only `1`.
         '''
-        assert n_dim == 1, f'n_dim expected only `1`, got {n_dim}'
+        assert n_dim == 1, f'n_dim expected only integer value `1` because MET can analyze only single interaction effect table. Got {n_dim}'
 
         self.n_dim = n_dim
 
@@ -61,7 +61,7 @@ class MET(Analyzer):
         ----------
         >>> import numpy as np
         >>> from tagupy.design.analyzer import MET
-        >>> analyzer = MET()
+        >>> analyzer = MET(1)
         >>> result = analyzer.analyze(
         ...     np.array([[1, 1, 0, 1],
         ...               [1, 1, 1, 0],
@@ -93,13 +93,13 @@ class MET(Analyzer):
         '''
 
         assert isinstance(exmatrix, np.ndarray), \
-            f'exmatrix expected a np.ndarray, got: {type(exmatrix)}'
+            f'exmatrix expected a numpy.ndarray, got: {type(exmatrix)}'
 
         assert isinstance(resmatrix, np.ndarray), \
-            f'resmatrix expected a np.ndarray, got: {type(resmatrix)}'
+            f'resmatrix expected a numpy.ndarray, got: {type(resmatrix)}'
 
         assert np.logical_or(exmatrix == 0, exmatrix == 1).all(), \
-            f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {np.full(exmatrix)}'
+            f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {exmatrix}'
 
         pre_exmatrix = exmatrix / exmatrix.sum(axis=0)
         pre_resmatrix = resmatrix - resmatrix.mean(axis=0)

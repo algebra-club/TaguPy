@@ -27,12 +27,15 @@ def invalid_exmatrix_shape_input():
     }
 
 
-def test_init():
-    MET()
+def test_init_invalid_input():
+    analysis = MET(1)
+
+    assert analysis.n_dim == 1, \
+        f'n_dim expected only integer value `1`'
 
 
 def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
-    analysis = MET()
+    analysis = MET(1)
 
     with pytest.raises(AssertionError) as e:
         analysis.analyze(**invalid_exmatrix_value_input)
@@ -42,7 +45,7 @@ def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
 
 
 def test_analyze_invalid_input():
-    analysis = MET()
+    analysis = MET(1)
 
     args = [
         {'exmatrix': 1, 'resmatrix': np.ones((3, 3))},
@@ -54,12 +57,12 @@ def test_analyze_invalid_input():
         with pytest.raises(AssertionError) as e:
             analysis.analyze(**arg)
 
-    assert 'matrix expected a np.ndarray' in f'{e.value}', \
+    assert 'matrix expected a numpy.ndarray' in f'{e.value}', \
         'Assertion message should contain reasons, got "{e.value}'
 
 
 def test_analyze_valid_result_type(valid_mock_input):
-    analysis = MET()
+    analysis = MET(1)
     result = analysis.analyze(**valid_mock_input)
 
     assert isinstance(result, METResult), \
@@ -67,7 +70,7 @@ def test_analyze_valid_result_type(valid_mock_input):
 
 
 def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
-    analysis = MET()
+    analysis = MET(1)
     result = analysis.analyze(**valid_mock_input)
 
     assert (4, 3) == result.effectmatrix.shape, \
@@ -81,7 +84,7 @@ def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
 
 
 def test_analyze_invalid_shape():
-    analysis = MET()
+    analysis = MET(1)
 
     with pytest.raises(ValueError):
         analysis.analyze(

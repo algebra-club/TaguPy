@@ -2,9 +2,7 @@
 ABC Class of Analysis Reporter
 """
 from abc import ABC, abstractmethod
-from typing import Any, Dict
-
-from ._abs_analysis_result import _AnalysisResult as AnalysisResult
+from typing import Any, Dict, NamedTuple
 
 
 class _Reporter(ABC):
@@ -13,7 +11,7 @@ class _Reporter(ABC):
 
     Methods
     -------
-    get_report(analyze_result: AnalysisResult) -> Any
+    get_report(analyze_result: NamedTuple) -> Any
     """
 
     @abstractmethod
@@ -27,7 +25,7 @@ class _Reporter(ABC):
         pass
 
     @abstractmethod
-    def get_report(self, analyze_result: AnalysisResult) -> Any:
+    def get_report(self, analyze_result: NamedTuple) -> Any:
         """
         Generate Report in some format
 

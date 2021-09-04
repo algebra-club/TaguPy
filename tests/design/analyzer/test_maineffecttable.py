@@ -1,4 +1,3 @@
-from typing import NamedTuple
 import pytest
 import numpy as np
 from tagupy.design.analyzer import MainEffectTable, METNamedTuple
@@ -11,6 +10,7 @@ def valid_mock_input():
         'resmatrix': np.ones((4, 3)),
     }
 
+
 @pytest.fixture
 def invalid_exmatrix_value_input():
     return {
@@ -18,12 +18,14 @@ def invalid_exmatrix_value_input():
         'resmatrix': np.ones((4, 3)),
     }
 
+
 @pytest.fixture
 def invalid_exmatrix_shape_input():
     return {
         'exmatrix': np.ones((1, 2)),
         'resmatrix': np.ones((3, 4)),
     }
+
 
 def test_init():
     MainEffectTable()

@@ -36,6 +36,9 @@ class MET(Analyzer):
             MET provides the results of only single interaction effect.
             n_dim recieves only `1`.
         '''
+        assert n_dim >= 1, \
+            f'n_dim: number of dimension expected positive integer, got {n_dim}'
+
         assert n_dim == 1, \
             f'n_dim expected only integer value `1` \
                 because MET can analyze only single interaction effect table. Got {n_dim}'

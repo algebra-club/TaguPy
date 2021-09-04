@@ -27,11 +27,30 @@ def invalid_exmatrix_shape_input():
     }
 
 
-def test_init_invalid_input():
+def test_init_valid_input():
     analysis = MET(1)
 
     assert analysis.n_dim == 1, \
         f'n_dim expected only integer value `1`'
+
+
+def test_init_invalid_negative_input():
+    with pytest.raises(AssertionError) as e:
+        MET(-1)
+
+    assert f'expected positive integer' in f'{e.value}', \
+        f'Assertion message should contain reasons, got "{e.value}'
+
+
+def test_init_invalid_positive_input():
+    args = [2, 1.5]
+
+    for arg in args:
+        with pytest.raises(AssertionError) as e:
+            MET(arg)
+
+        assert f'expected only integer value `1`' in f'{e.value}', \
+            f'Assertion message should contain reasons, got "{e.value}'
 
 
 def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):

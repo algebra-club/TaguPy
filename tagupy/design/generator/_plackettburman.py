@@ -19,7 +19,13 @@ class PlackettBurman(Generator):
 
     Notes
     -----
-    resolution III (add description later)
+    get_exmatrix function returns experiment matrix of Plackett-Burman design
+    Although Plackett-Burman (PB) design requires single runs for all conditions,
+    this module supports replicated design for experiments deal with instable results.
+    PB design supports experiments with 4 to 99 factors expect 92.
+
+    see also:
+    https://en.wikipedia.org/wiki/Plackett%E2%80%93Burman_design
 
     """
 

@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from tagupy.design.analyzer import MainEffectTable, METNamedTuple
+from tagupy.design.analyzer import MET, METResult
 
 
 @pytest.fixture
@@ -28,11 +28,11 @@ def invalid_exmatrix_shape_input():
 
 
 def test_init():
-    MainEffectTable()
+    MET()
 
 
 def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
-    analysis = MainEffectTable()
+    analysis = MET()
 
     with pytest.raises(AssertionError) as e:
         analysis.analyze(**invalid_exmatrix_value_input)
@@ -42,7 +42,7 @@ def test_analyze_invalid_input_exmatrix(invalid_exmatrix_value_input):
 
 
 def test_analyze_invalid_input():
-    analysis = MainEffectTable()
+    analysis = MET()
 
     args = [
         {'exmatrix': 1, 'resmatrix': np.ones((3, 3))},
@@ -59,15 +59,15 @@ def test_analyze_invalid_input():
 
 
 def test_analyze_valid_result_type(valid_mock_input):
-    analysis = MainEffectTable()
+    analysis = MET()
     result = analysis.analyze(**valid_mock_input)
 
-    assert isinstance(result, METNamedTuple), \
-        f'expected METNamedTuple, got {result}'
+    assert isinstance(result, METResult), \
+        f'expected METResult, got {result}'
 
 
 def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
-    analysis = MainEffectTable()
+    analysis = MET()
     result = analysis.analyze(**valid_mock_input)
 
     assert (4, 3) == result.effectmatrix.shape, \
@@ -81,7 +81,7 @@ def test_analyze_valid_ressult_effectmatrix_shape(valid_mock_input):
 
 
 def test_analyze_invalid_shape():
-    analysis = MainEffectTable()
+    analysis = MET()
 
     with pytest.raises(ValueError):
         analysis.analyze(

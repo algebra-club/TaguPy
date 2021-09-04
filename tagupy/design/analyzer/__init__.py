@@ -1,6 +1,6 @@
-from ._maineffecttable import MainEffectTable, METNamedTuple
+from ._maineffecttable import MET, METResult
 
 __all__ = [
-    "MainEffectTable",
-    "METNamedTuple",
+    "MET",
+    "METResult",
 ]

@@ -3,15 +3,15 @@ from tagupy.type import _Analyzer as Analyzer
 from typing import NamedTuple
 
 
-class METNamedTuple(NamedTuple):
+class METResult(NamedTuple):
     exmatrix: np.ndarray
     resmatrix: np.ndarray
     effectmatrix: np.ndarray
 
 
-class MainEffectTable(Analyzer):
+class MET(Analyzer):
     '''
-    Analyzer Class of MainEffectTable
+    Analyzer Class of main effect table
 
     Notes
     ----------
@@ -49,8 +49,8 @@ class MainEffectTable(Analyzer):
         Example
         ----------
         >>> import numpy as np
-        >>> from tagupy.design.analyzer import MainEffectTable
-        >>> analyzer = MainEffectTable()
+        >>> from tagupy.design.analyzer import MET
+        >>> analyzer = MET()
         >>> result = analyzer.analyze(
         ...     np.array([[1, 1, 0, 1],
         ...               [1, 1, 1, 0],
@@ -95,7 +95,7 @@ class MainEffectTable(Analyzer):
 
         effectmatrix = pre_exmatrix.T @ pre_resmatrix
 
-        return METNamedTuple(
+        return METResult(
             exmatrix=exmatrix,
             resmatrix=resmatrix,
             effectmatrix=effectmatrix,

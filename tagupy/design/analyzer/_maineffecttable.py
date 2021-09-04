@@ -1,18 +1,18 @@
 import numpy as np
+from collections import namedtuple
 from tagupy.type import _Analyzer as Analyzer
 
 
 class MainEffectTable(Analyzer):
     '''
     Analyzer Class of MainEffectTable
+
+    Notes
+    ----------
+    Main effect table analyzer 
     '''
 
     def __init__(self):
-        '''
-        Method
-        ----------
-        analyze(self, exmatrix: np.ndarray) -> AnalysisResult
-        '''
         pass
 
     def analyze(
@@ -50,10 +50,16 @@ class MainEffectTable(Analyzer):
         ...               [5, 8, 3],
         ...               [8, 3, 6]]),
         ... )
-        {'effectmatrix': array([[ 0. ,  0. ,  0. ],
+        AnalysisResult(exmatrix=array([[1, 1, 0, 1],
+               [1, 1, 1, 0],
+               [1, 0, 1, 1],
+               [1, 0, 0, 0]]), effectmatrix=array([[ 0. ,  0. ,  0. ],
                [-1.5,  0.5,  1.5],
                [-0.5,  2.5, -0.5],
-               [-1. ,  0. , -1. ]])}
+               [-1. ,  0. , -1. ]]), resmatrix=array([[3, 4, 7],
+               [4, 9, 8],
+               [5, 8, 3],
+               [8, 3, 6]]))
         '''
 
         assert isinstance(exmatrix, np.ndarray), \
@@ -70,6 +76,10 @@ class MainEffectTable(Analyzer):
 
         effectmatrix = pre_exmatrix.T @ pre_resmatrix
 
-        return {
-            'effectmatrix': effectmatrix,
-        }
+        analysis_result = namedtuple('AnalysisResult', ['exmatrix', 'effectmatrix', 'resmatrix'])
+
+        return analysis_result(
+            exmatrix,
+            effectmatrix,
+            resmatrix,
+        )

@@ -40,13 +40,13 @@ def test_analyze_invalid_input():
 
 def test_analyze_valid_ressult_effectmatrix_shape():
     analysis = MainEffectTable()
-    resmatrix = analysis.analyze(
+    analysis_result = analysis.analyze(
         np.ones((4, 4)),
         np.ones((4, 3))
     )
 
-    assert (4, 3) == resmatrix['effectmatrix'].shape, \
-        'got unexpected shape matrix from resmatrix.effectmatrix'
+    assert (4, 3) == analysis_result.effectmatrix.shape, \
+        'got unexpected shape matrix from analysis_result.effectmatrix'
 
 
 def test_analyze_invalid_shape():

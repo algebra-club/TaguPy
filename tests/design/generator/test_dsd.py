@@ -10,13 +10,13 @@ from tagupy.design.generator import DSD
 
 @pytest.fixture
 def correct_input():
-    arg = range(1,49)
+    arg = [i for i in range(1, 49)]
+    return arg
 
 
 def test_init_valid_input(correct_input):
-    exp = range(1,51)
-    for a, e in zip(correct_input, exp):
-        init= DSD(a).n_rep
+    for a, e in zip(correct_input, correct_input):
+        init = DSD(a).n_rep
         assert init == e,\
             f'self.n_rep expected {e}, got {init}'
 
@@ -37,19 +37,19 @@ def test_get_exmatrix_invalid_input():
     arg1 = ['moge', None, [], 0, -1, 1, 3, 51, 26]
     cor = [2 for i in range(9)]
     model = DSD(2)
-    for a, c in zip(arg0, cor):
+    for a, c in zip(arg0[:5], cor[:5]):
         with pytest.raises(AssertionError) as e:
-            model.get_exmatrix(n_fac=a,n_fake=c)
+            model.get_exmatrix(n_fac=a, n_fake=c)
         assert f'{a}' in f'{e.value}',\
             f"NoReasons: Inform the AssertionError reasons, got {e.value}"
-    for c, a in zip(cor, arg1):
+    for c, a in zip(cor[:5], arg1[:5]):
         with pytest.raises(AssertionError) as e:
-            model.get_exmatrix(n_fac=c,n_fake=a)
+            model.get_exmatrix(n_fac=c, n_fake=a)
         assert f'{a}' in f'{e.value}',\
             f"NoReasons: Inform the AssertionError reasons, got {e.value}"
-    for a, c in zip(arg0, arg1):
+    for a, c in zip(arg0[5:], arg1[5:]):
         with pytest.raises(AssertionError) as e:
-            model.get_exmatrix(n_fac=a,n_fake=c)
+            model.get_exmatrix(n_fac=a, n_fake=c)
         assert f'{a+c}' in f'{e.value}',\
             f"NoReasons: Inform the AssertionError reasons, got {e.value}"
 
@@ -64,7 +64,7 @@ def test_get_exmatrix_valid_output(correct_input):
         ex_mat = model.get_exmatrix(n_fac=fac, n_fake=n_fake)
         assert isinstance(ex_mat, np.ndarray), \
             f'dtype of exmatrix expected numpy.ndarray got {type(ex_mat)}'
-        cor = ((2 * sum_fac -1) * 2, fac)
+        cor = ((2 * sum_fac + 1) * 2, fac)
         ret = ex_mat.shape
         assert ret == cor, \
             f"shape of exmatrix expected {cor}, got {ret}"

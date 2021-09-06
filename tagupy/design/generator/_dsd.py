@@ -14,7 +14,7 @@ class DSD(Generator):
 
     Method
     ------
-    get_exmatrix(self, n_factors: int, n_fake: int) -> np.ndarray
+    get_exmatrix(self, n_factor: int, n_fake: int) -> np.ndarray
 
     Note
     ----
@@ -50,30 +50,34 @@ class DSD(Generator):
             f"Invalid input: n_rep expected positive (>0) integer, got {type(n_rep)}::{n_rep}"
         self.n_rep = n_rep
 
-    def get_exmatrix(self, n_fac: int, n_fake: int) -> np.ndarray:
+    def get_exmatrix(self, n_factor: int, n_fake: int) -> np.ndarray:
         '''
         create a definitive screening design
 
         Parameters
         ----------
-        n_fac: int
+        n_factor: int
             number of factors used in the experiment
         n_fake: int
             number of fake factors which enable better estimation
 
         Returns
         -------
-        ex_mat(: np.ndarray(2(n_fac+n_fake) + 1) * n_fac) if n_fac+n_fake is even)
+        ex_mat(: np.ndarray())
             experiment matrix
+            if n_factor+n_fake is even, shape of ex_mat would be (2*(n_factor+n_fake)+1, n_factor)
+            if n_factor+n_fake is odd, shape of ex_mat would be (2*(n_factor+n_fake)+3, n_factor)
+
         Note
         ----
-        n_fac + n_fake <= 50 is expected
+        3 <= n_factor + n_fake <= 50 is expected
+        as for the number of fake factor, n_fake = 2 is used as standard
 
         Example
         -------
         >>> from tagupy.design.generator import DSD
         >>> model = DSD(n_rep=2)
-        >>> model.get_exmatrix(n_fac=6, n_fake=2)
+        >>> model.get_exmatrix(n_factor=6, n_fake=2)
         array([[ 0, -1, -1, -1, -1, -1],
                [ 1,  0,  1,  1, -1,  1],
                [ 1, -1,  0,  1,  1, -1],
@@ -109,15 +113,17 @@ class DSD(Generator):
                [-1, -1, -1,  1, -1,  1],
                [ 0,  0,  0,  0,  0,  0]])
         '''
-        assert is_positive_int(n_fac),\
-            f"Invalid input: n_fac expected positive (>0) integer, got {type(n_fac)}::{n_fac}"
+        assert is_positive_int(n_factor),\
+            f"Invalid input: n_factor expected positive (>0) integer,\
+                 got {type(n_factor)}::{n_factor}"
         assert is_positive_int(n_fake),\
-            f"Invalid input: n_fake expected positive (>0) integer, got {type(n_fake)}::{n_fake}"
+            f"Invalid input: n_fake expected positive (>0) integer,\
+                 got {type(n_fake)}::{n_fake}"
 
-        sum_fac = n_fac + n_fake
+        sum_fac = n_factor + n_fake
         assert 3 <= sum_fac <= 50,\
-            f"Invalid input: sum of n_fac and n_fake expected 3 <= & <= 50, got {sum_fac}"
-        if sum_fac % 2 == 1:
+            f"Invalid input: sum of n_factor and n_fake expected 3 <= & <= 50, got {sum_fac}"
+        if sum_fac % 2:
             sum_fac += 1
         l_func = [
             ((4, 6, 8, 12, 14, 18, 20, 24, 30, 32, 38, 42, 44, 48), ref._cmateq5),
@@ -133,6 +139,6 @@ class DSD(Generator):
                     c_mat = func(sum_fac, ref._gen_vec)
                 else:
                     c_mat = func()
-        ex_mat = ref._get_dsd(n_fac=n_fac, c_mat=c_mat)
+        ex_mat = ref._get_dsd(n_factor=n_factor, c_mat=c_mat)
 
         return np.vstack([ex_mat] * self.n_rep)

@@ -35,7 +35,7 @@ def _cmateq5(sum_fac: int, gen_vec: dict[int, List[int]]) ->np.ndarray:
     Parameters
     ----------
     sum_fac: int
-        sum of the number of factors(n_fac) and the number of fake factor
+        sum of the number of factors(n_factor) and the number of fake factor
     gen_vec: dict[int, List[int]]
         list of vectors used for generating conference matrix
     
@@ -68,7 +68,7 @@ def _cmateq2(sum_fac: int, gen_vec: dict[int, List[List[int]]]) ->np.ndarray:
     Parameters
     ----------
     sum_fac: int
-        sum of the number of factors(n_fac) and the number of fake factor
+        sum of the number of factors(n_factor) and the number of fake factor
     gen_vec: dict[int, List[int]]
         list of vectors used for generating conference matrix
     
@@ -111,7 +111,7 @@ def _dsddb(sum_fac: int, gen_vec: dict[int, List[int]]) ->np.ndarray:
     Parameters
     ----------
     sum_fac: int
-        sum of the number of factors(n_fac) and the number of fake factor
+        sum of the number of factors(n_factor) and the number of fake factor
     gen_vec: dict[int, List[int]]
         list of vectors used for generating conference matrix
     
@@ -148,7 +148,7 @@ def _dsdeq3(sum_fac: int, gen_vec: dict[int, List[int]]) ->np.ndarray:
     Parameters
     ----------
     sum_fac: int
-        sum of the number of factors(n_fac) and the number of fake factor
+        sum of the number of factors(n_factor) and the number of fake factor
     gen_vec: dict[int, List[int]]
         list of vectors used for generating conference matrix
     
@@ -234,22 +234,22 @@ def _dsd46():
     return cmat
 
 
-def _get_dsd(n_fac: int, c_mat: np.ndarray) ->np.ndarray:
+def _get_dsd(n_factor: int, c_mat: np.ndarray) ->np.ndarray:
     '''
     create a definitive screening design from conference matrix
 
     Parameters
     ----------
-    n_fac: int
+    n_factor: int
         number of factors used in the experiment
     c_mat: np.ndarray
         conference matrix 
     
     Returns
     -------
-    d_mat(: np.ndarray(2(n_fac+n_fake) + 1) * n_fac) if n_fac+n_fake is even)
+    d_mat(: np.ndarray(2(n_factor+n_fake) + 1) * n_factor) if n_factor+n_fake is even)
         experiment design of dsd
-        n_fake = len(c_mat) - n_fac
+        n_fake = len(c_mat) - n_factor
     
     Note
     ----
@@ -260,6 +260,6 @@ def _get_dsd(n_fac: int, c_mat: np.ndarray) ->np.ndarray:
     )
     '''
     zero_vec = np.array([0 for i in range(len(c_mat))]).reshape(1, -1)
-    d_mat = np.concatenate([c_mat, -c_mat, zero_vec], axis=0)[:, :n_fac]
+    d_mat = np.concatenate([c_mat, -c_mat, zero_vec], axis=0)[:, :n_factor]
 
     return d_mat

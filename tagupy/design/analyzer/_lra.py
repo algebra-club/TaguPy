@@ -33,7 +33,7 @@ class LinReg(Analyser):
     see also:
     https://www.statsmodels.org/stable/examples/index.html
     '''
-    def __init__(self, model:str):
+    def __init__(self, model: str):
         """
         Parameters
         ----------
@@ -51,8 +51,51 @@ class LinReg(Analyser):
         assert model in ["OLS", "WLS", "GLS"], \
             f"model expected 'OLS', 'WLS', or 'GLS', got {model}"
         self.model = {"OLS": (0, sm.OLS), "WLS": (1, sm.OLS), "GLS": (2, sm.GLS)}[model]
-    
-    # def analyze(self, exmatrix: np.ndarray, result: np.ndarray) -> NamedTuple:
 
-
-    #     return LinRegResult()
+    def analyze(
+        self,
+        exmatrix: np.ndarray,
+        result: np.ndarray,
+        add_const: bool,
+        missing: str = "none",
+        hasconst: None or bool = None,
+        weights: np.ndarray = 1,
+        # defaul value for weights in sm.WLS() is 1 as well
+        # default value will be converted into numpy.ndarray inside sm.WLS()
+        sigma: float or np.ndarray = None
+        # defaul value for sigma in sm.GLS() is None as well
+        # both of float and default value will be converted into numpy.ndarray inside sm.GLS()
+    ) -> NamedTuple:
+        kwargs = [
+            {
+                "endog": result,
+                "exog": sm.add_constant(exmatrix) if add_const else exmatrix,
+                "missing": missing,
+                "hasconst": hasconst
+            },
+            {
+                "endog": result,
+                "exog": sm.add_constant(exmatrix) if add_const else exmatrix,
+                "weights": weights,
+                "missing": missing,
+                "hasconst": hasconst
+            },
+            {
+                "endog": result,
+                "exog": sm.add_constant(exmatrix) if add_const else exmatrix,
+                "sigma": sigma,
+                "missing": missing,
+                "hasconst": hasconst
+            }
+        ][self.model[0]]
+        res = self.model[1](**kwargs)
+        return LinRegResult(
+            exmatrix=exmatrix,
+            resmatrix=result,
+            model=res,
+            params=res.params,
+            bse=res.bse,
+            predict=res.predict,
+            rsquared=res.rsquared,
+            summary=res.summary
+        )

@@ -6,7 +6,7 @@ import numpy as np
 
 from tagupy.type import _Generator as Generator
 from tagupy.utils import is_positive_int
-from tagupy.design.generator import _pb_ref as ref
+from tagupy.design.generator._pb_ref import _pb
 
 
 class PlackettBurman(Generator):
@@ -78,13 +78,6 @@ class PlackettBurman(Generator):
             f"Invalid input: n_factor expected positive (>0) int, got {type(n_factor)}::{n_factor}"
         assert n_factor < 100, \
             f"Invalid input: n_factor is supported for int < 100, got {n_factor}"
-
-        l_func = [[
-            ref._pb4, ref._pb8, ref._pb12, ref._pb16, ref._pb20,
-            ref._pb24, ref._pb28, ref._pb32, ref._pb36, ref._pb40,
-            ref._pb44, ref._pb48, ref._pb52, ref._pb56, ref._pb60,
-            ref._pb64, ref._pb68, ref._pb72, ref._pb76, ref._pb80,
-            ref._pb84, ref._pb88, ref._pb92, ref._pb96, ref._pb100
-        ][i // 4] for i in range(100)]
-        res = np.vstack([l_func[n_factor]()[:, :n_factor]] * self.n_rep)
+        n_run = 4 * (n_factor // 4 + 1)
+        res = np.vstack([_pb(n_run)[:, :n_factor]] * self.n_rep)
         return res

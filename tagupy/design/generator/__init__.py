@@ -1,4 +1,3 @@
-from . import _dsd_ref
 from ._dsd import DSD
 from ._fullfact import FullFact
 from ._onehot import OneHot

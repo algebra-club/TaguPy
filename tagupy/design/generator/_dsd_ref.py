@@ -259,7 +259,7 @@ def _get_dsd(n_factor: int, c_mat: np.ndarray) ->np.ndarray:
      [zeros(1, len(C))]
     )
     '''
-    zero_vec = np.array([0 for i in range(len(c_mat))]).reshape(1, -1)
+    zero_vec = np.zeros((1, c_mat.shape[1]), dtype=int)
     d_mat = np.concatenate([c_mat, -c_mat, zero_vec], axis=0)[:, :n_factor]
 
     return d_mat

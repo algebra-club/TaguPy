@@ -7,10 +7,11 @@ Reference for PB design
   so we decided to call exmatrix itself.
 """
 
-def pb_gen_fn(vec:np.ndarray) -> np.ndarray:
-    l_vec = [np.roll(vec, i).reshape(1, -1) for i in range(len(vec))] \
-        + [-1 * np.ones(len(vec)).reshape(1, -1)]
-    return np.concatenate(l_vec, axis=0).astype(int)
+def pb_gen_fn(vec: np.ndarray) -> np.ndarray:
+    length = len(vec)
+    ex = [np.roll(vec, i) for i in range(length)] \
+        + [np.full(length, -1)]
+    return np.vstack(ex).astype(int)
 
 
 def _pb4():

@@ -15,7 +15,7 @@ class PlackettBurman(Generator):
 
     Method
     ------
-    get_exmatrix(**info: Dict[str, Any]) -> numpy.ndarray
+    get_exmatrix(n_factor: int) -> numpy.ndarray
 
     Notes
     -----

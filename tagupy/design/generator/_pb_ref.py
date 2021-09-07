@@ -697,6 +697,5 @@ func_dict = {
 
 def _pb(n_run: int) -> np.ndarray:
     irreg = [28, 40, 52, 56, 64, 76, 88, 92, 96, 100]
-    ret = func_dict[n_run]() if n_run in irreg \
-        else pb_gen_fn(vec_dict[n_run])
+    ret = func_dict[n_run]() if n_run in irreg else pb_gen_fn(vec_dict[n_run])
     return ret

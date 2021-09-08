@@ -1,5 +1,5 @@
 from abc import ABC, abstractclassmethod
-from typing import Any, Dict, List, Tuple, Type
+from typing import Any, Dict, List, Tuple
 
 import click
 import numpy as np
@@ -25,12 +25,12 @@ class WrapperGenerator(ABC):
 
     @classmethod
     @abstractclassmethod
-    def generate(cls, **kwargs: Dict[str, Any]) -> ArrayLike:
+    def generate(cls, **kwargs: Dict[str, Any]) -> ArrayLike:  # type: ignore
         pass
 
     @classmethod
     @abstractclassmethod
-    def required_params(cls, ) -> Dict[str, Tuple[str, click.ParamType]]:
+    def required_params(cls) -> Dict[str, Tuple[str, click.ParamType]]:  # type: ignore
         pass
 
 

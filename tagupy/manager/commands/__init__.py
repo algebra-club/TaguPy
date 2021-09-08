@@ -1,5 +1,5 @@
-from .generator import *  # noqa: E403
-from . import generator
+from . import _generate
+from ._generate import generate
 
 __all__ = []
-__all__.extend(generator.__all__)
+__all__.extend(_generate.__all__)

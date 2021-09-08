@@ -19,8 +19,19 @@ def main():
     help='New Project Name',
     prompt='project name?',
     required=True,
+    type=click.STRING
 )
-def new(name):
+@click.option(
+    '--dryrun',
+    default=False,
+    help='Check results without process',
+    type=click.BOOL
+)
+def new(name, dryrun):
+    if dryrun:
+        click.echo('project will be built with following variables')
+        click.echo(f'prj_name: {name}, current_time: {datetime.now().strftime("%b-%d-%Y")}')
+        return
     cookiecutter(
         f'{list(tagupy.__path__)[0]}/template',
         no_input=True,

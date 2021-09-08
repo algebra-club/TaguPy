@@ -34,7 +34,7 @@ class WrapperGenerator(ABC):
         pass
 
 
-class OneHot():
+class OneHot(WrapperGenerator):
     """
     Wrapper object for cli
     """
@@ -51,7 +51,7 @@ class OneHot():
         }
 
 
-class FullFact():
+class FullFact(WrapperGenerator):
     """
     Wrapper object for cli
     """

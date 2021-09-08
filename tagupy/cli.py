@@ -1,11 +1,11 @@
 import sys
 from datetime import datetime
-from .commands import generate
 
 import click
 from cookiecutter.main import cookiecutter
 
 import tagupy
+from tagupy.manager.commands import generate
 
 
 @click.group()

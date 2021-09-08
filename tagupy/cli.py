@@ -5,7 +5,7 @@ import click
 from cookiecutter.main import cookiecutter
 
 import tagupy
-from tagupy.manager.commands import generate
+from tagupy.command import generate
 
 
 @click.group()

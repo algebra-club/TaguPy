@@ -2,7 +2,7 @@ import click
 from tagupy.utils import is_positive_int, is_positive_int_list
 
 
-class _PositiveIntList(click.ParamType):
+class _PositiveIntList(click.types.ParamType):
     name = "positive_int_list"
 
     def convert(self, value, param, ctx):
@@ -20,7 +20,7 @@ class _PositiveIntList(click.ParamType):
             self.fail(f"Invalid Input: {value!r} Each value should be positive integer", param, ctx)
 
 
-class _PositiveInt(click.ParamType):
+class _PositiveInt(click.types.ParamType):
     name = "positive_int"
 
     def convert(self, value, param, ctx):

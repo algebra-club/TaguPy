@@ -13,6 +13,11 @@ import inspect
 from typing import Type, Dict, Any, List
 
 
+def test_wrapper():
+    with pytest.raises(TypeError):
+        WrapperGenerator()
+
+
 def _test_generate(cls: Type[WrapperGenerator], args: List[Dict[str, Any]]):
     assert issubclass(cls, WrapperGenerator), \
         f'{cls} must be a subclass of WrapperGenerator'

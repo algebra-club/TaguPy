@@ -21,17 +21,17 @@ __all__ = [
 
 class WrapperGenerator(ABC):
     def __init__(self):
-        raise TypeError(f"Can't instantiate wrapper class {type(self).__name__}")
+        raise TypeError(f"Don't instantiate ABClass {type(self).__name__}")
 
     @classmethod
     @abstractclassmethod
     def generate(cls, **kwargs: Dict[str, Any]) -> ArrayLike:  # type: ignore
-        pass
+        pass  # pragma: no cover
 
     @classmethod
     @abstractclassmethod
     def required_params(cls) -> Dict[str, Tuple[str, click.ParamType]]:  # type: ignore
-        pass
+        pass  # pragma: no cover
 
 
 class OneHot(WrapperGenerator):

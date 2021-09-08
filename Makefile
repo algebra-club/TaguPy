@@ -64,7 +64,7 @@ coverage: ## check code coverage quickly with the default Python
 	$(BROWSER) htmlcov/index.html
 
 typing: ## check typing is working correctly
-	-poetry run mypy --config-file ./pyproject.toml ./tagupy/
+	-poetry run mypy --config-file ./pyproject.toml ./tagupy/**/*.py
 	$(BROWSER) mypy_report/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs

@@ -461,7 +461,7 @@ def _pb88():
 
 
 def _pb92():
-    raise NotImplementedError
+    raise ValueError
 
 
 def _pb96():

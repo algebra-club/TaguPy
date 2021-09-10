@@ -16,7 +16,7 @@ def supported_num():
 
 
 def test_pb92_not_implemented_error():
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(ValueError):
         _pb(92)
 
 

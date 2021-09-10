@@ -14,9 +14,7 @@ def correct_input():
 
 
 def test_init_invalid_input():
-    arg = [
-        ["moge", None, np.ones((2, 3)), 3.4, 0, -22]
-    ]
+    arg = ["moge", None, np.ones((2, 3)), 3.4, 0, -22]
     for el in arg:
         with pytest.raises(AssertionError) as e:
             PlackettBurman(el)
@@ -32,15 +30,21 @@ def test_init_correct_input(correct_input):
 
 
 def test_get_exmatrix_invalid_input():
-    arg = [
-        ["moge", None, np.ones((2, 3)), 3.4, 0, -1, 100, 88, 89, 90, 91]
-    ]
+    arg = ["moge", None, np.ones((2, 3)), 3.4, 0, -1, 100]
     model = PlackettBurman(1)
     for n_factor in arg:
         with pytest.raises(AssertionError) as e:
             model.get_exmatrix(n_factor)
         assert f"{n_factor}" in f"{e.value}", \
             f"NoReasons: Inform the AssertionError reasons, got {e.value}"
+
+
+def test_get_exmatrix_undefined_input_val():
+    arg = [88, 89, 90, 91]
+    model = PlackettBurman(1)
+    for n_factor in arg:
+        with pytest.raises(ValueError):
+            model.get_exmatrix(n_factor)
 
 
 def test_get_exmatrix_output_dtype(correct_input):

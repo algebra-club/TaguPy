@@ -58,14 +58,19 @@ class MET(Analyzer):
         '''
         Parameters
         ----------
-        exmatrix: numpy.ndarray
+        `exmatrix`: numpy.ndarray
+            `exmatrix` represents experiment matrix that describes experimental conditions for each run.
 
-        resmatrix: numpy.ndarray
-
+        `resmatrix`: numpy.ndarray
+            `resmatrix` represents result matrix that describes experimental data that obtained through
+            the experiments.
 
         Return
         ------
         AnalysisResult
+            AnalysisResult includes three data: `exmatrix`, `resmatrix`, and `effectmatrix`.
+            `exmatrix` and `resmatrix` are same as the each input values.
+            `effectmatrix` is the result of analyzing the main effects for the two inputs.
 
 
         Example

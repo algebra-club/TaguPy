@@ -30,25 +30,25 @@ class MET(Analyzer):
 
     '''
 
-    def __init__(self, max_dim_inter: int = 1):
+    def __init__(self, max_dim_interaction: int = 1):
         '''
         Parameters
         ----------
-        max_dim_inter: int
+        max_dim_interaction: int
             number of dimensions for interaction;
             MET provides the results of only single interaction effect
-            (equivalent to main effects of factors).
-            max_dim_inter recieves only integer value `1`.
+            (equivalent to main effects of the given factors).
+            max_dim_interaction recieves only integer value `1`.
         '''
-        assert is_positive_int(max_dim_inter), \
-            f'max_dim_inter: number of dimension expected positive integer, got {max_dim_inter}'
+        assert is_positive_int(max_dim_interaction), \
+            f'max_dim_interaction: number of dimension expected positive integer, got {max_dim_interaction}'
 
-        assert max_dim_inter == 1, \
-            f'max_dim_inter expected only integer value `1` \
-                , for MET deals with main effect (max_dim_inter = 1) and \
-                    ignores higher dimensional interactions. Got {max_dim_inter}'
+        assert max_dim_interaction == 1, \
+            f'max_dim_interaction expected only integer value `1` \
+                , for MET deals with main effect (max_dim_interaction = 1) and \
+                    ignores higher dimensional interactions. Got {max_dim_interaction}'
 
-        self.max_dim_inter = max_dim_inter
+        self.max_dim_interaction = max_dim_interaction
 
     def analyze(
         self,

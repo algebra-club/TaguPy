@@ -7,6 +7,7 @@ Reference for PB design
   so we decided to call exmatrix itself.
 """
 
+
 def pb_gen_fn(vec: np.ndarray) -> np.ndarray:
     length = len(vec)
     ex = [*(np.roll(vec, i) for i in range(length)), np.full(length, -1)]

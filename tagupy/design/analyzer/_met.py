@@ -16,7 +16,8 @@ class MET(Analyzer):
 
     Notes
     -----
-    This model provides analyzing main effect table.
+    This model can be used for data analysis on main effects of each factor, and you'll get
+    the result in table format (we call it Main Effect Table).
     You need two matrices: `exmatrix` and `resmatrix`.
     `exmatrix` represents experiment matrix that describes experimental conditions for each run.
     `resmatrix` represents result matrix that describes experimental data that obtained through

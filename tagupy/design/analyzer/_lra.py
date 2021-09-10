@@ -5,11 +5,14 @@ _Analyser Class of Linear Regression Analysis
 import numpy as np
 import statsmodels
 import statsmodels.api as sm
-from tagupy.type import _Analyzer as Analyser
+from tagupy.type import _Analyzer as Analyzer
 from typing import Any, NamedTuple
 
 
 class LinRegResult(NamedTuple):
+    '''
+    NamedTuple Class of Linear Regression Analysis Results
+    '''
     exmatrix: np.ndarray
     resmatrix: np.ndarray
     model: statsmodels.regression.linear_model.RegressionResultsWrapper
@@ -20,7 +23,7 @@ class LinRegResult(NamedTuple):
     summary: Any
 
 
-class LinReg(Analyser):
+class LinReg(Analyzer):
     '''
     _Analyser Class of Linear Regression Analysis
 
@@ -66,6 +69,10 @@ class LinReg(Analyser):
         # defaul value for sigma in sm.GLS() is None as well
         # both of float and default value will be converted into numpy.ndarray inside sm.GLS()
     ) -> NamedTuple:
+        """
+        Parameters
+        ----------
+        """
         kwargs = [
             {
                 "endog": result,

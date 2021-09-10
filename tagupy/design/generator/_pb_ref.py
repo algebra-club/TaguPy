@@ -461,7 +461,7 @@ def _pb88():
 
 
 def _pb92():
-    raise ValueError
+    raise ValueError("integers from 88 to 91 are not supported for n_factor")
 
 
 def _pb96():

@@ -111,10 +111,12 @@ def is_int_2d_array(arg: Any):
     False
 
     """
-    arg_shape = np.array(arg).shape
 
-    is_2d_array = len(arg_shape) == 2
-    not_empty = arg_shape[0] != 0 and arg_shape[1] != 0
+    arg_ndarray = np.array(arg)
+
+    is_2d_array = arg_ndarray.ndim == 2
+
+    is_not_empty = arg_ndarray.size != 0
 
     is_int_element = np.apply_along_axis(
         lambda row: [
@@ -122,7 +124,7 @@ def is_int_2d_array(arg: Any):
             for element in row
         ],
         axis=1,
-        arr=arg,
+        arr=arg_ndarray,
     ).all()
 
-    return is_int_element and is_2d_array and not_empty
+    return is_2d_array and is_not_empty and is_int_element

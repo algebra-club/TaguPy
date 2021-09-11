@@ -119,10 +119,10 @@ class MET(Analyzer):
         assert is_int_2d_array(exmatrix), \
             f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {exmatrix}'
 
-        pre_exmatrix = exmatrix / exmatrix.sum(axis=0)
-        pre_resmatrix = resmatrix - resmatrix.mean(axis=0)
+        norm_exmatrix = exmatrix / exmatrix.sum(axis=0)
+        centering_resmatrix = resmatrix - resmatrix.mean(axis=0)
 
-        effectmatrix = pre_exmatrix.T @ pre_resmatrix
+        effectmatrix = norm_exmatrix.T @ centering_resmatrix
 
         return METResult(
             exmatrix=exmatrix,

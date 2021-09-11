@@ -114,7 +114,7 @@ class MET(Analyzer):
             f'resmatrix expected a numpy.ndarray, got: {type(resmatrix)}'
 
         assert is_int_2d_array(exmatrix), \
-            f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {exmatrix}'
+            f'exmatrix expected a matrix in which all elements are integer. \nGot: {exmatrix}'
 
         norm_exmatrix = exmatrix / exmatrix.sum(axis=0)
         centering_resmatrix = resmatrix - resmatrix.mean(axis=0)

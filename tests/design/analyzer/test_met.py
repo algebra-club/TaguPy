@@ -6,7 +6,7 @@ from tagupy.design.analyzer import MET, METResult
 @pytest.fixture
 def valid_mock_input():
     return {
-        'exmatrix': np.ones((4, 4)),
+        'exmatrix': np.ones((4, 4), dtype=np.int64),
         'resmatrix': np.ones((4, 3)),
     }
 
@@ -14,7 +14,7 @@ def valid_mock_input():
 @pytest.fixture
 def invalid_exmatrix_value_input():
     return {
-        'exmatrix': np.full((4, 4), -1),
+        'exmatrix': np.full((4, 4), 1.2),
         'resmatrix': np.ones((4, 3)),
     }
 
@@ -22,7 +22,7 @@ def invalid_exmatrix_value_input():
 @pytest.fixture
 def invalid_exmatrix_shape_input():
     return {
-        'exmatrix': np.ones((1, 2)),
+        'exmatrix': np.ones((1, 2), dtype=np.int64),
         'resmatrix': np.ones((3, 4)),
     }
 
@@ -106,6 +106,6 @@ def test_analyze_invalid_shape():
 
     with pytest.raises(ValueError):
         analysis.analyze(
-            np.ones((1, 2)),
-            np.ones((3, 4)),
+            np.ones((2, 3), dtype=np.int64),
+            np.ones((4, 5)),
         )

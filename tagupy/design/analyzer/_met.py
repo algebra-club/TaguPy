@@ -1,6 +1,6 @@
 import numpy as np
 from tagupy.type import _Analyzer as Analyzer
-from tagupy.utils import is_positive_int
+from tagupy.utils import is_positive_int, is_int_2d_array
 from typing import NamedTuple
 
 
@@ -41,7 +41,8 @@ class MET(Analyzer):
             max_dim_interaction recieves only integer value `1`.
         '''
         assert is_positive_int(max_dim_interaction), \
-            f'max_dim_interaction: number of dimension expected positive integer, got {max_dim_interaction}'
+            f'max_dim_interaction: number of dimension expected positive integer,\
+                got {max_dim_interaction}'
 
         assert max_dim_interaction == 1, \
             f'max_dim_interaction expected only integer value `1` \
@@ -59,11 +60,12 @@ class MET(Analyzer):
         Parameters
         ----------
         `exmatrix`: numpy.ndarray
-            `exmatrix` represents experiment matrix that describes experimental conditions for each run.
+            `exmatrix` represents experiment matrix that describes experimental conditions
+            for each run.
 
         `resmatrix`: numpy.ndarray
-            `resmatrix` represents result matrix that describes experimental data that obtained through
-            the experiments.
+            `resmatrix` represents result matrix that describes experimental data
+            that obtained through the experiments.
 
         Return
         ------
@@ -114,7 +116,7 @@ class MET(Analyzer):
         assert isinstance(resmatrix, np.ndarray), \
             f'resmatrix expected a numpy.ndarray, got: {type(resmatrix)}'
 
-        assert np.logical_or(exmatrix == 0, exmatrix == 1).all(), \
+        assert is_int_2d_array(exmatrix), \
             f'exmatrix expected a matrix in which all elements are 0 or 1. \nGot: {exmatrix}'
 
         pre_exmatrix = exmatrix / exmatrix.sum(axis=0)

@@ -1,6 +1,5 @@
-from ._met import MET, METResult
+from ._met import MET
 
 __all__ = [
     "MET",
-    "METResult",
 ]

@@ -1,6 +1,7 @@
 import pytest
 import numpy as np
-from tagupy.design.analyzer import MET, METResult
+from tagupy.design.analyzer import MET
+from tagupy.design.analyzer._met import METResult
 
 
 @pytest.fixture

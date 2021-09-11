@@ -9,7 +9,7 @@ from tagupy.type import _Analyzer as Analyzer
 from typing import Any, NamedTuple
 
 
-class LinRegResult(NamedTuple):
+class LAResult(NamedTuple):
     '''
     NamedTuple Class of Linear Regression Analysis Results
     '''
@@ -23,9 +23,9 @@ class LinRegResult(NamedTuple):
     summary: Any
 
 
-class LinReg(Analyzer):
+class LinearAnalysis(Analyzer):
     '''
-    _Analyser Class of Linear Regression Analysis
+    Analyzer Module of Linear Analysis
 
     Method
     ------
@@ -96,7 +96,7 @@ class LinReg(Analyzer):
             }
         ][self.model[0]]
         res = self.model[1](**kwargs)
-        return LinRegResult(
+        return LAResult(
             exmatrix=exmatrix,
             resmatrix=result,
             model=res,

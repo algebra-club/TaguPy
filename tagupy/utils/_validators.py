@@ -101,22 +101,23 @@ def is_int_2d_array(arg: Any):
     Examples
     --------
     >>> from tagupy.utils import is_int_2d_array
-    >>> is_int_2d_array([[1, 2], [3, 4]])
-    True
-    >>> is_int_2d_array([[1, 2], [3, 4.5]])
-    False
     >>> is_int_2d_array(np.array([[1, 2], [3, 4]]))
     True
+    >>> is_int_2d_array([[1, 2], [3, 4]])
+    False
+    >>> is_int_2d_array([[1, 2], [3, 4.5]])
+    False
     >>> is_int_2d_array([[]])
     False
 
     """
 
-    arg_ndarray = np.array(arg)
+    if not isinstance(arg, np.ndarray):
+        return False
 
-    is_2d_array = arg_ndarray.ndim == 2
+    is_2d_array = arg.ndim == 2
 
-    is_not_empty = arg_ndarray.size != 0
+    is_not_empty = arg.size != 0
 
     is_int_element = np.apply_along_axis(
         lambda row: [
@@ -124,7 +125,7 @@ def is_int_2d_array(arg: Any):
             for element in row
         ],
         axis=1,
-        arr=arg_ndarray,
+        arr=arg,
     ).all()
 
     return is_2d_array and is_not_empty and is_int_element

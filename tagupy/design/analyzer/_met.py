@@ -110,9 +110,6 @@ class MET(Analyzer):
                [-1. ,  0. , -1. ]])
         '''
 
-        assert isinstance(exmatrix, np.ndarray), \
-            f'exmatrix expected a numpy.ndarray, got: {type(exmatrix)}'
-
         assert isinstance(resmatrix, np.ndarray), \
             f'resmatrix expected a numpy.ndarray, got: {type(resmatrix)}'
 

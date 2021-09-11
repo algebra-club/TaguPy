@@ -23,9 +23,27 @@ class EDAResult(NamedTuple):
 
 class EDA(Analyzer):
     """
+    Analyzer Class of exploratory data analysis (EDA)
+
+    Notes
+    -----
+    Source: https://en.wikipedia.org/wiki/Exploratory_data_analysis
+
     """
 
     def __init__(self, dataMatrix: np.ndarray):
+        """
+        Parameters
+        ----------
+        dataMatrix: np.ndarray
+            input a matrix (numpy.ndarray) you would like to analyze.
+
+        Property
+        --------
+        All of properties on EDA are created wrapping functions of pandas library.
+        Each property name is same as pandas' function name.
+        """
+
         if not isinstance(dataMatrix, np.ndarray):
             raise TypeError(
                 f'argument dataMatrix expected numpy.ndarray, \
@@ -87,6 +105,16 @@ class EDA(Analyzer):
         return self.dataframe.kurt
 
     def analyze(self):
+        """
+        Parameters
+        ----------
+        None
+
+        Return
+        ------
+        EDAResult
+            EDAResult includes all of properties on EDA for exploratory data analysis.
+        """
         return EDAResult(
             head=self.head,
             tail=self.tail,

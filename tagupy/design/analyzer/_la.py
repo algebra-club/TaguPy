@@ -6,7 +6,7 @@ import numpy as np
 import statsmodels
 import statsmodels.api as sm
 from tagupy.type import _Analyzer as Analyzer
-from typing import Any, NamedTuple
+from typing import Callable, NamedTuple
 
 
 class LAResult(NamedTuple):
@@ -18,9 +18,9 @@ class LAResult(NamedTuple):
     model: statsmodels.regression.linear_model.RegressionResultsWrapper
     params: np.ndarray
     bse: np.ndarray
-    predict: Any
+    predict: Callable
     rsquared: float
-    summary: Any
+    summary: Callable
 
 
 class LinearAnalysis(Analyzer):
@@ -46,14 +46,14 @@ class LinearAnalysis(Analyzer):
 
             | model | arguments |
             | :---: | :---:|
-            | (ordinary) Least Square | OLS |
+            | Ordinary Least Square | OLS |
             | Weighted Least Square | WLS|
             | Generalized Least Square | GLS |
 
         """
         assert model in ["OLS", "WLS", "GLS"], \
             f"model expected 'OLS', 'WLS', or 'GLS', got {model}"
-        self.model = {"OLS": (0, sm.OLS), "WLS": (1, sm.OLS), "GLS": (2, sm.GLS)}[model]
+        self.model = {"OLS": (0, sm.OLS), "WLS": (1, sm.WLS), "GLS": (2, sm.GLS)}[model]
 
     def analyze(
         self,

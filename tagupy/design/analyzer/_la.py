@@ -3,7 +3,7 @@ _Analyser Class of Linear Regression Analysis
 '''
 
 import numpy as np
-import statsmodels
+import statsmodels.regression.linear_model as smlm
 import statsmodels.api as sm
 from tagupy.type import _Analyzer as Analyzer
 from typing import Callable, NamedTuple
@@ -15,7 +15,7 @@ class LAResult(NamedTuple):
     '''
     exmatrix: np.ndarray
     resmatrix: np.ndarray
-    model: statsmodels.regression.linear_model.RegressionResultsWrapper
+    model: smlm.RegressionResultsWrapper
     params: np.ndarray
     bse: np.ndarray
     predict: Callable
@@ -59,7 +59,7 @@ class LinearAnalysis(Analyzer):
         self,
         exmatrix: np.ndarray,
         result: np.ndarray,
-        add_const: bool,
+        add_const: bool = True,
         missing: str = "none",
         hasconst: None or bool = None,
         weights: np.ndarray = 1,
@@ -73,6 +73,13 @@ class LinearAnalysis(Analyzer):
         Parameters
         ----------
         """
+        if not isinstance(exmatrix, np.ndarray):
+            raise TypeError(f"exmatrix expected numpy.ndarray; got {type(exmatrix)}")
+        if not isinstance(result, np.ndarray):
+            raise TypeError(f"result expected numpy.ndarray; got {type(result)}")
+        assert exmatrix.shape[0] == result.shape[0], \
+            f"numbers of rows in exmatrix & result should be equal; \
+                got {exmatrix.shape[0]} & {result.shape[0]}"
         kwargs = [
             {
                 "endog": result,
@@ -95,11 +102,12 @@ class LinearAnalysis(Analyzer):
                 "hasconst": hasconst
             }
         ][self.model[0]]
-        res = self.model[1](**kwargs)
+        ret_model = self.model[1](**kwargs)
+        res = ret_model.fit()
         return LAResult(
             exmatrix=exmatrix,
             resmatrix=result,
-            model=res,
+            model=ret_model,
             params=res.params,
             bse=res.bse,
             predict=res.predict,

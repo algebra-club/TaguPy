@@ -1,43 +1,35 @@
 import numpy as np
-from math import factorial
+from numpy.typing import NDArray
 
 from tagupy.type import _Simulator as Simulator
+from tagupy.utils import is_positive_int, get_comb_name
 
-def combinations(n, r):
-    return factorial(n) // (factorial(n - r) * factorial(r))
 
 class Multinomial(Simulator):
-    
     def __init__(self, n_factor: int, n_out: int, max_dim: int):
-        assert type(n_factor)==int and n_factor>0, \
-        'type of n_factor must be a natural number or 0'
-        assert type(n_out)==int and n_out>0, \
-        'type of n_out must be a natural number or 0' 
-        assert type(max_dim)==int and max_dim>0, \
-        'type of max_dim must be a natural number or 0'
-        assert max_dim<=n_factor, \
-        'Expected max_dim is equal or smaller than n_factor : Got larger max_dim'
-        
+        args = ['n_factor', 'n_out', 'max_dim']
+        for idx, arg in enumerate((n_factor, n_out, max_dim)):
+            if not is_positive_int(arg):
+                raise ValueError(f"{args[idx]} must be a natural number or 0, got {arg}")
+
+        if max_dim > n_factor:
+            raise ValueError(f'expected max_dim ≦ n_factor: max_dim={max_dim}, n_factor={n_factor}')
+
         self.n_factor = n_factor
         self.n_out = n_out
         self.max_dim = max_dim
-        
-        temp = 0
-        for i in range(max_dim):
-            temp += combinations(n_factor, i)
-        
-        self.coef_column = temp
-        self.coef_table = np.random.randn(n_out, self.coef_column)
-        # self.var_err = np.random. <- errorのvarianceはどうするか？変動係数を一定にするようにするとか
-                
-    def simulate(self, exmatrix: np.ndarray) -> np.ndarray:
-        
-        assert type(exmatrix) == np.ndarray,\
-        'AttributeError: The type of input matrix must be np.ndarray' 
-        assert exmatrix.shape[1]==self.coef_table.shape[1],\
-        f'ValueError: The dimention of exmatrix[1] must be n_factor, expect {self.coef_table.shape[1]}, got {exmatrix.shape[1]}'
-        
-        # err_mat = random.gauss()
-        resmatrix = exmatrix @ self.coef_table.T
-        
+
+        factors = [f'x{i}' for i in range(n_factor)]
+        self.coef_column = get_comb_name(factors, max_dim)
+        self.coef_table = np.random.randn(n_out, len(self.coef_column))
+        # TODO: errorのvarianceはどうするか？変動係数を一定にするようにするとか
+        self.err = np.zeros_like(self.coef_table)
+
+    def simulate(self, exmatrix: NDArray[np.integer]) -> NDArray[np.floating]:
+        if type(exmatrix) != np.ndarray:
+            raise ValueError(f'The type of input matrix must be np.ndarray, got {type(exmatrix)}')
+        if exmatrix.shape[1] != self.n_factor:
+            raise ValueError(f'Number of columns in exmatrix must be the same as n_factor\nexpect {self.n_factor}, got {exmatrix.shape[1]}')  # noqa: E501
+
+        resmatrix = exmatrix @ self.coef_table.T + self.err
         return resmatrix

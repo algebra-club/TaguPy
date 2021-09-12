@@ -325,7 +325,7 @@ class OnewayANOVA(Analyzer):
         ['df', 'sum_sq', 'mean_sq', 'F', 'PR(>F)', 'result_id', 'factor_id']
         '''
         assert is_int_2d_array(exmatrix), \
-            f'exmatrix expected a matrix in which all elements are integer. \nGot: {exmatrix}'
+            f'exmatrix expected a 2d matrix in which all elements are integer. \nGot: {exmatrix}'
         assert isinstance(resmatrix, np.ndarray), \
             f'resmatrix expected a numpy.ndarray, got: {type(resmatrix)}'
         n_fac = exmatrix.shape[1]

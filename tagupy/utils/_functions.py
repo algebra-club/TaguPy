@@ -1,10 +1,15 @@
 """
 Utility functions
 """
+from itertools import combinations
+from typing import List
+
 import numpy as np
+
 
 __all__ = [
     "get_corr_matrix",
+    "get_comb_name",
 ]
 
 
@@ -49,3 +54,17 @@ def get_corr_matrix(exmatrix: np.ndarray, max_dim: int) -> np.ndarray:
         raise NotImplementedError('Support only max_dim = 1')
 
     return np.corrcoef(exmatrix.T)
+
+
+def get_comb_name(
+    factor_name: List[str],
+    max_dim: int,
+    operator: str = ''
+) -> List[str]:
+    '''
+    Get the combination string from string list
+    '''
+    _factor_multi_name = [list(combinations(factor_name, d)) for d in range(1, max_dim+1)]
+    factor_multi_name = sum(_factor_multi_name, [])
+
+    return [f'{operator}'.join(f) for f in factor_multi_name]

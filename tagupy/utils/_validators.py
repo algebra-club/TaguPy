@@ -36,7 +36,7 @@ def is_positive_int(arg: Any) -> bool:
     >>> is_positive_int(0)
     False
     """
-    return isinstance(arg, int) and arg > 0
+    return (type(arg) == int) and arg > 0
 
 
 def is_positive_int_list(arg: Any) -> bool:

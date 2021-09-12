@@ -2,7 +2,6 @@ import pytest
 import numpy as np
 
 from tagupy.design.analyzer import OnewayANOVA
-from tagupy.utils import is_int_2d_array
 
 
 @pytest.fixture
@@ -159,10 +158,10 @@ def test_analyze_valid_input(valid_matrix_input, valid_id_input):
             f'result.exmatrix expected {exmat}, got: {result.exmatrix}'
         assert np.array_equal(result.resmatrix, resmat), \
             f'result.resmatrix expected {resmat}, got: {result.resmatrix}'
-        assert isinstance(type(result.model), list), \
+        assert isinstance(result.model, list), \
             f'type of result.model expected list, got: {type(result.model)}'
-        assert is_int_2d_array(result.table[0]), \
-            f'result.table[0] expected 2d np.ndarray, got {result.table[0]}'
+        assert isinstance(result.table['table'], np.ndarray), \
+            f'result.table["table"] expected 2d np.ndarray, got {result.table["table"]}'
 
 
 # red
@@ -181,7 +180,7 @@ def test_analyze_invalid_input_exmatrix(
         )
 
     assert f'{invalid_exmatrix_value_input["exmatrix"]}' in f'{e.value}', \
-        'Assertion message should contain reasons, got {e.value}'
+        f'Assertion message should contain reasons, got {e.value}'
 
     analysis2 = OnewayANOVA()
 
@@ -193,7 +192,7 @@ def test_analyze_invalid_input_exmatrix(
         )
 
     assert f'{invalid_exmatrix_shape_input["exmatrix"]}' in f'{e.value}', \
-        'Assertion message should contain reasons, got {e.value}'
+        f'Assertion message should contain reasons, got {e.value}'
 
 
 def test_analyze_invalid_input_resmatrix(
@@ -210,7 +209,7 @@ def test_analyze_invalid_input_resmatrix(
         )
 
     assert f'{type(invalid_resmatrix_input["resmatrix"])}' in f'{e.value}', \
-        'Assertion message should contain reasons, got {e.value}'
+        f'Assertion message should contain reasons, got {e.value}'
 
 
 def test_analyze_invalid_input_id(
@@ -224,15 +223,15 @@ def test_analyze_invalid_input_id(
         with pytest.raises(AssertionError) as e:
             analysis.analyze(
                 **valid_mock_input,
-                factor_id=invalid_id_input,
+                factor_id=k,
                 result_id=valid_id_input
             )
         if id == 0 or id == 1:
-            assert f'{type(k)}' in f'{e.value}', \
-                'Assertation message should contain reasons, got {e.value}'
+            assert 'list of' in f'{e.value}', \
+                f'Assertation message should contain reasons,expexted got {e.value}'
         elif id == 2:
             assert 'duplicated' in f'{e.value}', \
-                'Assertation message should contain reasons, got {e.value}'
+                f'Assertation message should contain reasons, got {e.value}'
         else:
             assert 'out of range' in f'{e.value}', \
-                'Assertation message should contain reasons, got {e.value}'
+                f'Assertation message should contain reasons, got {e.value}'

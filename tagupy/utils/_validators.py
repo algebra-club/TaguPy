@@ -185,10 +185,6 @@ def is_correct_id_list(id: Any, matrix: np.ndarray) -> bool:
     True
     >>> is_correct_id_list([0, 2], matrix)
     True
-    >>> is_correct_id_list([0, 1, 2, 3, 3], matrix)
-    False
-    >>> is_correct_id_list([4], matrix)
-    False
     '''
     is_nonneg_int_list = is_non_negative_int_list(id)
     assert is_nonneg_int_list, \

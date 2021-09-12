@@ -3,6 +3,7 @@ _Analyser Class of One-way ANOVA
 '''
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 import statsmodels
 import statsmodels.api as sm
@@ -10,7 +11,7 @@ import statsmodels.api as sm
 from statsmodels.formula.api import ols
 from tagupy.type import _Analyzer as Analyzer
 from tagupy.utils import is_correct_id_list, is_int_2d_array
-from typing import List, NamedTuple
+from typing import Dict, List, NamedTuple, Union
 
 
 class OAResult(NamedTuple):
@@ -20,7 +21,7 @@ class OAResult(NamedTuple):
     exmatrix: np.ndarray
     resmatrix: np.ndarray
     model: List[List[statsmodels.regression.linear_model.RegressionResultsWrapper]]
-    table: list[np.ndarray, dict[str, List[str]]]
+    table: Dict[str, Union[npt.NDArray[np.floating], List[str]]]
 
 
 class OnewayANOVA(Analyzer):
@@ -36,8 +37,8 @@ class OnewayANOVA(Analyzer):
     see also:
     https://www.statsmodels.org/stable/anova.html
     '''
-    def __init__(self):
-        None
+    def __init__(self) -> None:
+        pass
 
     def _input_proc(
         self,
@@ -67,7 +68,7 @@ class OnewayANOVA(Analyzer):
         ele, count = np.unique(exmatrix[:, factor], return_counts=True)
         temp = [[e, c]for e, c in zip(ele, count)]
         result_bool = [i in result_id for i in range(resmatrix.shape[1])]
-        y_l = [resmatrix[exmatrix[:, factor] == 1][:, result_bool] for i in temp]
+        y_l = [resmatrix[exmatrix[:, factor] == i[0]][:, result_bool] for i in temp]
         data = [np.concatenate((y, np.full((i[1], 1), i[0])), axis=1) for y, i in zip(y_l, temp)]
         df_data = pd.DataFrame(np.concatenate(data), columns=[*y_id, 'group'])
         df_data['group'] = df_data['group'].astype(str)
@@ -78,8 +79,8 @@ class OnewayANOVA(Analyzer):
         self,
         exmatrix: np.ndarray,
         resmatrix: np.ndarray,
-        factor_id: List[int] = [],
-        result_id: List[int] = [],
+        factor_id: List[int] = None,
+        result_id: List[int] = None,
     ) -> NamedTuple:
         '''
         return One-way ANOVA table
@@ -103,7 +104,7 @@ class OnewayANOVA(Analyzer):
             resmatrix: np.ndarray,
             model: List[List[statsmodels.regression.linear_model.RegressionResultsWrapper]]
                 list of created models of all the factor and the experiment
-            table: List[np.ndarray, dict[str, List[str]]]
+            table: List[np.ndarray, Dict[str, List[str]]]
                 list contains One_way ANOVA table, its index name, and its column name
 
         Note
@@ -149,7 +150,7 @@ class OnewayANOVA(Analyzer):
         ...               [0.63432006, 0.93461394, 0.80317958],
         ...               [0.13611039, 0.54638813, 0.0495983 ],
         ...               [0.57250679, 0.61633224, 0.52158236],
-        ...               [0.91144691, 0.64098009, 0.17661229]]),
+        ...               [0.91144691, 0.64098009, 0.17661229]])
         ... )
 
         >>> result.exmatrix
@@ -170,7 +171,7 @@ class OnewayANOVA(Analyzer):
                [ 1,  1, -1, -1,  0,  1],
                [ 1, -1,  0,  1,  1, -1],
                [ 0,  0,  0,  0,  0,  0]])
-        
+
         >>> result.resmatrix
         array([[0.63019297, 0.58619756, 0.43411374],
                [0.91747724, 0.32393429, 0.04366332],
@@ -182,146 +183,89 @@ class OnewayANOVA(Analyzer):
                [0.06223279, 0.17630325, 0.67672164],
                [0.63636881, 0.25071343, 0.55393937],
                [0.38908674, 0.59377007, 0.18133165],
+               [0.06753605, 0.71909372, 0.67057174],
                [0.73643459, 0.25253943, 0.982259  ],
                [0.88522878, 0.37885563, 0.69005722],
                [0.63432006, 0.93461394, 0.80317958],
                [0.13611039, 0.54638813, 0.0495983 ],
                [0.57250679, 0.61633224, 0.52158236],
                [0.91144691, 0.64098009, 0.17661229]])
-        
-        >>> result.models
-        [[<statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b662bfa00>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66d1da90>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66fbd6d0>],
-         [<statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66d2cee0>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66d33a30>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66d3d820>],
-         [<statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66d42850>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66f51cd0>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66d46490>],
-         [<statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66c6fd60>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66c85730>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66c857f0>],
-         [<statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66991ac0>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66868d90>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b66878b50>],
-         [<statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b666dc8b0>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b666d7ac0>,
-          <statsmodels.regression.linear_model.RegressionResultsWrapper at 0x7f5b666d7a90>]]
 
-        >>> result.table[0]
-        array([[2.00000000e+00, 1.18829915e-01, 5.94149576e-02, 6.86278716e-01,
-                5.19605070e-01, 0.00000000e+00, 0.00000000e+00],
-               [1.40000000e+01, 1.21205771e+00, 8.65755505e-02,            nan,
+        >>> result.table['table']
+        array([[2.00000000e+00, 1.18829914e-01, 5.94149570e-02, 6.86278714e-01,
+                5.19605071e-01, 0.00000000e+00, 0.00000000e+00],
+               [1.40000000e+01, 1.21205770e+00, 8.65755498e-02,            nan,
                            nan, 0.00000000e+00, 0.00000000e+00],
-               [2.00000000e+00, 2.17437755e-02, 1.08718877e-02, 1.61613374e-01,
-                8.52334719e-01, 1.00000000e+00, 0.00000000e+00],
-               [1.40000000e+01, 9.41793519e-01, 6.72709656e-02,            nan,
+               [2.00000000e+00, 2.17437736e-02, 1.08718868e-02, 1.61613360e-01,
+                8.52334731e-01, 1.00000000e+00, 0.00000000e+00],
+               [1.40000000e+01, 9.41793518e-01, 6.72709656e-02,            nan,
                            nan, 1.00000000e+00, 0.00000000e+00],
-               [2.00000000e+00, 5.85845503e-01, 2.92922752e-01, 4.91419378e+00,
-                2.41676077e-02, 2.00000000e+00, 0.00000000e+00],
-               [1.40000000e+01, 8.34504845e-01, 5.96074889e-02,            nan,
+               [2.00000000e+00, 5.85845505e-01, 2.92922753e-01, 4.91419377e+00,
+                2.41676079e-02, 2.00000000e+00, 0.00000000e+00],
+               [1.40000000e+01, 8.34504851e-01, 5.96074894e-02,            nan,
                            nan, 2.00000000e+00, 0.00000000e+00],
-               [2.00000000e+00, 4.16196925e-02, 2.08098463e-02, 2.25971531e-01,
-                8.00594416e-01, 0.00000000e+00, 1.00000000e+00],
-               [1.40000000e+01, 1.28926793e+00, 9.20905664e-02,            nan,
+               [2.00000000e+00, 4.16196936e-02, 2.08098468e-02, 2.25971539e-01,
+                8.00594410e-01, 0.00000000e+00, 1.00000000e+00],
+               [1.40000000e+01, 1.28926792e+00, 9.20905655e-02,            nan,
                            nan, 0.00000000e+00, 1.00000000e+00],
-               [2.00000000e+00, 2.00232189e-01, 1.00116094e-01, 1.83625828e+00,
-                1.95797647e-01, 1.00000000e+00, 1.00000000e+00],
-               [1.40000000e+01, 7.63305106e-01, 5.45217933e-02,            nan,
+               [2.00000000e+00, 2.00232192e-01, 1.00116096e-01, 1.83625833e+00,
+                1.95797640e-01, 1.00000000e+00, 1.00000000e+00],
+               [1.40000000e+01, 7.63305100e-01, 5.45217928e-02,            nan,
                            nan, 1.00000000e+00, 1.00000000e+00],
-               [2.00000000e+00, 8.67731507e-03, 4.33865754e-03, 4.30278146e-02,
-                9.58010911e-01, 2.00000000e+00, 1.00000000e+00],
-               [1.40000000e+01, 1.41167303e+00, 1.00833788e-01,            nan,
+               [2.00000000e+00, 8.67731461e-03, 4.33865730e-03, 4.30278120e-02,
+                9.58010914e-01, 2.00000000e+00, 1.00000000e+00],
+               [1.40000000e+01, 1.41167304e+00, 1.00833789e-01,            nan,
                            nan, 2.00000000e+00, 1.00000000e+00],
-               [2.00000000e+00, 9.54397035e-02, 4.77198518e-02, 5.40757659e-01,
-                5.93993090e-01, 0.00000000e+00, 2.00000000e+00],
-               [1.40000000e+01, 1.23544792e+00, 8.82462799e-02,            nan,
+               [2.00000000e+00, 9.54397000e-02, 4.77198500e-02, 5.40757643e-01,
+                5.93993099e-01, 0.00000000e+00, 2.00000000e+00],
+               [1.40000000e+01, 1.23544791e+00, 8.82462794e-02,            nan,
                            nan, 0.00000000e+00, 2.00000000e+00],
-               [2.00000000e+00, 5.87498162e-02, 2.93749081e-02, 4.54525204e-01,
+               [2.00000000e+00, 5.87498162e-02, 2.93749081e-02, 4.54525205e-01,
                 6.43793174e-01, 1.00000000e+00, 2.00000000e+00],
-               [1.40000000e+01, 9.04787478e-01, 6.46276770e-02,            nan,
+               [1.40000000e+01, 9.04787476e-01, 6.46276768e-02,            nan,
                            nan, 1.00000000e+00, 2.00000000e+00],
-               [2.00000000e+00, 8.32966867e-02, 4.16483434e-02, 4.36090805e-01,
-                6.55048549e-01, 2.00000000e+00, 2.00000000e+00],
-               [1.40000000e+01, 1.33705366e+00, 9.55038330e-02,            nan,
+               [2.00000000e+00, 8.32966896e-02, 4.16483448e-02, 4.36090818e-01,
+                6.55048541e-01, 2.00000000e+00, 2.00000000e+00],
+               [1.40000000e+01, 1.33705367e+00, 9.55038333e-02,            nan,
                            nan, 2.00000000e+00, 2.00000000e+00],
-               [2.00000000e+00, 2.01471196e-02, 1.00735598e-02, 1.07595544e-01,
+               [2.00000000e+00, 2.01471194e-02, 1.00735597e-02, 1.07595544e-01,
                 8.98726061e-01, 0.00000000e+00, 3.00000000e+00],
-               [1.40000000e+01, 1.31074050e+00, 9.36243216e-02,            nan,
+               [1.40000000e+01, 1.31074049e+00, 9.36243208e-02,            nan,
                            nan, 0.00000000e+00, 3.00000000e+00],
-               [2.00000000e+00, 3.56920244e-02, 1.78460122e-02, 2.69273530e-01,
-                7.67801938e-01, 1.00000000e+00, 3.00000000e+00],
-               [1.40000000e+01, 9.27845270e-01, 6.62746622e-02,            nan,
+               [2.00000000e+00, 3.56920230e-02, 1.78460115e-02, 2.69273519e-01,
+                7.67801946e-01, 1.00000000e+00, 3.00000000e+00],
+               [1.40000000e+01, 9.27845269e-01, 6.62746621e-02,            nan,
                            nan, 1.00000000e+00, 3.00000000e+00],
-               [2.00000000e+00, 1.56769145e-01, 7.83845725e-02, 8.68471304e-01,
-                4.41015367e-01, 2.00000000e+00, 3.00000000e+00],
-               [1.40000000e+01, 1.26358120e+00, 9.02558002e-02,            nan,
+               [2.00000000e+00, 1.56769147e-01, 7.83845737e-02, 8.68471313e-01,
+                4.41015364e-01, 2.00000000e+00, 3.00000000e+00],
+               [1.40000000e+01, 1.26358121e+00, 9.02558006e-02,            nan,
                            nan, 2.00000000e+00, 3.00000000e+00],
-               [2.00000000e+00, 5.34195611e-01, 2.67097805e-01, 4.69361965e+00,
-                2.75450481e-02, 0.00000000e+00, 4.00000000e+00],
-               [1.40000000e+01, 7.96692011e-01, 5.69065722e-02,            nan,
+               [2.00000000e+00, 5.34195602e-01, 2.67097801e-01, 4.69361958e+00,
+                2.75450492e-02, 0.00000000e+00, 4.00000000e+00],
+               [1.40000000e+01, 7.96692010e-01, 5.69065721e-02,            nan,
                            nan, 0.00000000e+00, 4.00000000e+00],
-               [2.00000000e+00, 2.10852602e-01, 1.05426301e-01, 1.96093827e+00,
-                1.77505527e-01, 1.00000000e+00, 4.00000000e+00],
-               [1.40000000e+01, 7.52684692e-01, 5.37631923e-02,            nan,
+               [2.00000000e+00, 2.10852603e-01, 1.05426302e-01, 1.96093828e+00,
+                1.77505526e-01, 1.00000000e+00, 4.00000000e+00],
+               [1.40000000e+01, 7.52684689e-01, 5.37631921e-02,            nan,
                            nan, 1.00000000e+00, 4.00000000e+00],
-               [2.00000000e+00, 9.00871395e-02, 4.50435698e-02, 4.74049025e-01,
-                6.32112946e-01, 2.00000000e+00, 4.00000000e+00],
-               [1.40000000e+01, 1.33026321e+00, 9.50188006e-02,            nan,
+               [2.00000000e+00, 9.00871409e-02, 4.50435704e-02, 4.74049029e-01,
+                6.32112943e-01, 2.00000000e+00, 4.00000000e+00],
+               [1.40000000e+01, 1.33026322e+00, 9.50188011e-02,            nan,
                            nan, 2.00000000e+00, 4.00000000e+00],
-               [2.00000000e+00, 1.56040354e-01, 7.80201768e-02, 9.29722956e-01,
-                4.17715104e-01, 0.00000000e+00, 5.00000000e+00],
-               [1.40000000e+01, 1.17484727e+00, 8.39176620e-02,            nan,
+               [2.00000000e+00, 1.56040355e-01, 7.80201774e-02, 9.29722972e-01,
+                4.17715098e-01, 0.00000000e+00, 5.00000000e+00],
+               [1.40000000e+01, 1.17484726e+00, 8.39176612e-02,            nan,
                            nan, 0.00000000e+00, 5.00000000e+00],
-               [2.00000000e+00, 3.12819793e-01, 1.56409897e-01, 3.36511397e+00,
-                6.40719155e-02, 1.00000000e+00, 5.00000000e+00],
-               [1.40000000e+01, 6.50717501e-01, 4.64798215e-02,            nan,
+               [2.00000000e+00, 3.12819789e-01, 1.56409894e-01, 3.36511391e+00,
+                6.40719182e-02, 1.00000000e+00, 5.00000000e+00],
+               [1.40000000e+01, 6.50717503e-01, 4.64798217e-02,            nan,
                            nan, 1.00000000e+00, 5.00000000e+00],
-               [2.00000000e+00, 2.00786826e-01, 1.00393413e-01, 1.15246787e+00,
-                3.44082518e-01, 2.00000000e+00, 5.00000000e+00],
-               [1.40000000e+01, 1.21956352e+00, 8.71116802e-02,            nan,
+               [2.00000000e+00, 2.00786827e-01, 1.00393413e-01, 1.15246787e+00,
+                3.44082519e-01, 2.00000000e+00, 5.00000000e+00],
+               [1.40000000e+01, 1.21956353e+00, 8.71116807e-02,            nan,
                            nan, 2.00000000e+00, 5.00000000e+00]])
 
-        >>> result.table[1]['index']
-        ['group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual',
-         'group',
-         'Residual']
-
-        >>> result.table[1]['column']
+        >>> result.table['column']
         ['df', 'sum_sq', 'mean_sq', 'F', 'PR(>F)', 'result_id', 'factor_id']
         '''
         assert is_int_2d_array(exmatrix), \
@@ -330,14 +274,14 @@ class OnewayANOVA(Analyzer):
             f'resmatrix expected a numpy.ndarray, got: {type(resmatrix)}'
         n_fac = exmatrix.shape[1]
         n_res = resmatrix.shape[1]
-        if factor_id == []:
+        if factor_id is None:
             factor_id = [i for i in range(n_fac)]
-        if result_id == []:
+        if result_id is None:
             result_id = [i for i in range(n_res)]
         assert is_correct_id_list(factor_id, exmatrix), \
             f'factor_id got incorrect input {factor_id} see the requirements described in the api.'
         assert is_correct_id_list(result_id, exmatrix), \
-            f'result_id got incorrect input {result_id} see the requirements described in the api.'  
+            f'result_id got incorrect input {result_id} see the requirements described in the api.'
         t_list = []
         model = []
         for idx, fac in enumerate(factor_id):
@@ -354,5 +298,5 @@ class OnewayANOVA(Analyzer):
             exmatrix=exmatrix,
             resmatrix=resmatrix,
             model=model,
-            table=[res.to_numpy(), {'index': list(res.index), 'column': list(res.columns)}]
+            table={'table': res.to_numpy(), 'index': list(res.index), 'column': list(res.columns)}
         )

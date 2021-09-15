@@ -17,6 +17,7 @@ class LAResult(NamedTuple):
     resmatrix: np.ndarray
     model: smlm.RegressionResultsWrapper
     params: np.ndarray
+    resid: np.ndarray
     bse: np.ndarray
     predict: Callable
     rsquared: float
@@ -29,7 +30,7 @@ class LinearAnalysis(Analyzer):
 
     Method
     ------
-    analyze(exmatrix: np.ndarray, resylt:np.ndarray) -> AnalysisResult
+    analyze(exmatrix: np.ndarray, result:np.ndarray) -> NamedTuple
 
     Notes
     -----
@@ -72,6 +73,59 @@ class LinearAnalysis(Analyzer):
         """
         Parameters
         ----------
+        exmatrix: numpy.ndarray
+        result: numpy.ndarray
+        add_const: bool, default False
+        missing: str, default "none"
+            parameter used in statsmodels.regression.linear_model
+            Here is the statement cited from the official documment of
+            statsmodels.regression.linear_model.OLS
+            ```
+            Available options are ‘none’, ‘drop’, and ‘raise’.
+            If ‘none’, no nan checking is done.
+            If ‘drop’, any observations with nans are dropped.
+            If ‘raise’, an error is raised. Default is ‘none’.
+            ```
+        hasconst: None or bool, default None
+            parameter used in statsmodels.regression.linear_model
+            Here is the statement cited from the official documment of
+            statsmodels.regression.linear_model.OLS
+            ```
+            Indicates whether the RHS includes a user-supplied constant.
+            If True, a constant is not checked for and k_constant is set to 1
+            and all result statistics are calculated as if a constant is present.
+            If False, a constant is not checked for and k_constant is set to 0.
+            ```
+        weights: numpy.ndarray, default 1
+            parameter used in statsmodels.regression.linear_model.WLS
+            Unless you initialized LinearAnalysis class with LinearAnalysis(model="WLS"),
+            whatever value you input will be ignored.
+            Here is the statement cited from the official documment of
+            statsmodels.regression.linear_model.WLS
+            ```
+            A 1d array of weights. If you supply 1/W then the variables are
+            pre- multiplied by 1/sqrt(W). If no weights are supplied the default value is 1
+            and WLS results are the same as OLS.
+            ```
+        sigma: float or numpy.ndarray, default None
+            parameter used in statsmodels.regression.linear_model.GLS
+            Unless you initialized LinearAnalysis class with LinearAnalysis(model="GLS"),
+            whatever value you input will be ignored.
+            Here is the statement cited from the official documment of
+            statsmodels.regression.linear_model.GLS
+            ```
+            The array or scalar sigma is the weighting matrix of the covariance.
+            The default is None for no scaling. If sigma is a scalar, it is assumed that
+            sigma is an n x n diagonal matrix with the given scalar, sigma as the value of
+            each diagonal element. If sigma is an n-length vector, then sigma is assumed
+            to be a diagonal matrix with the given sigma on the diagonal.
+            This should be the same as WLS.
+            ```
+
+        Notes
+        -----
+        see also:
+        https://www.statsmodels.org/stable/api.html
         """
         if not isinstance(exmatrix, np.ndarray):
             raise TypeError(f"exmatrix expected numpy.ndarray; got {type(exmatrix)}")
@@ -107,8 +161,9 @@ class LinearAnalysis(Analyzer):
         return LAResult(
             exmatrix=exmatrix,
             resmatrix=result,
-            model=ret_model,
+            model=res,
             params=res.params,
+            resid=res.resid,
             bse=res.bse,
             predict=res.predict,
             rsquared=res.rsquared,

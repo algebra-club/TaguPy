@@ -16,7 +16,7 @@ def correct_input():
     size = (max(random_tuple), min(random_tuple))
     return {
             "exmatrix": np.random.randint(-100, 100, size),
-            "result": np.random.randn(size[0], 1) 
+            "result": np.random.randn(size[0], 1)
     }
 
 
@@ -62,18 +62,26 @@ def test_analyze_invalid_input_matrix():
         model_ols = LinearAnalysis("OLS")
         model_wls = LinearAnalysis("WLS")
         model_gls = LinearAnalysis("GLS")
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as e_type:
             model_ols.analyze(**v)
             model_wls.analyze(**v)
             model_gls(**v)
+        type_exmat = f"{type(v['exmatrix'])}" in f"{e_type.value}"
+        type_res = f"{type(v['result'])}" in f"{e_type.value}"
+        assert type_exmat or type_res, \
+            f"NoReasons: Inform the TypeError reasons, got {e_type.value}"
     for v in arg[9:]:
         model_ols = LinearAnalysis("OLS")
         model_wls = LinearAnalysis("WLS")
         model_gls = LinearAnalysis("GLS")
-        with pytest.raises(AssertionError):
+        with pytest.raises(AssertionError) as e_shape:
             model_ols.analyze(**v)
             model_wls.analyze(**v)
             model_gls(**v)
+        shape_exmat = f"{v['exmatrix'].shape[0]}" in f"{e_shape.value}"
+        shape_res = f"{v['result'].shape[0]}" in f"{e_shape.value}"
+        assert shape_exmat and shape_res, \
+            f"NoReasons: Inform the AssertionError reasons, got {e_shape.value}"
 
 
 def test_analyze_correct_input_matrix(correct_input):
@@ -92,11 +100,13 @@ def test_analyze_correct_return(correct_input):
     l_models = [LinearAnalysis("OLS"), LinearAnalysis("WLS"), LinearAnalysis("GLS")]
     l_exp = [sm.OLS, sm.WLS, sm.GLS]
     for model, exp in zip(l_models, l_exp):
-        ret = model.analyze(**correct_input)
+        ret = model.analyze(**correct_input, add_const=False)
         res_exp = exp(endog=correct_input["result"], exog=correct_input["exmatrix"]).fit()
         # dtype of instance (except self.model) in LAResult
         assert isinstance(ret.params, np.ndarray), \
             f"self.params expected numpy.ndarray; got {type(ret.params)}"
+        assert isinstance(ret.resid, np.ndarray), \
+            f"self.resid expected numpy.ndarray; got {type(ret.resid)}"
         assert isinstance(ret.bse, np.ndarray), \
             f"self.bse expected numpy.ndarray; got {type(ret.bse)}"
         assert isinstance(ret.predict, Callable), \
@@ -108,47 +118,46 @@ def test_analyze_correct_return(correct_input):
         # equal values as statsmodels
         l_v_ret = [
             ret.params,
+            ret.resid,
             ret.bse,
             ret.predict(),
-            ret.rsquared,
-            ret.summary()
+            ret.rsquared
         ]
-        fitted_ret = ret.model.fit()
         l_v_model = [
             # for self.model
-            fitted_ret.params,
-            fitted_ret.bse,
-            fitted_ret.predict(),
-            fitted_ret.rsquared,
-            fitted_ret.summary()
+            ret.model.params,
+            ret.model.resid,
+            ret.model.bse,
+            ret.model.predict(),
+            ret.model.rsquared,
         ]
         l_v_exp = [
             res_exp.params,
+            res_exp.resid,
             res_exp.bse,
             res_exp.predict(),
-            res_exp.rsquared,
-            res_exp.summary()
+            res_exp.rsquared
         ]
         l_instance = [
             "params",
+            "resid",
             "bse",
             "predict()",
-            "rsquared",
-            "summary()"
+            "rsquared"
         ]
         for v_ret, v_model, v_exp, v_i in zip(l_v_ret, l_v_model, l_v_exp, l_instance):
             # self.model
             if isinstance(v_model, np.ndarray):
-                assert all([v_model == v_exp]), \
+                assert (v_model == v_exp).all(), \
                     f"self.model.{v_i} should be equal to the result of statsmodels ({v_exp}); \
-                        got {v_model}......"
+                        got {v_model}"
             else:
                 assert v_model == v_exp, \
                     f"self.model.{v_i} should be equal to the result of statsmodels ({v_exp}); \
-                        got {v_model}......"
+                        got {v_model}"
             # other instances
             if isinstance(v_ret, np.ndarray):
-                assert all(v_ret == v_exp), \
+                assert (v_ret == v_exp).all(), \
                     f"self.{v_i} should be equal to the result of statsmodels ({v_exp}); \
                         got {v_ret}"
             else:

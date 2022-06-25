@@ -1,0 +1,4 @@
+[tagupy]
+project_name = {{cookiecutter.prj_name}}
+created = {{cookiecutter.current_time}}
+
